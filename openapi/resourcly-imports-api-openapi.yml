@@ -1,0 +1,636 @@
+swagger: '2.0'
+info:
+  description: API for document processing, item similarity search, and analytics.
+  title: Resourcly analytics imports API
+  termsOfService: https://resourcly.com/terms
+  contact:
+    name: API Support
+    email: support@resourcly.com
+  license:
+    name: Proprietary
+  version: 1.0.0
+host: api.resourcly.com
+basePath: /v1
+tags:
+- name: imports
+paths:
+  /imports:
+    get:
+      security:
+      - BearerAuth: []
+      description: Returns a paginated list of import jobs for the authenticated business
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      tags:
+      - imports
+      summary: List import jobs
+      parameters:
+      - type: integer
+        default: 1
+        description: Page number
+        name: page
+        in: query
+      - maximum: 100
+        type: integer
+        default: 20
+        description: Items per page
+        name: page_size
+        in: query
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/models.ImportJobListResponse'
+        '401':
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+    post:
+      security:
+      - BearerAuth: []
+      description: Creates a new import job for batch document uploads
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      tags:
+      - imports
+      summary: Create import job
+      parameters:
+      - type: string
+        description: Import job name
+        name: name
+        in: query
+      - type: string
+        description: Import source (web_upload, api, bulk_import)
+        name: source
+        in: query
+      - type: boolean
+        description: Delete and re-process documents with same filename
+        name: replace_existing
+        in: query
+      - type: integer
+        description: Expected total number of documents in this import
+        name: total_documents
+        in: query
+      responses:
+        '201':
+          description: Created
+          schema:
+            $ref: '#/definitions/models.ImportJobCreateResponse'
+        '401':
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+  /imports/validate:
+    post:
+      security:
+      - BearerAuth: []
+      description: Categorizes local upload file paths against the business import folder mapping, returning which are valid item files (with a derived part number) and which are not. Used by the V2 upload flow to upload only importable files.
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      tags:
+      - imports
+      summary: Validate upload paths against the folder mapping
+      parameters:
+      - description: Paths to validate
+        name: request
+        in: body
+        required: true
+        schema:
+          $ref: '#/definitions/models.ValidateImportFilesRequest'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/models.ValidateImportFilesResponse'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '401':
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+  /imports/{id}:
+    get:
+      security:
+      - BearerAuth: []
+      description: Returns a single import job by ID
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      tags:
+      - imports
+      summary: Get import job
+      parameters:
+      - type: string
+        description: Import job ID (UUID)
+        name: id
+        in: path
+        required: true
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/models.ImportJob'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '401':
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+    delete:
+      security:
+      - BearerAuth: []
+      description: Deletes an import job and all its associated documents
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      tags:
+      - imports
+      summary: Delete import job
+      parameters:
+      - type: string
+        description: Import job ID (UUID)
+        name: id
+        in: path
+        required: true
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/models.ImportJobDeleteResponse'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '401':
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+  /imports/{id}/documents:
+    get:
+      security:
+      - BearerAuth: []
+      description: Returns documents belonging to an import job
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      tags:
+      - imports
+      summary: Get import documents
+      parameters:
+      - type: string
+        description: Import job ID (UUID)
+        name: id
+        in: path
+        required: true
+      - type: integer
+        default: 1
+        description: Page number
+        name: page
+        in: query
+      - maximum: 100
+        type: integer
+        default: 20
+        description: Items per page
+        name: page_size
+        in: query
+      - type: string
+        description: Filter by status (pending, processing, completed, failed)
+        name: status
+        in: query
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/models.ImportJobDocumentsResponse'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '401':
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+    post:
+      security:
+      - BearerAuth: []
+      description: Uploads a document as part of an import job
+      consumes:
+      - multipart/form-data
+      produces:
+      - application/json
+      tags:
+      - imports
+      summary: Upload document to import
+      parameters:
+      - type: string
+        description: Import job ID (UUID)
+        name: id
+        in: path
+        required: true
+      - type: file
+        description: Document file to upload
+        name: file
+        in: formData
+        required: true
+      responses:
+        '202':
+          description: Accepted
+          schema:
+            $ref: '#/definitions/models.DocumentUploadWithImportResponse'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '401':
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+    delete:
+      security:
+      - BearerAuth: []
+      description: Deletes all documents from an import job
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      tags:
+      - imports
+      summary: Delete import documents
+      parameters:
+      - type: string
+        description: Import job ID (UUID)
+        name: id
+        in: path
+        required: true
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/models.ImportJobDeleteResponse'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '401':
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+  /imports/{id}/rerun:
+    post:
+      security:
+      - BearerAuth: []
+      description: Re-runs processing for ALL documents in an import job using the original configuration
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      tags:
+      - imports
+      summary: Re-run import job
+      parameters:
+      - type: string
+        description: Import job ID (UUID)
+        name: id
+        in: path
+        required: true
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/models.ImportJobRerunResponse'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '401':
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+  /imports/{id}/retrigger:
+    post:
+      security:
+      - BearerAuth: []
+      description: Retriggers processing for failed or stuck pending documents in an import job
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      tags:
+      - imports
+      summary: Retrigger import documents
+      parameters:
+      - type: string
+        description: Import job ID (UUID)
+        name: id
+        in: path
+        required: true
+      - description: Optional document IDs to retrigger
+        name: body
+        in: body
+        schema:
+          $ref: '#/definitions/models.ImportJobRetriggerRequest'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/models.ImportJobRetriggerResponse'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '401':
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+definitions:
+  models.ImportJobDeleteResponse:
+    type: object
+    properties:
+      documents_deleted:
+        type: integer
+      import_id:
+        type: string
+      message:
+        type: string
+  models.ImportJobRetriggerResponse:
+    type: object
+    properties:
+      documents_retriggered:
+        type: integer
+      import_id:
+        type: string
+      message:
+        type: string
+  models.ImportJobOptions:
+    type: object
+    properties:
+      replace_existing:
+        description: Delete and re-process documents with same filename
+        type: boolean
+  models.ImportJobRerunResponse:
+    type: object
+    properties:
+      documents_rerun:
+        type: integer
+      import_id:
+        type: string
+      message:
+        type: string
+      replace_existing:
+        type: boolean
+  models.DocumentUploadWithImportResponse:
+    type: object
+    properties:
+      document_id:
+        type: string
+      filename:
+        type: string
+      import_id:
+        type: string
+      message:
+        type: string
+      status:
+        type: string
+  models.ValidateImportFileResult:
+    type: object
+    properties:
+      part_number:
+        type: string
+      path:
+        type: string
+      reason:
+        type: string
+      valid:
+        type: boolean
+  models.ImportJobListResponse:
+    type: object
+    properties:
+      import_jobs:
+        type: array
+        items:
+          $ref: '#/definitions/models.ImportJob'
+      page:
+        type: integer
+      page_size:
+        type: integer
+      total_count:
+        type: integer
+  models.ImportJobRetriggerRequest:
+    type: object
+    properties:
+      document_ids:
+        description: 'Optional: specific documents to retrigger'
+        type: array
+        items:
+          type: string
+      force:
+        description: 'Force also retriggers documents in terminal success states
+
+          (spec_matched). Only honored together with an explicit DocumentIDs list —
+
+          a forced full-import rerun must stay impossible from this endpoint.'
+        type: boolean
+  models.ErrorResponse:
+    type: object
+    properties:
+      code:
+        type: string
+      details: {}
+      error:
+        type: string
+  models.ImportJobCreateResponse:
+    type: object
+    properties:
+      import_id:
+        type: string
+      message:
+        type: string
+  models.ValidateImportFilesRequest:
+    type: object
+    properties:
+      business_node_id:
+        type: string
+      paths:
+        type: array
+        items:
+          type: string
+  models.Document:
+    type: object
+    properties:
+      business_id:
+        type: string
+      business_node_id:
+        type: string
+      created_at:
+        type: string
+      error_message:
+        type: string
+      filename:
+        type: string
+      gcs_uri:
+        type: string
+      id:
+        type: string
+      image_count:
+        type: integer
+      import_bucket_uri:
+        type: string
+      import_id:
+        type: string
+      items_count:
+        type: integer
+      page_count:
+        type: integer
+      processed_at:
+        type: string
+      status:
+        type: string
+      table_count:
+        type: integer
+      trace_id:
+        type: string
+      updated_at:
+        type: string
+  models.ImportJob:
+    type: object
+    properties:
+      auto_pause_reason:
+        type: string
+      auto_paused:
+        type: boolean
+      auto_paused_at:
+        type: string
+      business_id:
+        type: string
+      completed_at:
+        type: string
+      created_at:
+        type: string
+      error_message:
+        type: string
+      failed_documents:
+        type: integer
+      id:
+        type: string
+      import_bucket_path:
+        type: string
+      name:
+        type: string
+      options:
+        $ref: '#/definitions/models.ImportJobOptions'
+      paused:
+        type: boolean
+      paused_at:
+        type: string
+      paused_by:
+        type: string
+      processed_documents:
+        type: integer
+      recent_failure_count:
+        description: Circuit breaker fields
+        type: integer
+      source:
+        type: string
+      status:
+        type: string
+      total_documents:
+        type: integer
+      updated_at:
+        type: string
+  models.ValidateImportFilesResponse:
+    type: object
+    properties:
+      results:
+        type: array
+        items:
+          $ref: '#/definitions/models.ValidateImportFileResult'
+  models.ImportJobDocumentsResponse:
+    type: object
+    properties:
+      documents:
+        type: array
+        items:
+          $ref: '#/definitions/models.Document'
+      import_id:
+        type: string
+      page:
+        type: integer
+      page_size:
+        type: integer
+      total_count:
+        type: integer
+securityDefinitions:
+  BearerAuth:
+    description: 'Firebase JWT token. Format: "Bearer {token}"'
+    type: apiKey
+    name: Authorization
+    in: header

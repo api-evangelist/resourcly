@@ -1,0 +1,356 @@
+swagger: '2.0'
+info:
+  description: API for document processing, item similarity search, and analytics.
+  title: Resourcly analytics search API
+  termsOfService: https://resourcly.com/terms
+  contact:
+    name: API Support
+    email: support@resourcly.com
+  license:
+    name: Proprietary
+  version: 1.0.0
+host: api.resourcly.com
+basePath: /v1
+tags:
+- name: search
+paths:
+  /search:
+    post:
+      security:
+      - BearerAuth: []
+      description: Search items using both Elasticsearch (text) and Vertex AI (semantic) in parallel, merged and deduplicated by item
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      tags:
+      - search
+      summary: Unified search
+      parameters:
+      - description: Search request
+        name: request
+        in: body
+        required: true
+        schema:
+          $ref: '#/definitions/models.UnifiedSearchRequest'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/models.SearchResponse'
+        '400':
+          description: Invalid request
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '401':
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '503':
+          description: Search service not available
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+  /search/autocomplete:
+    get:
+      security:
+      - BearerAuth: []
+      description: Returns autocomplete suggestions for part numbers, manufacturers, etc.
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      tags:
+      - search
+      summary: Autocomplete suggestions
+      parameters:
+      - type: string
+        description: Search query (min 2 chars)
+        name: q
+        in: query
+        required: true
+      - maximum: 20
+        type: integer
+        default: 8
+        description: Max suggestions
+        name: limit
+        in: query
+      - type: string
+        description: Comma-separated business node IDs to filter by
+        name: business_node_ids
+        in: query
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/models.AutocompleteResponse'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '401':
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+  /search/visual:
+    post:
+      security:
+      - BearerAuth: []
+      description: Searches for items using a previously uploaded image (via /search/visual/images). Matches images in documents, then resolves to items via the item_documents links.
+      produces:
+      - application/json
+      tags:
+      - search
+      summary: Visual search
+      parameters:
+      - type: string
+        description: UUID of previously uploaded search image
+        name: image_id
+        in: query
+        required: true
+      - maximum: 100
+        type: integer
+        default: 20
+        description: Max results
+        name: limit
+        in: query
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/models.SearchResponse'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '401':
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '503':
+          description: Visual search not available
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+  /search/visual/images:
+    post:
+      security:
+      - BearerAuth: []
+      description: Uploads an image to GCS for use in visual search. Returns a UUID that can be used with the visual search endpoint.
+      consumes:
+      - multipart/form-data
+      produces:
+      - application/json
+      tags:
+      - search
+      summary: Upload image for visual search
+      parameters:
+      - type: file
+        description: Image file (PNG, JPEG, etc., max 10MB)
+        name: file
+        in: formData
+        required: true
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/models.SearchImageResponse'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '401':
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+  /search/visual/images/{id}:
+    get:
+      security:
+      - BearerAuth: []
+      description: Returns metadata and a signed URL for a previously uploaded search image.
+      produces:
+      - application/json
+      tags:
+      - search
+      summary: Get search image metadata
+      parameters:
+      - type: string
+        description: Image UUID
+        name: id
+        in: path
+        required: true
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/models.SearchImageResponse'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '401':
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+definitions:
+  models.SearchImageResponse:
+    type: object
+    properties:
+      content_type:
+        type: string
+      file_name:
+        type: string
+      id:
+        type: string
+      url:
+        type: string
+  models.BomResult:
+    type: object
+    properties:
+      bom_id:
+        type: string
+      business_node_id:
+        type: string
+      matched_part_numbers:
+        type: array
+        items:
+          type: string
+      name:
+        type: string
+      similarity_score:
+        type: number
+      status:
+        type: string
+      text_snippet:
+        type: string
+      total_lines:
+        type: integer
+      version:
+        type: string
+  models.SearchResponse:
+    type: object
+    properties:
+      alternatives_found:
+        type: integer
+      boms:
+        description: 'Unified search: BOMs / ERP files whose contained part numbers match the
+
+          query. The frontend renders these in a grouped layout alongside the
+
+          item results. Empty when Elasticsearch isn''t configured or returns no
+
+          hits.'
+        type: array
+        items:
+          $ref: '#/definitions/models.BomResult'
+      business_id:
+        type: string
+      duplicates_found:
+        type: integer
+      erps:
+        type: array
+        items:
+          $ref: '#/definitions/models.ErpFileResult'
+      query:
+        type: string
+      results:
+        type: array
+        items:
+          $ref: '#/definitions/models.ItemResult'
+      results_count:
+        type: integer
+      search_mode:
+        type: string
+  models.UnifiedSearchRequest:
+    type: object
+    properties:
+      limit:
+        type: integer
+      query:
+        type: string
+  models.AutocompleteSuggestion:
+    type: object
+    properties:
+      text:
+        type: string
+      type:
+        description: '"part_number", "title", "manufacturer", "specification", "additional_data", "document", or "recent"'
+        type: string
+  models.AutocompleteResponse:
+    type: object
+    properties:
+      suggestions:
+        type: array
+        items:
+          $ref: '#/definitions/models.AutocompleteSuggestion'
+  models.ErpFileResult:
+    type: object
+    properties:
+      business_node_id:
+        type: string
+      erp_file_id:
+        type: string
+      filename:
+        type: string
+      matched_identifiers:
+        type: array
+        items:
+          type: string
+      row_count:
+        type: integer
+      similarity_score:
+        type: number
+      source_erp:
+        type: string
+      text_snippet:
+        type: string
+  models.ErrorResponse:
+    type: object
+    properties:
+      code:
+        type: string
+      details: {}
+      error:
+        type: string
+  models.ItemResult:
+    type: object
+    properties:
+      category:
+        type: string
+      image_signed_url:
+        description: Time-limited signed HTTPS URL for frontend access
+        type: string
+      image_url:
+        description: Original GCS URI (gs://...) to item image (from source document)
+        type: string
+      is_alternative:
+        type: boolean
+      is_potential_duplicate:
+        type: boolean
+      is_preferred:
+        description: Item is flagged as a preferred part
+        type: boolean
+      item_id:
+        type: string
+      manufacturer:
+        type: string
+      part_number:
+        type: string
+      similarity_score:
+        type: number
+      source_filename:
+        description: Filename of the source document
+        type: string
+      text_snippet:
+        description: Snippet from specs or OCR text
+        type: string
+      title:
+        type: string
+securityDefinitions:
+  BearerAuth:
+    description: 'Firebase JWT token. Format: "Bearer {token}"'
+    type: apiKey
+    name: Authorization
+    in: header

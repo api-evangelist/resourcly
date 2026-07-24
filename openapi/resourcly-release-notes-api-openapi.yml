@@ -1,0 +1,54 @@
+swagger: '2.0'
+info:
+  description: API for document processing, item similarity search, and analytics.
+  title: Resourcly analytics release-notes API
+  termsOfService: https://resourcly.com/terms
+  contact:
+    name: API Support
+    email: support@resourcly.com
+  license:
+    name: Proprietary
+  version: 1.0.0
+host: api.resourcly.com
+basePath: /v1
+tags:
+- name: release-notes
+paths:
+  /v1/release-notes:
+    get:
+      security:
+      - BearerAuth: []
+      description: Returns sent release notes visible to the caller's business.
+      produces:
+      - application/json
+      tags:
+      - release-notes
+      summary: List release notes (what's new)
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/models.CustomerChangelogResponse'
+definitions:
+  models.CustomerChangelogResponse:
+    type: object
+    properties:
+      items:
+        type: array
+        items:
+          $ref: '#/definitions/models.CustomerChangelogItem'
+  models.CustomerChangelogItem:
+    type: object
+    properties:
+      category:
+        type: string
+      customer_text:
+        type: string
+      released_at:
+        type: string
+securityDefinitions:
+  BearerAuth:
+    description: 'Firebase JWT token. Format: "Bearer {token}"'
+    type: apiKey
+    name: Authorization
+    in: header

@@ -1,0 +1,704 @@
+swagger: '2.0'
+info:
+  description: API for document processing, item similarity search, and analytics.
+  title: Resourcly analytics inventory API
+  termsOfService: https://resourcly.com/terms
+  contact:
+    name: API Support
+    email: support@resourcly.com
+  license:
+    name: Proprietary
+  version: 1.0.0
+host: api.resourcly.com
+basePath: /v1
+tags:
+- name: inventory
+paths:
+  /inventory/aggregates:
+    get:
+      security:
+      - BearerAuth: []
+      description: Fetches aggregated statistics for a business node's inventory items.
+      produces:
+      - application/json
+      tags:
+      - inventory
+      summary: Get ERP inventory aggregates
+      parameters:
+      - type: string
+        description: Business node ID (leaf) the inventory is scoped to
+        name: business_node_id
+        in: query
+        required: true
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/models.ERPInventoryAggregatesResponse'
+        '401':
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+  /inventory/duplicates/{id}/{identifier}:
+    get:
+      security:
+      - BearerAuth: []
+      description: Retrieves all ERP inventory items that have the same primary identifier but a different ID
+      produces:
+      - application/json
+      tags:
+      - inventory
+      summary: Get Duplicate ERP Inventory Items
+      parameters:
+      - type: string
+        description: ERP Inventory Item ID to exclude
+        name: id
+        in: path
+        required: true
+      - type: string
+        description: Primary Identifier to match
+        name: identifier
+        in: path
+        required: true
+      - type: string
+        description: Business node ID (leaf) the inventory is scoped to
+        name: business_node_id
+        in: query
+        required: true
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/models.ERPInventoryItem'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '401':
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+  /inventory/erp-items/by-identifier/{identifier}:
+    get:
+      security:
+      - BearerAuth: []
+      description: Retrieves all ERP inventory items by their primary identifier
+      produces:
+      - application/json
+      tags:
+      - inventory
+      summary: Get ERP Inventory Items by primary_identifier
+      parameters:
+      - type: string
+        description: Primary Identifier
+        name: identifier
+        in: path
+        required: true
+      - type: string
+        description: Business node ID (leaf) the inventory is scoped to
+        name: business_node_id
+        in: query
+        required: true
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/models.ERPInventoryItem'
+        '401':
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+  /inventory/files:
+    get:
+      security:
+      - BearerAuth: []
+      description: Fetches a paginated list of inventory files for a business node.
+      produces:
+      - application/json
+      tags:
+      - inventory
+      summary: List ERP inventory files
+      parameters:
+      - type: string
+        description: Business node ID (leaf) the inventory is scoped to
+        name: business_node_id
+        in: query
+        required: true
+      - type: integer
+        description: 'Page number (default: 1)'
+        name: page
+        in: query
+      - type: integer
+        description: 'Items per page (default: 20)'
+        name: page_size
+        in: query
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/models.ERPInventoryFileListResponse'
+        '401':
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+  /inventory/items:
+    get:
+      security:
+      - BearerAuth: []
+      description: Fetches a paginated list of inventory items for a business node, with optional file filter and search.
+      produces:
+      - application/json
+      tags:
+      - inventory
+      summary: List ERP inventory items
+      parameters:
+      - type: string
+        description: Business node ID (leaf) the inventory is scoped to
+        name: business_node_id
+        in: query
+        required: true
+      - type: string
+        description: Filter by ERP inventory file ID (UUID)
+        name: file_id
+        in: query
+      - type: string
+        description: Search by primary identifier, secondary identifier, or description
+        name: search
+        in: query
+      - type: integer
+        description: 'Page number (default: 1)'
+        name: page
+        in: query
+      - type: integer
+        description: 'Items per page (default: 20)'
+        name: page_size
+        in: query
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/models.ERPInventoryItemListResponse'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '401':
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+  /inventory/items/by-identifier/{identifier}:
+    get:
+      security:
+      - BearerAuth: []
+      description: Retrieves an item by its primary identifier (part_number)
+      produces:
+      - application/json
+      tags:
+      - inventory
+      summary: Get Item by primary_identifier
+      parameters:
+      - type: string
+        description: Primary Identifier (Part Number)
+        name: identifier
+        in: path
+        required: true
+      - type: string
+        description: Business node ID (leaf) the item is scoped to
+        name: business_node_id
+        in: query
+        required: true
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/services.Item'
+        '401':
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+  /inventory/items/part-number:
+    get:
+      security:
+      - BearerAuth: []
+      description: 'Retrieves ERP inventory items by their primary identifier (part_number).
+
+        Within the same part number, a single ERP entry may appear multiple
+
+        times linked to different item IDs. The caller is responsible for
+
+        checking each entry''s item ID to determine which item it belongs to.'
+      produces:
+      - application/json
+      tags:
+      - inventory
+      summary: Get Items by primary_identifier
+      parameters:
+      - type: array
+        items:
+          type: string
+        collectionFormat: csv
+        description: Primary identifiers (repeat the identifiers query parameter)
+        name: identifiers
+        in: query
+        required: true
+      - type: string
+        description: Optional business node ID (leaf) to scope the lookup; omit for a business-wide lookup
+        name: business_node_id
+        in: query
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/models.ERPInventoryItem'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '401':
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+  /inventory/items/{id}:
+    get:
+      security:
+      - BearerAuth: []
+      description: Retrieves an ERP inventory item by its unique ID
+      produces:
+      - application/json
+      tags:
+      - inventory
+      summary: Get ERP Inventory Item by ID
+      parameters:
+      - type: string
+        description: ERP Inventory Item ID
+        name: id
+        in: path
+        required: true
+      - type: string
+        description: Business node ID (leaf) the inventory is scoped to
+        name: business_node_id
+        in: query
+        required: true
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/models.ERPInventoryItem'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '401':
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+  /inventory/mapping/latest:
+    get:
+      security:
+      - BearerAuth: []
+      description: Fetches the column mapping from the most recently uploaded ERP inventory file for a business node.
+      produces:
+      - application/json
+      tags:
+      - inventory
+      summary: Get most recent ERP inventory column mapping
+      parameters:
+      - type: string
+        description: Business node ID (leaf) the inventory is scoped to
+        name: business_node_id
+        in: query
+        required: true
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/models.InventoryUploadMapping'
+        '401':
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+  /inventory/upload:
+    post:
+      security:
+      - BearerAuth: []
+      description: Uploads an XLSX file with inventory. Saves file to bucket, logs an import job and erp_inventory_file row.
+      consumes:
+      - multipart/form-data
+      produces:
+      - application/json
+      tags:
+      - inventory
+      summary: Upload ERP inventory XLSX
+      parameters:
+      - type: file
+        description: XLSX file
+        name: file
+        in: formData
+        required: true
+      - type: string
+        description: Business node ID (leaf organizational unit) the inventory belongs to
+        name: business_node_id
+        in: formData
+        required: true
+      - type: string
+        description: Primary inventory identifier column header
+        name: primary_identifier_column
+        in: formData
+        required: true
+      - type: string
+        description: Secondary inventory identifier column header
+        name: secondary_identifier_column
+        in: formData
+      - type: array
+        items:
+          type: string
+        collectionFormat: csv
+        description: One or more description column headers (repeat the field)
+        name: description_columns
+        in: formData
+      - type: string
+        description: Display name for the primary identifier
+        name: primary_name
+        in: formData
+      - type: string
+        description: Display name for the secondary identifier
+        name: secondary_name
+        in: formData
+      - type: array
+        items:
+          type: string
+        collectionFormat: csv
+        description: One or more display names for description (repeat or comma-separated)
+        name: description_names
+        in: formData
+      - type: string
+        description: Purchase price column header
+        name: purchase_price_column
+        in: formData
+      - type: string
+        description: Purchase quantity column header
+        name: purchase_quantity_column
+        in: formData
+      - type: string
+        description: Display name for the purchase price
+        name: purchase_price_name
+        in: formData
+      - type: string
+        description: Display name for the purchase quantity
+        name: purchase_quantity_name
+        in: formData
+      - type: string
+        description: Supplier number column header
+        name: supplier_number_column
+        in: formData
+      - type: string
+        description: Supplier name column header
+        name: supplier_name_column
+        in: formData
+      - type: string
+        description: Display name for the supplier number
+        name: supplier_number_name
+        in: formData
+      - type: string
+        description: Display name for the supplier name
+        name: supplier_name_name
+        in: formData
+      - type: string
+        description: 'JSON-encoded array of dynamic columns: [{source_column,label,type}]'
+        name: attributes
+        in: formData
+      responses:
+        '201':
+          description: Created
+          schema:
+            $ref: '#/definitions/models.InventoryUploadResponse'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '401':
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+definitions:
+  models.ERPAttributeMapping:
+    type: object
+    properties:
+      label:
+        description: human-friendly display name (AI-suggested, user-editable)
+        type: string
+      source_column:
+        description: exact header text in the uploaded file == metadata key
+        type: string
+      type:
+        description: '"string" | "number" (display/format hint)'
+        type: string
+  models.ERPInventoryFileListResponse:
+    type: object
+    properties:
+      files:
+        type: array
+        items:
+          $ref: '#/definitions/models.ERPInventoryFile'
+      total_count:
+        type: integer
+  models.InventoryUploadResponse:
+    type: object
+    properties:
+      bucket_url:
+        type: string
+      column_mapping:
+        $ref: '#/definitions/models.InventoryUploadMapping'
+      created_at:
+        type: string
+      id:
+        type: string
+      import_id:
+        type: string
+      ingested_count:
+        type: integer
+      item_count:
+        type: integer
+  models.ERPInventoryAggregatesResponse:
+    type: object
+    properties:
+      duplicate_primary_identifier_count:
+        type: integer
+      matched_primary_identifiers:
+        type: integer
+      total_records:
+        type: integer
+      total_unique_primary_identifiers:
+        type: integer
+      unconsolidated_count:
+        description: 'UnconsolidatedCount is the number of ERP records whose primary identifier
+
+          appears exactly once in the node (not shared with any other record). It is
+
+          the inverse of the "duplicates" set and is computed with the same
+
+          NOT-EXISTS predicate as the `unconsolidated` list filter so the count
+
+          matches the filtered row set.'
+        type: integer
+      unmatched_primary_identifiers:
+        type: integer
+  models.ERPInventoryFile:
+    type: object
+    properties:
+      bucket_url:
+        type: string
+      business_id:
+        type: string
+      column_mapping:
+        $ref: '#/definitions/models.InventoryUploadMapping'
+      created_at:
+        type: string
+      extraction_error:
+        type: string
+      extraction_status:
+        type: string
+      filename:
+        type: string
+      id:
+        type: string
+      import_id:
+        type: string
+      ingested_count:
+        type: integer
+      item_count:
+        type: integer
+      status:
+        type: string
+  services.Item:
+    type: object
+    properties:
+      additionalData: {}
+      businessID:
+        type: string
+      businessNodeID:
+        type: string
+      category:
+        type: string
+      createdAt:
+        type: string
+      duplicateConfidence:
+        type: number
+      duplicateGroupID:
+        type: string
+      duplicateStatus:
+        type: string
+      hasERPData:
+        type: boolean
+      id:
+        type: string
+      isPreferred:
+        type: boolean
+      manufacturer:
+        type: string
+      partNumber:
+        type: string
+      references:
+        type: array
+        items:
+          type: string
+      specifications: {}
+      title:
+        type: string
+      updatedAt:
+        type: string
+  models.InventoryUploadMapping:
+    type: object
+    properties:
+      attributes:
+        description: 'Attributes carries every non-first-class column preserved from the upload
+
+          (dynamic import). Empty for legacy uploads made before dynamic mapping.'
+        type: array
+        items:
+          $ref: '#/definitions/models.ERPAttributeMapping'
+      description_columns:
+        type: array
+        items:
+          type: string
+      description_name:
+        type: string
+      primary_identifier_column:
+        type: string
+      primary_identifier_name:
+        description: Name fields for human-friendly display and llm
+        type: string
+      purchase_price_column:
+        type: string
+      purchase_price_name:
+        type: string
+      purchase_quantity_column:
+        type: string
+      purchase_quantity_name:
+        type: string
+      secondary_identifier_column:
+        type: string
+      secondary_identifier_name:
+        type: string
+      supplier_name_column:
+        type: string
+      supplier_name_name:
+        type: string
+      supplier_number_column:
+        type: string
+      supplier_number_name:
+        type: string
+  models.ERPInventoryItem:
+    type: object
+    properties:
+      created_at:
+        type: string
+      description_name:
+        type: string
+      erp_inventory_file_id:
+        type: string
+      erp_primary_identifier:
+        type: string
+      erp_secondary_identifier:
+        type: string
+      id:
+        type: string
+      is_preferred:
+        description: From the linked item (items.is_preferred), false when unmatched
+        type: boolean
+      item_id:
+        type: string
+      metadata: {}
+      purchase_price:
+        type: number
+      quantity:
+        type: number
+      supplier_name:
+        type: string
+      supplier_number:
+        type: string
+  models.ErrorResponse:
+    type: object
+    properties:
+      code:
+        type: string
+      details: {}
+      error:
+        type: string
+  models.ERPInventoryItemListResponse:
+    type: object
+    properties:
+      items:
+        type: array
+        items:
+          $ref: '#/definitions/models.ERPInventoryItem'
+      total_count:
+        type: integer
+securityDefinitions:
+  BearerAuth:
+    description: 'Firebase JWT token. Format: "Bearer {token}"'
+    type: apiKey
+    name: Authorization
+    in: header

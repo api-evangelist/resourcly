@@ -1,0 +1,1641 @@
+swagger: '2.0'
+info:
+  description: API for document processing, item similarity search, and analytics.
+  title: Resourcly analytics Items API
+  termsOfService: https://resourcly.com/terms
+  contact:
+    name: API Support
+    email: support@resourcly.com
+  license:
+    name: Proprietary
+  version: 1.0.0
+host: api.resourcly.com
+basePath: /v1
+tags:
+- name: Items
+paths:
+  /items/{id}/hs-code:
+    delete:
+      security:
+      - BearerAuth: []
+      description: Deletes the user's verified/override HS code decision for the item, reverting to AI suggestions.
+      produces:
+      - application/json
+      tags:
+      - Items
+      summary: Remove an item's HS code decision
+      parameters:
+      - type: string
+        description: Item ID
+        name: id
+        in: path
+        required: true
+      responses:
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+  /items/{id}/hs-code/override:
+    post:
+      security:
+      - BearerAuth: []
+      description: Stores a user-corrected HS code for the item as a durable override that survives AI re-classification. Chapter/heading/subheading are derived from the code.
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      tags:
+      - Items
+      summary: Overwrite an item's HS code
+      parameters:
+      - type: string
+        description: Item ID
+        name: id
+        in: path
+        required: true
+      - description: Corrected HS code + optional description/note
+        name: body
+        in: body
+        required: true
+        schema:
+          $ref: '#/definitions/models.HSCodeOverrideRequest'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/models.ItemHSCode'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '401':
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+  /items/{id}/hs-code/verify:
+    post:
+      security:
+      - BearerAuth: []
+      description: Marks an AI-suggested HS code as verified for the item. The decision persists and survives AI re-classification. If no suggestion_id is given, the highest-confidence suggestion is verified.
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      tags:
+      - Items
+      summary: Verify an item's HS code
+      parameters:
+      - type: string
+        description: Item ID
+        name: id
+        in: path
+        required: true
+      - description: Suggestion to verify + optional note
+        name: body
+        in: body
+        schema:
+          $ref: '#/definitions/models.HSCodeVerifyRequest'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/models.ItemHSCode'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '401':
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+  /items:
+    get:
+      security:
+      - BearerAuth: []
+      description: Returns a paginated list of all items the user has access to, ordered by creation date (newest first).
+      produces:
+      - application/json
+      tags:
+      - Items
+      summary: List items with pagination
+      parameters:
+      - type: integer
+        default: 50
+        description: Max results (default 50, max 100)
+        name: limit
+        in: query
+      - type: integer
+        default: 0
+        description: Pagination offset
+        name: offset
+        in: query
+      - type: string
+        description: Comma-separated business node UUIDs to filter by
+        name: business_node_ids
+        in: query
+      - type: boolean
+        default: true
+        description: When true (default), return only items with at least one attached file (any type). Pass false to include items with no files.
+        name: with_files
+        in: query
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/handlers.ItemListResponse'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '401':
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '403':
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+  /items/comparison-status/batch:
+    post:
+      security:
+      - BearerAuth: []
+      description: Returns review statuses for a batch of item pairs
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      tags:
+      - Items
+      summary: Get comparison review statuses for multiple item pairs
+      parameters:
+      - description: Item pairs
+        name: body
+        in: body
+        required: true
+        schema:
+          $ref: '#/definitions/models.ComparisonStatusBatchRequest'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/models.ComparisonStatusBatchResponse'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '401':
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+  /items/similarity:
+    get:
+      security:
+      - BearerAuth: []
+      description: Returns items that have at least one similarity relationship with a score
+      produces:
+      - application/json
+      tags:
+      - Items
+      summary: List items by similarity score range
+      parameters:
+      - type: number
+        description: Minimum similarity score (inclusive)
+        name: min_score
+        in: query
+        required: true
+      - type: number
+        description: Maximum similarity score (exclusive), 0 for no upper bound
+        name: max_score
+        in: query
+        required: true
+      - type: integer
+        default: 50
+        description: Max results (default 50, max 100)
+        name: limit
+        in: query
+      - type: integer
+        default: 0
+        description: Pagination offset
+        name: offset
+        in: query
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/handlers.SimilarityItemsResponse'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '401':
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '503':
+          description: Neo4j service not available
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+  /items/similarity-clusters:
+    get:
+      security:
+      - BearerAuth: []
+      description: Returns connected components of items linked by SIMILARITY edges whose
+      produces:
+      - application/json
+      tags:
+      - Items
+      summary: List item clusters by AI classification
+      parameters:
+      - type: string
+        description: AI classification value (e.g. duplicate, alternative)
+        name: ai_classification
+        in: query
+        required: true
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/handlers.SimilarityClustersResponse'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '401':
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '503':
+          description: Neo4j service not available
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+  /items/similarity-counts:
+    get:
+      security:
+      - BearerAuth: []
+      description: Returns for each item ID how many unique other items it has a one-way SIMILARITY relationship to above the given threshold
+      produces:
+      - application/json
+      tags:
+      - Items
+      summary: Get similarity out-degree counts for items
+      parameters:
+      - type: string
+        description: Comma-separated item UUIDs
+        name: ids
+        in: query
+        required: true
+      - type: number
+        description: Minimum similarity score (default 0.70)
+        name: threshold
+        in: query
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: object
+            additionalProperties:
+              type: integer
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '401':
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '503':
+          description: Service Unavailable
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+  /items/{id1}/compare/{id2}:
+    get:
+      security:
+      - BearerAuth: []
+      description: Returns a detailed comparison of two items including specifications, similarity scores, and spec differences for side-by-side display
+      produces:
+      - application/json
+      tags:
+      - Items
+      summary: Compare two items side-by-side
+      parameters:
+      - type: string
+        format: uuid
+        description: First item ID
+        name: id1
+        in: path
+        required: true
+      - type: string
+        format: uuid
+        description: Second item ID
+        name: id2
+        in: path
+        required: true
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/models.ItemComparisonResponse'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '401':
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+  /items/{id1}/compare/{id2}/ai-analysis:
+    get:
+      security:
+      - BearerAuth: []
+      description: 'Returns a cached AI analysis or generates a new one using Claude.
+
+        The analysis includes engineering verdict, side-by-side attribute comparison,
+
+        and catalog management recommendations.'
+      produces:
+      - application/json
+      tags:
+      - Items
+      summary: Get AI-powered engineering analysis for two items
+      parameters:
+      - type: string
+        format: uuid
+        description: First item ID
+        name: id1
+        in: path
+        required: true
+      - type: string
+        format: uuid
+        description: Second item ID
+        name: id2
+        in: path
+        required: true
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/models.AIItemComparisonResponse'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '401':
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+  /items/{id1}/comparison-status/{id2}:
+    get:
+      security:
+      - BearerAuth: []
+      description: Returns the review status (duplicate/alternative/rejected/pending) for a pair of items
+      produces:
+      - application/json
+      tags:
+      - Items
+      summary: Get comparison review status for two items
+      parameters:
+      - type: string
+        format: uuid
+        description: First item ID
+        name: id1
+        in: path
+        required: true
+      - type: string
+        format: uuid
+        description: Second item ID
+        name: id2
+        in: path
+        required: true
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/models.ComparisonStatusResponse'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '401':
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+    put:
+      security:
+      - BearerAuth: []
+      description: Sets the review status (duplicate/alternative/rejected) for a pair of items. Pass null status to reset to pending.
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      tags:
+      - Items
+      summary: Update comparison review status for two items
+      parameters:
+      - type: string
+        format: uuid
+        description: First item ID
+        name: id1
+        in: path
+        required: true
+      - type: string
+        format: uuid
+        description: Second item ID
+        name: id2
+        in: path
+        required: true
+      - description: Status update
+        name: body
+        in: body
+        required: true
+        schema:
+          $ref: '#/definitions/models.UpdateComparisonStatusRequest'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/models.ComparisonStatusResponse'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '401':
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+  /items/{id}:
+    get:
+      security:
+      - BearerAuth: []
+      description: Returns detailed information about an item including specifications, source document, and duplicate group info
+      produces:
+      - application/json
+      tags:
+      - Items
+      summary: Get item details
+      parameters:
+      - type: string
+        format: uuid
+        description: Item ID
+        name: id
+        in: path
+        required: true
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/models.ItemDetailsResponse'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '401':
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+  /items/{id}/source-url:
+    get:
+      security:
+      - BearerAuth: []
+      description: Returns a short-lived signed URL to download the item's source document
+      produces:
+      - application/json
+      tags:
+      - Items
+      summary: Get signed source document URL for an item
+      parameters:
+      - type: string
+        format: uuid
+        description: Item ID
+        name: id
+        in: path
+        required: true
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: object
+            additionalProperties:
+              type: string
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '401':
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+  /items/{id}/visual-similar:
+    get:
+      security:
+      - BearerAuth: []
+      description: 'Finds items with visually similar document images using gemini-embedding-2 image embeddings.
+
+        Compares up to 5 images from the item''s source document against all other document images.'
+      produces:
+      - application/json
+      tags:
+      - Items
+      summary: Get visually similar items
+      parameters:
+      - type: string
+        format: uuid
+        description: Item ID
+        name: id
+        in: path
+        required: true
+      - type: integer
+        default: 20
+        description: Max results (default 20, max 100)
+        name: limit
+        in: query
+      - type: number
+        default: 0.3
+        description: Min similarity score 0-1 (default 0.3)
+        name: threshold
+        in: query
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/models.VisualSimilarResponse'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '401':
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '503':
+          description: Visual search not available
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+  /v1/items/{id}/preferred:
+    put:
+      description: Sets or clears the preferred-part flag on an item. The flag is read-only everywhere else and can only be changed here.
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      tags:
+      - Items
+      summary: Mark an item as a preferred part
+      parameters:
+      - type: string
+        description: Item ID
+        name: id
+        in: path
+        required: true
+      - description: Preferred flag
+        name: body
+        in: body
+        required: true
+        schema:
+          $ref: '#/definitions/models.UpdateItemPreferredRequest'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/models.ItemDetailsResponse'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+definitions:
+  models.HSCodeVerifyRequest:
+    type: object
+    properties:
+      note:
+        type: string
+      suggestion_id:
+        type: string
+  services.ItemListEntry:
+    type: object
+    properties:
+      business_id:
+        type: string
+      business_node_id:
+        type: string
+      category:
+        type: string
+      created_at:
+        type: string
+      has_erp_data:
+        type: boolean
+      id:
+        type: string
+      internal_code:
+        description: 'InternalCode is the drawing internal code (Kacher-test only), derived from
+
+          additional_data; shown as the small identifier line in the UI. db:"-" so pgx
+
+          never tries to scan a non-existent column.'
+        type: string
+      is_preferred:
+        type: boolean
+      manufacturer:
+        type: string
+      part_number:
+        type: string
+      specifications: {}
+      title:
+        type: string
+      updated_at:
+        type: string
+  models.PairClassFactor:
+    type: object
+    properties:
+      label:
+        type: string
+      score:
+        type: number
+  models.AIItemComparisonResponse:
+    type: object
+    properties:
+      analysis:
+        description: Present when status == "ready"
+        allOf:
+        - $ref: '#/definitions/models.AIAnalysisResult'
+      completion_tokens:
+        type: integer
+      created_at:
+        type: string
+      model:
+        type: string
+      prompt_tokens:
+        type: integer
+      status:
+        description: '"ready", "unavailable"'
+        type: string
+  models.AIAnalysisVerdict:
+    type: object
+    properties:
+      classification:
+        description: '"duplicate", "interchangeable_variant", "superseded", "same_series", "mated_pair", "component_of", "distinct"'
+        type: string
+      confidence:
+        description: '"high", "medium", "low"'
+        type: string
+      confidence_score:
+        type: number
+      critical_differences:
+        type: array
+        items:
+          type: string
+      interchangeable:
+        type: boolean
+      override_reason:
+        type: string
+      override_system_classification:
+        type: boolean
+      recommendation:
+        type: string
+      summary:
+        type: string
+      superseded_by:
+        description: ID of the newer (superseding) item; only set when classification is "superseded"
+        type: string
+  models.DataGovernanceConditionSpec:
+    type: object
+    properties:
+      caseInsensitive:
+        type: boolean
+      comment:
+        type: string
+      count:
+        type: integer
+      countOp:
+        type: string
+      fieldId:
+        type: string
+      pattern:
+        type: string
+  models.AIAnalysisResult:
+    type: object
+    properties:
+      analysed_at:
+        type: string
+      catalog_actions:
+        $ref: '#/definitions/models.AIAnalysisCatalogActions'
+      comparison_id:
+        type: string
+      engineering_verdict:
+        $ref: '#/definitions/models.AIAnalysisVerdict'
+      items:
+        type: object
+        properties:
+          item1:
+            $ref: '#/definitions/models.AIAnalysisItemSummary'
+          item2:
+            $ref: '#/definitions/models.AIAnalysisItemSummary'
+      model:
+        type: string
+      side_by_side:
+        type: array
+        items:
+          $ref: '#/definitions/models.AIAnalysisSideBySideRow'
+      similarity_scores:
+        $ref: '#/definitions/models.AIAnalysisSimilarityScores'
+  models.MatchedSpec:
+    type: object
+    properties:
+      canonical_name:
+        description: Canonical attribute name (e.g., "input_voltage_max")
+        type: string
+      canonical_unit:
+        description: Catalog's expected unit (distinct from ucum_unit)
+        type: string
+      confidence:
+        description: Match confidence (0-1)
+        type: number
+      count:
+        description: Number of like features (e.g., "4" identical holes); model-extract part-analysis
+        type: string
+      extracted_at:
+        description: ISO 8601 timestamp when this spec was extracted
+        type: string
+      match_method:
+        description: How spec was matched to canonical name
+        type: string
+      normalized_value:
+        description: Normalized value (float64, string, or []float64 range)
+      original_key:
+        description: Attribute name in English (translated from raw_key if non-English)
+        type: string
+      original_unit:
+        description: Original unit from document
+        type: string
+      original_value:
+        description: Value in English (translated from raw_value if non-English)
+        type: string
+      page_number:
+        description: Page number in source document
+        type: integer
+      provisional_canonical:
+        description: True when matched candidate has no confirmed canonical_name yet
+        type: boolean
+      qualifier:
+        description: 'Qualifier: min, max, typ, nominal'
+        type: string
+      qualifiers:
+        description: Additional qualifiers (e.g., AC, DC)
+        type: array
+        items:
+          type: string
+      raw_key:
+        description: Attribute name exactly as written in the document
+        type: string
+      raw_value:
+        description: Value exactly as written in the document
+        type: string
+      registry_key_id:
+        description: SHA-1 key_id from spec_key_registry
+        type: string
+      rejected_match:
+        description: LLM's suggestion when confidence was too low
+        type: string
+      similarity_relevant:
+        description: Model's per-spec flag for which features drive part matching (model-extract)
+        type: boolean
+      source:
+        description: 'Extraction source: llm, form_field, table'
+        type: string
+      source_document_id:
+        description: 'Provenance: tracks which document and pipeline produced this attribute'
+        type: string
+      source_pipeline:
+        description: 'Pipeline that produced this spec: mistral-ocr, technical-drawing, cad-worker, manual'
+        type: string
+      suggested_canonical:
+        description: Suggested catalog attribute for unmatched specs
+        allOf:
+        - $ref: '#/definitions/models.SuggestedCatalogAttribute'
+      symbol:
+        description: GD&T or engineering symbol (e.g., ⌀, ⊥, Ra)
+        type: string
+      tolerance:
+        description: Tolerance as written (e.g., "±0.1", "DIN ISO 2768-mk"); model-extract part-analysis
+        type: string
+      ucum_unit:
+        description: UCUM unit derived from original_unit by spec-worker
+        type: string
+      value_type:
+        description: 'Value type: scalar, range, vector, categorical, text'
+        type: string
+  models.SpecDiff:
+    type: object
+    properties:
+      canonical_name:
+        description: Canonical spec name (e.g., "input_voltage_max")
+        type: string
+      display_name:
+        description: Human-readable name (e.g., "Input Voltage Max")
+        type: string
+      is_numeric:
+        description: True if values are numeric
+        type: boolean
+      item1_original_keys:
+        description: Original spec titles in item 1
+        type: array
+        items:
+          type: string
+      item1_units:
+        description: Units in item 1
+        type: array
+        items:
+          type: string
+      item1_values:
+        description: Values in item 1 (nil if missing)
+        type: array
+        items:
+          type: string
+      item2_original_keys:
+        description: Original spec titles in item 2
+        type: array
+        items:
+          type: string
+      item2_units:
+        description: Units in item 2
+        type: array
+        items:
+          type: string
+      item2_values:
+        description: Values in item 2 (nil if missing)
+        type: array
+        items:
+          type: string
+      percent_diff:
+        description: Percent difference for numeric values
+        type: number
+      status:
+        description: '"match", "mismatch", "only_item1", "only_item2"'
+        type: string
+  models.ItemValidationConfig:
+    type: object
+    properties:
+      conditions:
+        type: array
+        items:
+          $ref: '#/definitions/models.DataGovernanceConditionSpec'
+      statements:
+        type: array
+        items:
+          $ref: '#/definitions/models.DataGovernanceStatementSpec'
+  handlers.SimilarityClustersResponse:
+    type: object
+    properties:
+      ai_classification:
+        type: string
+      business_id:
+        type: string
+      clusters:
+        type: array
+        items:
+          $ref: '#/definitions/services.ItemCluster'
+  models.AIAnalysisSimilarityScores:
+    type: object
+    properties:
+      manufacturer_score:
+        type: number
+      part_number_score:
+        type: number
+      specifications_score:
+        type: number
+      system_classification:
+        type: string
+      system_weighted_total:
+        type: number
+      title_score:
+        type: number
+  models.VisualSimilarResponse:
+    type: object
+    properties:
+      item_id:
+        type: string
+      items:
+        type: array
+        items:
+          $ref: '#/definitions/models.VisualSimilarItem'
+      total:
+        type: integer
+  services.ClusterItem:
+    type: object
+    properties:
+      item_id:
+        type: string
+      manufacturer:
+        type: string
+      part_number:
+        type: string
+      title:
+        type: string
+  models.DocumentTable:
+    type: object
+    properties:
+      headers:
+        description: Table column headers
+        type: array
+        items:
+          type: string
+      id:
+        description: Table UUID
+        type: string
+      page_number:
+        description: Page number where table was found
+        type: integer
+      rows:
+        description: Table data rows
+        type: array
+        items:
+          type: array
+          items:
+            type: string
+      table_index:
+        description: Index of table on the page (0-based)
+        type: integer
+  models.ComparisonStatusResponse:
+    type: object
+    properties:
+      business_id:
+        type: string
+      created_at:
+        type: string
+      id:
+        type: string
+      item_id_1:
+        type: string
+      item_id_2:
+        type: string
+      reviewed_at:
+        description: When the review was performed
+        type: string
+      reviewed_by:
+        description: Business user ID who reviewed
+        type: string
+      status:
+        description: '"pending", "duplicate", "alternative", "rejected"; with model_extraction also "interchangeable_variant", "superseded", "product_variant", "related_parts", "component_of"'
+        type: string
+      updated_at:
+        type: string
+  services.SimilarityListItem:
+    type: object
+    properties:
+      business_id:
+        type: string
+      internal_code:
+        description: drawing internal code (Kacher-test); shown as the small identifier line
+        type: string
+      item_id:
+        type: string
+      manufacturer:
+        type: string
+      max_score:
+        description: highest SIMILARITY score
+        type: number
+      part_number:
+        type: string
+      reviewed_count:
+        description: human-validated matches for this item (model_extraction; 0 otherwise)
+        type: integer
+      similar_count:
+        description: number of items above threshold
+        type: integer
+      title:
+        type: string
+  models.ComparisonStatusBatchRequest:
+    type: object
+    properties:
+      pairs:
+        description: List of item pairs to look up
+        type: array
+        items:
+          $ref: '#/definitions/models.ItemPair'
+  models.ItemComparisonResponse:
+    type: object
+    properties:
+      class_comparison:
+        description: 'Classified-taxonomy tenants: the pair classifier''s verdict plus every
+
+          signal it compared (dimensions, attributes, specs, relationship). When
+
+          present the compare page renders this table instead of the (empty for
+
+          these tenants) legacy spec comparison.'
+        allOf:
+        - $ref: '#/definitions/models.PairClassComparison'
+      classification:
+        description: '"exact_duplicate", "duplicate", "alternative", "different"'
+        type: string
+      confidence:
+        type: number
+      different_specs:
+        type: integer
+      item1:
+        description: The two items being compared
+        allOf:
+        - $ref: '#/definitions/models.ItemComparisonSide'
+      item2:
+        $ref: '#/definitions/models.ItemComparisonSide'
+      matching_specs:
+        description: Summary statistics
+        type: integer
+      only_in_item1:
+        type: integer
+      only_in_item2:
+        type: integer
+      reason:
+        type: string
+      similarity:
+        description: Similarity analysis
+        allOf:
+        - $ref: '#/definitions/models.SimilarityScores'
+      spec_diffs:
+        description: Spec differences (for easy UI rendering)
+        type: array
+        items:
+          $ref: '#/definitions/models.SpecDiff'
+  models.ItemHSCode:
+    type: object
+    properties:
+      chapter:
+        description: First 2 digits
+        type: string
+      confidence_level:
+        description: '"high"/"medium"/"low"; empty for override'
+        type: string
+      confidence_score:
+        description: carried over when verified; nil for override
+        type: number
+      created_at:
+        type: string
+      decided_at:
+        type: string
+      decided_by:
+        description: user email
+        type: string
+      heading:
+        description: First 4 digits
+        type: string
+      hs_code:
+        description: 6-10 digit HS/HTS code
+        type: string
+      hs_code_description:
+        description: Description of the HS code
+        type: string
+      id:
+        type: string
+      item_id:
+        type: string
+      note:
+        description: optional user note (esp. for overrides)
+        type: string
+      source:
+        description: '"verified" or "override"'
+        type: string
+      source_suggestion_id:
+        description: provenance of the verified suggestion
+        type: string
+      subheading:
+        description: First 6 digits
+        type: string
+      updated_at:
+        type: string
+  models.ComparisonStatusBatchResponse:
+    type: object
+    properties:
+      statuses:
+        type: array
+        items:
+          $ref: '#/definitions/models.ComparisonStatusResponse'
+  models.HSCodeSuggestion:
+    type: object
+    properties:
+      alternative_codes:
+        type: array
+        items:
+          $ref: '#/definitions/models.HSCodeAlternative'
+      business_id:
+        type: string
+      chapter:
+        description: First 2 digits
+        type: string
+      completion_tokens:
+        type: integer
+      confidence_level:
+        description: '"high", "medium", "low"'
+        type: string
+      confidence_score:
+        description: 0.0-1.0
+        type: number
+      created_at:
+        type: string
+      heading:
+        description: First 4 digits
+        type: string
+      hs_code:
+        description: 6-10 digit HS/HTS code
+        type: string
+      hs_code_description:
+        description: Official description
+        type: string
+      id:
+        type: string
+      item_id:
+        type: string
+      key_factors:
+        type: array
+        items:
+          type: string
+      model:
+        type: string
+      prompt_tokens:
+        type: integer
+      reasoning:
+        description: AI explanation
+        type: string
+      review_notes:
+        type: string
+      reviewed_at:
+        type: string
+      reviewed_by:
+        type: string
+      status:
+        description: '"suggested", "accepted", "rejected"'
+        type: string
+      subheading:
+        description: First 6 digits
+        type: string
+      updated_at:
+        type: string
+  models.ItemPair:
+    type: object
+    properties:
+      item_id_1:
+        type: string
+      item_id_2:
+        type: string
+  models.SourceDocumentInfo:
+    type: object
+    properties:
+      classification:
+        description: Document classification (e.g. datasheet, technical_drawing)
+        type: string
+      filename:
+        description: Display filename (path prefix stripped)
+        type: string
+      id:
+        description: Document ID
+        type: string
+      mesh_url:
+        description: Signed URL for GLB 3D mesh (JT or STEP medium LOD)
+        type: string
+      mesh_url_high:
+        description: STEP high-detail LOD (only set for STEP)
+        type: string
+      mesh_url_low:
+        description: STEP low-detail LOD (only set for STEP)
+        type: string
+      mesh_url_med:
+        description: STEP medium-detail LOD (only set for STEP)
+        type: string
+      mime_type:
+        description: MIME type (e.g. application/pdf, model/jt)
+        type: string
+      status:
+        description: Document processing status
+        type: string
+      tables:
+        description: Extracted content from document
+        type: array
+        items:
+          $ref: '#/definitions/models.DocumentTable'
+      url:
+        description: Signed URL for document access
+        type: string
+  models.PairClassComparison:
+    type: object
+    properties:
+      breakdown:
+        description: 'Breakdown lists the factors THIS class judges by (decisive first) —
+
+          different per category, replacing the legacy composite breakdown.'
+        type: array
+        items:
+          $ref: '#/definitions/models.PairClassFactor'
+      class:
+        type: string
+      reason:
+        description: 'Reason is the class-specific explanation generated from the same
+
+          evidence as the verdict — it can never contradict the class chip.'
+        type: string
+      rows:
+        type: array
+        items:
+          $ref: '#/definitions/models.PairClassComparisonRow'
+      score:
+        description: 'Score is the rule-derived similarity in [0,1]: the class fixes the band
+
+          (a product variant can never score like a duplicate) and the evidence
+
+          rows position the pair within it. Replaces the embedding/composite
+
+          percentage on the compare page for classified tenants.'
+        type: number
+  models.AIAnalysisItemSummary:
+    type: object
+    properties:
+      category:
+        type: string
+      manufacturer:
+        type: string
+      part_number:
+        type: string
+      title:
+        type: string
+  models.UpdateComparisonStatusRequest:
+    type: object
+    properties:
+      status:
+        description: '"duplicate", "alternative", "rejected", or "pending" (resets to null in DB); with model_extraction also "interchangeable_variant", "superseded", "product_variant", "related_parts", "component_of"'
+        type: string
+  models.HSCodeAlternative:
+    type: object
+    properties:
+      code:
+        type: string
+      description:
+        type: string
+      reason_rejected:
+        type: string
+  handlers.SimilarityItemsResponse:
+    type: object
+    properties:
+      business_id:
+        type: string
+      items:
+        type: array
+        items:
+          $ref: '#/definitions/services.SimilarityListItem'
+      limit:
+        type: integer
+      offset:
+        type: integer
+      total:
+        type: integer
+  models.ItemComparisonSide:
+    type: object
+    properties:
+      category:
+        type: string
+      created_at:
+        type: string
+      id:
+        type: string
+      internal_code:
+        description: drawing internal code (Kacher-test); small identifier line
+        type: string
+      is_preferred:
+        type: boolean
+      manufacturer:
+        type: string
+      part_number:
+        type: string
+      references:
+        type: array
+        items:
+          type: string
+      source_documents:
+        type: array
+        items:
+          $ref: '#/definitions/models.SourceDocumentInfo'
+      specifications:
+        type: array
+        items:
+          $ref: '#/definitions/models.MatchedSpec'
+      title:
+        type: string
+      updated_at:
+        type: string
+  services.ItemCluster:
+    type: object
+    properties:
+      ai_classification:
+        type: string
+      cluster_id:
+        description: 'ClusterID is the lexicographically smallest item ID in the cluster,
+
+          giving a stable, deterministic identifier.'
+        type: string
+      items:
+        type: array
+        items:
+          $ref: '#/definitions/services.ClusterItem'
+  models.SuggestedCatalogAttribute:
+    type: object
+    properties:
+      aliases:
+        description: Alternative names / aliases for this property
+        type: array
+        items:
+          type: string
+      property_description:
+        description: Human-readable description of the property
+        type: string
+      property_name:
+        description: Suggested canonical property name
+        type: string
+      unit:
+        description: Suggested unit for the property
+        type: string
+      value_examples:
+        description: Example values for this property
+        type: array
+        items:
+          type: string
+      value_type:
+        description: Expected value type (scalar, range, etc.)
+        type: string
+  models.AIAnalysisCatalogActions:
+    type: object
+    properties:
+      notes_for_buyer:
+        type: string
+      primary_part:
+        type: string
+      secondary_part:
+        type: string
+      suggested_relationship_tag:
+        type: string
+  models.AIAnalysisSideBySideRow:
+    type: object
+    properties:
+      attribute:
+        type: string
+      engineering_significance:
+        description: '"critical", "minor", "cosmetic", "none"'
+        type: string
+      item1_value:
+        type: string
+      item2_value:
+        type: string
+      note:
+        type: string
+      status:
+        description: '"identical", "equivalent", "different", "missing"'
+        type: string
+  models.PairClassComparisonRow:
+    type: object
+    properties:
+      group:
+        description: Dimensions | Attributes | Specifications | Relationship
+        type: string
+      key:
+        type: string
+      status:
+        description: match (identity-grade) | close (variant band) | diff | only_a | only_b | info
+        type: string
+      value_a:
+        type: string
+      value_b:
+        type: string
+  handlers.ItemListResponse:
+    type: object
+    properties:
+      business_id:
+        type: string
+      items:
+        type: array
+        items:
+          $ref: '#/definitions/services.ItemListEntry'
+      limit:
+        type: integer
+      offset:
+        type: integer
+      total:
+        type: integer
+  models.VisualSimilarItem:
+    type: object
+    properties:
+      classification:
+        description: exact_duplicate, duplicate, alternative, different
+        type: string
+      image_signed_url:
+        description: Time-limited signed HTTPS URL
+        type: string
+      item_id:
+        type: string
+      manufacturer:
+        type: string
+      part_number:
+        type: string
+      similarity_score:
+        type: number
+      source_filename:
+        type: string
+      title:
+        type: string
+  models.ErrorResponse:
+    type: object
+    properties:
+      code:
+        type: string
+      details: {}
+      error:
+        type: string
+  models.SimilarityScores:
+    type: object
+    properties:
+      additional_score:
+        description: similarity over the other measurements (0-1)
+        type: number
+      exact_manufacturer_match:
+        description: True if manufacturers match exactly
+        type: boolean
+      exact_part_number_match:
+        description: Flags for exact/tolerance matches
+        type: boolean
+      fit:
+        description: 'Two-stage compare (model_extraction tenant only): a SEPARATE additional score over the
+
+          other part measurements (surface roughness, material, weight, bending radius), computed
+
+          only when the important specs "fit". Deliberately NOT folded into WeightedTotal, so the
+
+          primary score/classification is identical for every tenant.'
+        type: boolean
+      has_additional:
+        description: an additional (other-measurements) score was computed
+        type: boolean
+      manufacturer_score:
+        description: Manufacturer similarity (0-1)
+        type: number
+      part_number_score:
+        description: Part number similarity (0-1)
+        type: number
+      specifications_score:
+        description: Specifications similarity (0-1)
+        type: number
+      specs_within_tolerance:
+        description: True if key specs (mass, dimensions) are within tolerance
+        type: boolean
+      title_score:
+        description: Title semantic similarity (0-1)
+        type: number
+      weighted_total:
+        description: Weighted total score (0-1)
+        type: number
+  models.ItemDetailsResponse:
+    type: object
+    properties:
+      additional_data:
+        description: Additional structured data (dynamic categories like assembly details, tolerances, etc.)
+      business_id:
+        description: Business this item belongs to
+        type: string
+      category:
+        description: Product category
+        type: string
+      created_at:
+        description: Timestamps
+        type: string
+      hs_code:
+        description: 'HSCode is the durable, authoritative human decision for this item''s HS
+
+          code (a verified AI suggestion or a manual override), when one exists.
+
+          It survives AI re-classification and takes display precedence over the
+
+          suggestions above.'
+        allOf:
+        - $ref: '#/definitions/models.ItemHSCode'
+      hs_code_suggestions:
+        description: 'HS code suggestions (customs classification)
+
+          IMPORTANT: These are AI-generated SUGGESTIONS only. We do not provide binding tariff rulings.
+
+          Final classification responsibility remains with the importer of record or their licensed customs broker.'
+        type: array
+        items:
+          $ref: '#/definitions/models.HSCodeSuggestion'
+      id:
+        description: Item identification
+        type: string
+      is_preferred:
+        description: Whether this item is flagged as a preferred part
+        type: boolean
+      item_validation:
+        description: 'Item Validation config (conditions + statements) for this item''s business,
+
+          present only when the item_governance feature is enabled. The portal
+
+          evaluates it client-side and renders the failing statements; omitted when
+
+          the feature is disabled or unconfigured.'
+        allOf:
+        - $ref: '#/definitions/models.ItemValidationConfig'
+      manufacturer:
+        description: Manufacturer name
+        type: string
+      part_number:
+        description: Part number / MPN
+        type: string
+      references:
+        description: Reference identifiers (standards, cross-referenced part numbers, etc.)
+        type: array
+        items:
+          type: string
+      source_documents:
+        description: All linked source documents (from item_documents junction table)
+        type: array
+        items:
+          $ref: '#/definitions/models.SourceDocumentInfo'
+      specifications:
+        description: Technical specifications
+        type: array
+        items:
+          $ref: '#/definitions/models.MatchedSpec'
+      title:
+        description: Item title/description
+        type: string
+      updated_at:
+        type: string
+  models.UpdateItemPreferredRequest:
+    type: object
+    properties:
+      is_preferred:
+        type: boolean
+  models.DataGovernanceStatementSpec:
+    type: object
+    properties:
+      errorMessage:
+        type: string
+      expression:
+        type: string
+      severity:
+        type: string
+  models.HSCodeOverrideRequest:
+    type: object
+    properties:
+      description:
+        type: string
+      hs_code:
+        type: string
+      note:
+        type: string
+securityDefinitions:
+  BearerAuth:
+    description: 'Firebase JWT token. Format: "Bearer {token}"'
+    type: apiKey
+    name: Authorization
+    in: header

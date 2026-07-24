@@ -1,0 +1,76 @@
+swagger: '2.0'
+info:
+  description: API for document processing, item similarity search, and analytics.
+  title: Resourcly analytics auth API
+  termsOfService: https://resourcly.com/terms
+  contact:
+    name: API Support
+    email: support@resourcly.com
+  license:
+    name: Proprietary
+  version: 1.0.0
+host: api.resourcly.com
+basePath: /v1
+tags:
+- name: auth
+paths:
+  /v1/auth/switch-environment:
+    post:
+      description: Switches the user's environment between LIVE and SANDBOX and returns a new custom token with the environment claim
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      tags:
+      - auth
+      summary: Switch environment
+      parameters:
+      - description: Environment switch request
+        name: request
+        in: body
+        required: true
+        schema:
+          $ref: '#/definitions/handlers.SwitchEnvironmentRequest'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/handlers.SwitchEnvironmentResponse'
+        '400':
+          description: Bad Request
+          schema:
+            type: object
+            additionalProperties:
+              type: string
+        '401':
+          description: Unauthorized
+          schema:
+            type: object
+            additionalProperties:
+              type: string
+        '500':
+          description: Internal Server Error
+          schema:
+            type: object
+            additionalProperties:
+              type: string
+definitions:
+  handlers.SwitchEnvironmentRequest:
+    type: object
+    properties:
+      environment:
+        description: '"LIVE" or "SANDBOX"'
+        type: string
+  handlers.SwitchEnvironmentResponse:
+    type: object
+    properties:
+      customToken:
+        type: string
+      environment:
+        type: string
+securityDefinitions:
+  BearerAuth:
+    description: 'Firebase JWT token. Format: "Bearer {token}"'
+    type: apiKey
+    name: Authorization
+    in: header

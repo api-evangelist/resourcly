@@ -1,0 +1,355 @@
+swagger: '2.0'
+info:
+  description: API for document processing, item similarity search, and analytics.
+  title: Resourcly analytics supplier-portal API
+  termsOfService: https://resourcly.com/terms
+  contact:
+    name: API Support
+    email: support@resourcly.com
+  license:
+    name: Proprietary
+  version: 1.0.0
+host: api.resourcly.com
+basePath: /v1
+tags:
+- name: supplier-portal
+paths:
+  /v1/supplier/request/{id}:
+    get:
+      description: Returns the full details of a supplier data request (what was requested)
+      produces:
+      - application/json
+      tags:
+      - supplier-portal
+      summary: Get supplier request details
+      parameters:
+      - type: string
+        description: Supplier data request ID
+        name: id
+        in: path
+        required: true
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/models.SupplierRequestDetailsResponse'
+        '403':
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+  /v1/supplier/request/{id}/files/{fileId}:
+    delete:
+      description: Deletes a file from a supplier response
+      produces:
+      - application/json
+      tags:
+      - supplier-portal
+      summary: Delete supplier response file
+      parameters:
+      - type: string
+        description: Supplier data request ID
+        name: id
+        in: path
+        required: true
+      - type: string
+        description: File ID to delete
+        name: fileId
+        in: path
+        required: true
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: object
+            additionalProperties:
+              type: string
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '403':
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+  /v1/supplier/request/{id}/respond:
+    post:
+      description: Saves or submits master data values for a supplier data request
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      tags:
+      - supplier-portal
+      summary: Save or submit supplier response
+      parameters:
+      - type: string
+        description: Supplier data request ID
+        name: id
+        in: path
+        required: true
+      - description: Response payload
+        name: body
+        in: body
+        required: true
+        schema:
+          $ref: '#/definitions/models.SupplierSubmitResponseRequest'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/models.SupplierSubmitResponseResponse'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '403':
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+  /v1/supplier/request/{id}/upload:
+    post:
+      description: Uploads a file for a specific document type in a supplier response
+      consumes:
+      - multipart/form-data
+      produces:
+      - application/json
+      tags:
+      - supplier-portal
+      summary: Upload supplier response file
+      parameters:
+      - type: string
+        description: Supplier data request ID
+        name: id
+        in: path
+        required: true
+      - type: string
+        description: Document type key (e.g. CATALOGUE)
+        name: document_type
+        in: formData
+        required: true
+      - type: file
+        description: File to upload
+        name: file
+        in: formData
+        required: true
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/models.SupplierUploadFileResponse'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '403':
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+  /v1/supplier/verify-passcode:
+    post:
+      description: Verifies the 6-digit passcode for a supplier data request and returns a JWT
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      tags:
+      - supplier-portal
+      summary: Verify supplier passcode
+      parameters:
+      - description: Passcode verification payload
+        name: body
+        in: body
+        required: true
+        schema:
+          $ref: '#/definitions/models.SupplierVerifyPasscodeRequest'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/models.SupplierVerifyPasscodeResponse'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '401':
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '429':
+          description: Too Many Requests
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+definitions:
+  models.SupplierUploadFileResponse:
+    type: object
+    properties:
+      document_type:
+        type: string
+      file_id:
+        type: string
+      filename:
+        type: string
+      message:
+        type: string
+  models.SupplierVerifyPasscodeResponse:
+    type: object
+    properties:
+      expires_at:
+        description: ISO 8601 expiry timestamp
+        type: string
+      token:
+        description: Short-lived JWT for accessing the request
+        type: string
+  models.SupplierResponseFileInfo:
+    type: object
+    properties:
+      content_type:
+        type: string
+      created_at:
+        type: string
+      document_type:
+        type: string
+      file_size_bytes:
+        type: integer
+      filename:
+        type: string
+      id:
+        type: string
+      url:
+        type: string
+  models.SupplierSubmitResponseResponse:
+    type: object
+    properties:
+      message:
+        type: string
+      response_id:
+        type: string
+      status:
+        type: string
+  models.SupplierVerifyPasscodeRequest:
+    type: object
+    properties:
+      passcode:
+        description: 6-digit passcode from the email
+        type: string
+      request_id:
+        description: UUID of the supplier data request
+        type: string
+  models.SupplierSubmitResponseRequest:
+    type: object
+    properties:
+      master_data_values:
+        description: field key -> value
+        type: object
+        additionalProperties:
+          type: string
+      status:
+        description: '"draft" or "submitted"'
+        type: string
+  models.ErrorResponse:
+    type: object
+    properties:
+      code:
+        type: string
+      details: {}
+      error:
+        type: string
+  models.SupplierGetResponseResponse:
+    type: object
+    properties:
+      files:
+        type: array
+        items:
+          $ref: '#/definitions/models.SupplierResponseFileInfo'
+      id:
+        type: string
+      master_data_values:
+        type: object
+        additionalProperties:
+          type: string
+      status:
+        description: '"draft" or "submitted"'
+        type: string
+      submitted_at:
+        type: string
+      updated_at:
+        type: string
+  models.SupplierRequestDetailsResponse:
+    type: object
+    properties:
+      article_numbers:
+        type: array
+        items:
+          type: string
+      company_name:
+        type: string
+      contact_email:
+        type: string
+      created_at:
+        type: string
+      documents:
+        type: array
+        items:
+          type: string
+      expires_at:
+        type: string
+      has_response:
+        type: boolean
+      id:
+        type: string
+      manufacturer:
+        type: string
+      master_data:
+        type: array
+        items:
+          type: string
+      order_number:
+        type: string
+      other_details:
+        type: string
+      rejection_reason:
+        type: string
+      response:
+        description: Current response data (populated when a response exists).
+        allOf:
+        - $ref: '#/definitions/models.SupplierGetResponseResponse'
+      status:
+        type: string
+securityDefinitions:
+  BearerAuth:
+    description: 'Firebase JWT token. Format: "Bearer {token}"'
+    type: apiKey
+    name: Authorization
+    in: header

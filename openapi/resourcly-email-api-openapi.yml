@@ -1,0 +1,113 @@
+swagger: '2.0'
+info:
+  description: API for document processing, item similarity search, and analytics.
+  title: Resourcly analytics email API
+  termsOfService: https://resourcly.com/terms
+  contact:
+    name: API Support
+    email: support@resourcly.com
+  license:
+    name: Proprietary
+  version: 1.0.0
+host: api.resourcly.com
+basePath: /v1
+tags:
+- name: email
+paths:
+  /v1/email/supplier-data-request:
+    post:
+      description: Sends an email to a supplier requesting specific master data and/or documents
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      tags:
+      - email
+      summary: Send a supplier data request email
+      parameters:
+      - description: Supplier data request payload
+        name: body
+        in: body
+        required: true
+        schema:
+          $ref: '#/definitions/models.SupplierDataRequest'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/models.SupplierDataResponse'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '503':
+          description: Service Unavailable
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+definitions:
+  models.SupplierDataRequest:
+    type: object
+    properties:
+      article_numbers:
+        description: List of article numbers (max 10)
+        type: array
+        items:
+          type: string
+      business_node_id:
+        description: Business node (org unit) scope — required
+        type: string
+      contact_email:
+        description: Supplier contact email (recipient)
+        type: string
+      documents:
+        description: Selected document type keys
+        type: array
+        items:
+          type: string
+      expiry_days:
+        description: Days until request expires (1-30, default 7)
+        type: integer
+      manufacturer:
+        description: Manufacturer or supplier name
+        type: string
+      master_data:
+        description: Selected master data field keys
+        type: array
+        items:
+          type: string
+      order_number:
+        description: Optional order/PO number
+        type: string
+      other_details:
+        description: Optional free-text notes
+        type: string
+  models.SupplierDataResponse:
+    type: object
+    properties:
+      email_id:
+        description: Resend email ID for tracking
+        type: string
+      message:
+        description: Human-readable confirmation
+        type: string
+      request_id:
+        description: Supplier data request ID (UUID)
+        type: string
+  models.ErrorResponse:
+    type: object
+    properties:
+      code:
+        type: string
+      details: {}
+      error:
+        type: string
+securityDefinitions:
+  BearerAuth:
+    description: 'Firebase JWT token. Format: "Bearer {token}"'
+    type: apiKey
+    name: Authorization
+    in: header

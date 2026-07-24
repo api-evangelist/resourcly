@@ -1,0 +1,287 @@
+swagger: '2.0'
+info:
+  description: API for document processing, item similarity search, and analytics.
+  title: Resourcly analytics documents API
+  termsOfService: https://resourcly.com/terms
+  contact:
+    name: API Support
+    email: support@resourcly.com
+  license:
+    name: Proprietary
+  version: 1.0.0
+host: api.resourcly.com
+basePath: /v1
+tags:
+- name: documents
+paths:
+  /documents:
+    get:
+      security:
+      - BearerAuth: []
+      description: Returns a paginated list of documents for the authenticated business
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      tags:
+      - documents
+      summary: List documents
+      parameters:
+      - type: integer
+        default: 1
+        description: Page number
+        name: page
+        in: query
+      - maximum: 100
+        type: integer
+        default: 20
+        description: Items per page
+        name: page_size
+        in: query
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/models.DocumentListResponse'
+        '401':
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+  /documents/{id}:
+    get:
+      security:
+      - BearerAuth: []
+      description: Returns a single document by ID
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      tags:
+      - documents
+      summary: Get document
+      parameters:
+      - type: string
+        description: Document ID (UUID or business_id:filename for legacy)
+        name: id
+        in: path
+        required: true
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Document'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '401':
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+    delete:
+      security:
+      - BearerAuth: []
+      description: Deletes a document and its associated data
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      tags:
+      - documents
+      summary: Delete document
+      parameters:
+      - type: string
+        description: Document ID (UUID or business_id:filename for legacy)
+        name: id
+        in: path
+        required: true
+      responses:
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '401':
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+  /documents/{id}/download:
+    get:
+      security:
+      - BearerAuth: []
+      description: Streams the document file directly to the client
+      consumes:
+      - application/json
+      produces:
+      - application/octet-stream
+      tags:
+      - documents
+      summary: Download document
+      parameters:
+      - type: string
+        description: Document ID (UUID or business_id:filename for legacy)
+        name: id
+        in: path
+        required: true
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: file
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '401':
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+  /documents/{id}/url:
+    get:
+      security:
+      - BearerAuth: []
+      description: 'Returns a signed URL for the document (valid for 5 minutes). By default the URL is
+
+        configured for inline viewing in the browser. Pass ?download=true to get a download URL instead.'
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      tags:
+      - documents
+      summary: Get document URL
+      parameters:
+      - type: string
+        description: Document ID (UUID or business_id:filename for legacy)
+        name: id
+        in: path
+        required: true
+      - type: boolean
+        default: false
+        description: If true, generate a download URL instead of a view URL
+        name: download
+        in: query
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/models.EmbedURLResponse'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '401':
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+definitions:
+  models.EmbedURLResponse:
+    type: object
+    properties:
+      expires_at:
+        type: string
+      mesh_url:
+        type: string
+      mesh_url_high:
+        type: string
+      mesh_url_low:
+        type: string
+      mesh_url_med:
+        type: string
+      mime_type:
+        type: string
+      url:
+        type: string
+  models.Document:
+    type: object
+    properties:
+      business_id:
+        type: string
+      business_node_id:
+        type: string
+      created_at:
+        type: string
+      error_message:
+        type: string
+      filename:
+        type: string
+      gcs_uri:
+        type: string
+      id:
+        type: string
+      image_count:
+        type: integer
+      import_bucket_uri:
+        type: string
+      import_id:
+        type: string
+      items_count:
+        type: integer
+      page_count:
+        type: integer
+      processed_at:
+        type: string
+      status:
+        type: string
+      table_count:
+        type: integer
+      trace_id:
+        type: string
+      updated_at:
+        type: string
+  models.ErrorResponse:
+    type: object
+    properties:
+      code:
+        type: string
+      details: {}
+      error:
+        type: string
+  models.DocumentListResponse:
+    type: object
+    properties:
+      documents:
+        type: array
+        items:
+          $ref: '#/definitions/models.Document'
+      page:
+        type: integer
+      page_size:
+        type: integer
+      total_count:
+        type: integer
+securityDefinitions:
+  BearerAuth:
+    description: 'Firebase JWT token. Format: "Bearer {token}"'
+    type: apiKey
+    name: Authorization
+    in: header

@@ -1,0 +1,952 @@
+swagger: '2.0'
+info:
+  description: API for document processing, item similarity search, and analytics.
+  title: Resourcly analytics datasources API
+  termsOfService: https://resourcly.com/terms
+  contact:
+    name: API Support
+    email: support@resourcly.com
+  license:
+    name: Proprietary
+  version: 1.0.0
+host: api.resourcly.com
+basePath: /v1
+tags:
+- name: datasources
+paths:
+  /datasources:
+    get:
+      security:
+      - BearerAuth: []
+      description: Lists files and folders in the business's data sources directory with optional prefix filtering
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      tags:
+      - datasources
+      summary: List data sources
+      parameters:
+      - type: string
+        description: Folder prefix to list (e.g., 'specs/' or 'drawings/')
+        name: prefix
+        in: query
+      - type: integer
+        description: Maximum number of results (default 100, max 1000)
+        name: max_results
+        in: query
+      - type: string
+        description: Continuation token for pagination
+        name: page_token
+        in: query
+      - type: string
+        description: 'Filter by import status: completed, processing, failed, not_imported'
+        name: status
+        in: query
+      - type: string
+        description: Search query to find files by name across all data sources
+        name: search
+        in: query
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/models.DataSourcesListResponse'
+        '401':
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+  /datasources/analyze-file:
+    post:
+      security:
+      - BearerAuth: []
+      description: Reads a single data-source spreadsheet (xlsx/xls/csv) from storage and returns the AI-detected file type and suggested column mapping.
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      tags:
+      - datasources
+      summary: Analyze a data-source spreadsheet
+      parameters:
+      - description: Data-source file key
+        name: request
+        in: body
+        required: true
+        schema:
+          $ref: '#/definitions/models.AnalyzeFileRequest'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/handlers.AnalyzeFileResponse'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '401':
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '422':
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+  /datasources/import:
+    post:
+      security:
+      - BearerAuth: []
+      description: Creates an import job from selected files in the data sources bucket
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      tags:
+      - datasources
+      summary: Import from data sources
+      parameters:
+      - description: Files to import
+        name: request
+        in: body
+        required: true
+        schema:
+          $ref: '#/definitions/models.DataSourcesImportRequest'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/models.DataSourcesImportResponse'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '401':
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+  /datasources/import-preview:
+    post:
+      security:
+      - BearerAuth: []
+      description: Categorizes the selected data-source files/folders into needs-review, valid, and invalid buckets using the business import folder mapping, and returns the counts plus the full needs-review list. Valid/invalid files are browsed lazily on demand as a unified tree via GET /datasources/import-preview/{preview_id}.
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      tags:
+      - datasources
+      summary: Preview a data-source import
+      parameters:
+      - description: Selected keys + destination node
+        name: request
+        in: body
+        required: true
+        schema:
+          $ref: '#/definitions/models.ImportPreviewRequest'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/models.ImportPreviewResponse'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '401':
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+  /datasources/import-preview/{preview_id}:
+    get:
+      security:
+      - BearerAuth: []
+      description: Lists one lazily-loaded level of a previously created import preview's unified file tree; each file is tagged valid/invalid/review. Pass `path` (relative to the business root, empty for the root) to list a folder's children, and `page_token` from a previous response to continue a large level. Folders may recur across pages and must be de-duplicated by path.
+      produces:
+      - application/json
+      tags:
+      - datasources
+      summary: Browse a data-source import preview as a tree
+      parameters:
+      - type: string
+        description: Preview ID
+        name: preview_id
+        in: path
+        required: true
+      - type: string
+        description: Folder path relative to the business root (empty = root)
+        name: path
+        in: query
+      - type: string
+        description: Opaque token to fetch the next page of a large level
+        name: page_token
+        in: query
+      - type: integer
+        description: Page size (default 50, max 200)
+        name: limit
+        in: query
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/models.PreviewTreeResponse'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '401':
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+  /datasources/import-status:
+    post:
+      security:
+      - BearerAuth: []
+      description: Checks which files have been imported and returns their document status and item count
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      tags:
+      - datasources
+      summary: Get import status for data source files
+      parameters:
+      - description: Filenames to check
+        name: request
+        in: body
+        required: true
+        schema:
+          $ref: '#/definitions/models.DataSourcesImportStatusRequest'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/models.DataSourcesImportStatusResponse'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '401':
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+  /datasources/import/bom:
+    post:
+      security:
+      - BearerAuth: []
+      description: Enqueues one or more BOM spreadsheets from the data sources bucket for asynchronous import under a single import job
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      tags:
+      - datasources
+      summary: Import BOM spreadsheets from data sources
+      parameters:
+      - description: BOM import request
+        name: request
+        in: body
+        required: true
+        schema:
+          $ref: '#/definitions/models.DataSourceImportBomRequest'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/models.DataSourceImportBomResponse'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '401':
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '429':
+          description: Too Many Requests
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+  /datasources/import/erp:
+    post:
+      security:
+      - BearerAuth: []
+      description: Reads one spreadsheet from the data sources bucket by key and imports it as ERP inventory for the given business node
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      tags:
+      - datasources
+      summary: Import an ERP inventory spreadsheet from data sources
+      parameters:
+      - description: ERP import request
+        name: request
+        in: body
+        required: true
+        schema:
+          $ref: '#/definitions/models.DataSourceImportErpRequest'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/models.InventoryUploadResponse'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '401':
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+  /datasources/import/items:
+    post:
+      security:
+      - BearerAuth: []
+      description: Imports item documents from the data sources bucket, keeping only files that match the business folder mapping. Creates a re-runnable import job.
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      tags:
+      - datasources
+      summary: Import item documents from data sources (folder-mapping filtered)
+      parameters:
+      - description: Item import request
+        name: request
+        in: body
+        required: true
+        schema:
+          $ref: '#/definitions/models.DataSourceImportItemsRequest'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/models.DataSourcesImportResponse'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '401':
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '429':
+          description: Too Many Requests
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+  /datasources/unzip:
+    post:
+      security:
+      - BearerAuth: []
+      description: Extracts a zip file in the business's data sources directory
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      tags:
+      - datasources
+      summary: Unzip data source file
+      parameters:
+      - description: File to unzip
+        name: request
+        in: body
+        required: true
+        schema:
+          $ref: '#/definitions/handlers.UnzipRequest'
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: object
+            additionalProperties:
+              type: string
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '401':
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '403':
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+  /datasources/url:
+    get:
+      security:
+      - BearerAuth: []
+      description: Generates a signed URL for downloading a file from the business's data sources directory
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      tags:
+      - datasources
+      summary: Get download URL
+      parameters:
+      - type: string
+        description: Object key (path) of the file to download
+        name: key
+        in: query
+        required: true
+      - type: integer
+        description: URL expiration in minutes (default 60, max 720)
+        name: expiration
+        in: query
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/models.DataSourcesSignedURLResponse'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '401':
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+definitions:
+  models.DataSourceImportBomRequest:
+    type: object
+    properties:
+      business_node_id:
+        type: string
+      files:
+        type: array
+        items:
+          $ref: '#/definitions/models.DataSourceImportBomFile'
+      name:
+        type: string
+  models.DataSourceItem:
+    type: object
+    properties:
+      content_type:
+        type: string
+      key:
+        type: string
+      last_modified:
+        type: string
+      name:
+        type: string
+      size:
+        type: integer
+      type:
+        description: '"file" or "folder"'
+        type: string
+  models.SupplierImportInfo:
+    type: object
+    properties:
+      classification_system:
+        type: string
+      files_detected:
+        type: integer
+      media_files_detected:
+        type: integer
+      supplier_name:
+        type: string
+  models.DataSourcesImportStatusResponse:
+    type: object
+    properties:
+      statuses:
+        description: Statuses maps filename → import status. Only files that have been imported are included.
+        type: object
+        additionalProperties:
+          $ref: '#/definitions/models.DataSourceFileImportStatus'
+  models.ImportPreviewRequest:
+    type: object
+    properties:
+      business_node_id:
+        type: string
+      keys:
+        type: array
+        items:
+          type: string
+  models.DataSourceImportBomResponse:
+    type: object
+    properties:
+      files_queued:
+        type: integer
+      import_id:
+        type: string
+      message:
+        type: string
+  models.ImportPreviewResponse:
+    type: object
+    properties:
+      counts:
+        $ref: '#/definitions/models.ImportPreviewCounts'
+      preview_id:
+        type: string
+      review:
+        type: array
+        items:
+          $ref: '#/definitions/models.ReviewFileEntry'
+  models.InventoryUploadResponse:
+    type: object
+    properties:
+      bucket_url:
+        type: string
+      column_mapping:
+        $ref: '#/definitions/models.InventoryUploadMapping'
+      created_at:
+        type: string
+      id:
+        type: string
+      import_id:
+        type: string
+      ingested_count:
+        type: integer
+      item_count:
+        type: integer
+  models.PreviewTreeFolder:
+    type: object
+    properties:
+      name:
+        type: string
+      path:
+        type: string
+  services.UploadAnalysisResult:
+    type: object
+    properties:
+      columns:
+        description: Columns contains the suggested column mapping.
+        allOf:
+        - $ref: '#/definitions/services.UploadColumnMapping'
+      confidence:
+        description: Confidence is a value between 0 and 1 indicating how confident the AI is.
+        type: number
+      file_type:
+        description: FileType is "erp", "bom", or "unknown".
+        type: string
+      reasoning:
+        description: Reasoning explains why the AI chose this classification.
+        type: string
+      suggested_levels:
+        description: 'SuggestedLevels contains the computed hierarchy levels for sample rows
+
+          when hierarchy_type is "teamcenter_traversal". Index aligns with sample_rows.'
+        type: array
+        items:
+          type: integer
+  models.DataSourceImportErpRequest:
+    type: object
+    properties:
+      business_node_id:
+        type: string
+      key:
+        type: string
+      mapping:
+        $ref: '#/definitions/models.ErpColumnMapping'
+  models.AnalyzeFileRequest:
+    type: object
+    properties:
+      force_file_type:
+        type: string
+      key:
+        type: string
+  models.InventoryUploadMapping:
+    type: object
+    properties:
+      attributes:
+        description: 'Attributes carries every non-first-class column preserved from the upload
+
+          (dynamic import). Empty for legacy uploads made before dynamic mapping.'
+        type: array
+        items:
+          $ref: '#/definitions/models.ERPAttributeMapping'
+      description_columns:
+        type: array
+        items:
+          type: string
+      description_name:
+        type: string
+      primary_identifier_column:
+        type: string
+      primary_identifier_name:
+        description: Name fields for human-friendly display and llm
+        type: string
+      purchase_price_column:
+        type: string
+      purchase_price_name:
+        type: string
+      purchase_quantity_column:
+        type: string
+      purchase_quantity_name:
+        type: string
+      secondary_identifier_column:
+        type: string
+      secondary_identifier_name:
+        type: string
+      supplier_name_column:
+        type: string
+      supplier_name_name:
+        type: string
+      supplier_number_column:
+        type: string
+      supplier_number_name:
+        type: string
+  models.ReviewFileEntry:
+    type: object
+    properties:
+      key:
+        type: string
+      name:
+        type: string
+  models.DataSourceFileImportStatus:
+    type: object
+    properties:
+      document_id:
+        type: string
+      item_count:
+        type: integer
+      status:
+        type: string
+  models.DataSourceImportItemsRequest:
+    type: object
+    properties:
+      business_node_id:
+        type: string
+      keys:
+        type: array
+        items:
+          type: string
+      name:
+        type: string
+      pipeline_version:
+        description: 'PipelineVersion selects the item-handling flow. Empty (the default) is v1;
+
+          v2 callers send "v2" to opt into folder-mapping filtering + folder part
+
+          number + enrich-or-create. The backend requires a configured import folder
+
+          mapping for v2 and rejects the import otherwise.'
+        type: string
+      replace_existing:
+        type: boolean
+  models.DataSourcesImportResponse:
+    type: object
+    properties:
+      files_queued:
+        type: integer
+      files_skipped:
+        type: integer
+      import_id:
+        type: string
+      message:
+        type: string
+      supplier_imports:
+        description: Supplier catalogs detected and routed
+        type: array
+        items:
+          $ref: '#/definitions/models.SupplierImportInfo'
+      unsupported_examples:
+        description: First few unsupported filenames
+        type: array
+        items:
+          type: string
+      unsupported_files:
+        type: integer
+  models.DataSourceImportBomFile:
+    type: object
+    properties:
+      key:
+        type: string
+      mapping:
+        $ref: '#/definitions/models.BomColumnMapping'
+      name:
+        type: string
+      version:
+        type: string
+  models.PreviewTreeFile:
+    type: object
+    properties:
+      key:
+        type: string
+      name:
+        type: string
+      part_number:
+        type: string
+      reason:
+        type: string
+      status:
+        type: string
+  handlers.AnalyzeFileResponse:
+    type: object
+    properties:
+      analysis:
+        $ref: '#/definitions/services.UploadAnalysisResult'
+      headers:
+        type: array
+        items:
+          type: string
+  models.DataSourcesListResponse:
+    type: object
+    properties:
+      bucket_name:
+        type: string
+      continuation_token:
+        type: string
+      enable_unzip:
+        type: boolean
+      is_truncated:
+        type: boolean
+      items:
+        type: array
+        items:
+          $ref: '#/definitions/models.DataSourceItem'
+      prefix:
+        type: string
+  models.DataSourcesSignedURLResponse:
+    type: object
+    properties:
+      expires_at:
+        type: string
+      key:
+        type: string
+      url:
+        type: string
+  models.ErpColumnMapping:
+    type: object
+    properties:
+      attributes:
+        type: array
+        items:
+          $ref: '#/definitions/models.ERPAttributeMapping'
+      description_columns:
+        type: array
+        items:
+          type: string
+      primary_identifier_column:
+        type: string
+      purchase_price_column:
+        type: string
+      purchase_quantity_column:
+        type: string
+      secondary_identifier_column:
+        type: string
+      supplier_name_column:
+        type: string
+      supplier_number_column:
+        type: string
+  models.ERPAttributeMapping:
+    type: object
+    properties:
+      label:
+        description: human-friendly display name (AI-suggested, user-editable)
+        type: string
+      source_column:
+        description: exact header text in the uploaded file == metadata key
+        type: string
+      type:
+        description: '"string" | "number" (display/format hint)'
+        type: string
+  models.PreviewTreeResponse:
+    type: object
+    properties:
+      files:
+        type: array
+        items:
+          $ref: '#/definitions/models.PreviewTreeFile'
+      folders:
+        type: array
+        items:
+          $ref: '#/definitions/models.PreviewTreeFolder'
+      next_page_token:
+        type: string
+  models.DataSourcesImportRequest:
+    type: object
+    properties:
+      business_node_id:
+        description: BusinessNodeID is the business node (must be a leaf node) to associate imported documents with.
+        type: string
+      keys:
+        description: 'Keys are the object keys (paths) of files to import from the data sources bucket.
+
+          These are relative to the business''s directory (e.g., "data-source-name/folder/file.pdf").'
+        type: array
+        items:
+          type: string
+      name:
+        description: Name is an optional name for the import job.
+        type: string
+      replace_existing:
+        description: ReplaceExisting if true will re-process documents with the same filename.
+        type: boolean
+  models.ImportPreviewCounts:
+    type: object
+    properties:
+      invalid:
+        type: integer
+      review:
+        type: integer
+      valid:
+        type: integer
+  services.UploadColumnMapping:
+    type: object
+    properties:
+      attributes:
+        description: 'Attributes holds every remaining ERP column (dynamic import): each
+
+          spreadsheet column that is NOT one of the first-class ERP fields above,
+
+          so it can be labeled by the AI, edited by the user, and preserved.'
+        type: array
+        items:
+          $ref: '#/definitions/models.ERPAttributeMapping'
+      description_column:
+        type: string
+      description_columns:
+        type: array
+        items:
+          type: string
+      find_no_column:
+        description: 'FindNoColumn is the column containing Find Number (position within parent).
+
+          Used by teamcenter_traversal.'
+        type: string
+      hierarchy_pattern:
+        description: 'HierarchyPattern is a regex to extract the level from the hierarchy source column.
+
+          Used when hierarchy_type is "embedded_level" or "dot_notation".'
+        type: string
+      hierarchy_source_column:
+        description: HierarchySourceColumn is the column that contains the embedded hierarchy info.
+        type: string
+      hierarchy_type:
+        description: 'Hierarchy detection
+
+          HierarchyType: "none", "level_column", "embedded_level", "parent_reference", "dot_notation", "teamcenter_traversal"'
+        type: string
+      level_column:
+        type: string
+      manufacturer_column:
+        type: string
+      parent_column:
+        type: string
+      part_number_column:
+        description: BOM-specific columns
+        type: string
+      primary_identifier_column:
+        description: ERP-specific columns
+        type: string
+      purchase_price_column:
+        type: string
+      purchase_quantity_column:
+        type: string
+      quantity_column:
+        type: string
+      secondary_identifier_column:
+        type: string
+      supplier_name_column:
+        type: string
+      supplier_number_column:
+        type: string
+      unit_column:
+        type: string
+  models.ErrorResponse:
+    type: object
+    properties:
+      code:
+        type: string
+      details: {}
+      error:
+        type: string
+  models.DataSourcesImportStatusRequest:
+    type: object
+    properties:
+      filenames:
+        description: 'Filenames to check import status for (full key paths relative to business root,
+
+          e.g. "datasource-uuid/subfolder/file.pdf"). These must match documents.filename in the DB.'
+        type: array
+        items:
+          type: string
+  handlers.UnzipRequest:
+    type: object
+    properties:
+      key:
+        type: string
+  models.BomColumnMapping:
+    type: object
+    properties:
+      description_column:
+        type: string
+      find_no_column:
+        type: string
+      hierarchy_pattern:
+        type: string
+      hierarchy_source_column:
+        type: string
+      hierarchy_type:
+        type: string
+      level_column:
+        type: string
+      manufacturer_column:
+        type: string
+      parent_column:
+        type: string
+      part_number_column:
+        type: string
+      quantity_column:
+        type: string
+      unit_column:
+        type: string
+securityDefinitions:
+  BearerAuth:
+    description: 'Firebase JWT token. Format: "Bearer {token}"'
+    type: apiKey
+    name: Authorization
+    in: header

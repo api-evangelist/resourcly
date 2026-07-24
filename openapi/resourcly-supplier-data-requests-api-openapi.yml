@@ -1,0 +1,367 @@
+swagger: '2.0'
+info:
+  description: API for document processing, item similarity search, and analytics.
+  title: Resourcly analytics supplier-data-requests API
+  termsOfService: https://resourcly.com/terms
+  contact:
+    name: API Support
+    email: support@resourcly.com
+  license:
+    name: Proprietary
+  version: 1.0.0
+host: api.resourcly.com
+basePath: /v1
+tags:
+- name: supplier-data-requests
+paths:
+  /v1/supplier-data-requests:
+    get:
+      description: Lists all supplier data requests for the user's business
+      produces:
+      - application/json
+      tags:
+      - supplier-data-requests
+      summary: List supplier data requests
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/models.SupplierDataRequestListItem'
+        '401':
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+  /v1/supplier-data-requests/{id}:
+    get:
+      description: Gets full details of a supplier data request including the supplier's response
+      produces:
+      - application/json
+      tags:
+      - supplier-data-requests
+      summary: Get supplier data request detail
+      parameters:
+      - type: string
+        description: Supplier data request ID
+        name: id
+        in: path
+        required: true
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/models.SupplierDataRequestDetailResponse'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '401':
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '403':
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+  /v1/supplier-data-requests/{id}/extend-expiry:
+    post:
+      description: Extends the expiry date of a request, regenerates the passcode, and sends a new email
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      tags:
+      - supplier-data-requests
+      summary: Extend supplier request expiry
+      parameters:
+      - type: string
+        description: Supplier data request ID
+        name: id
+        in: path
+        required: true
+      - description: Expiry extension payload
+        name: body
+        in: body
+        required: true
+        schema:
+          $ref: '#/definitions/models.SupplierExtendExpiryRequest'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/models.SupplierReviewResponse'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '401':
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '403':
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '409':
+          description: Conflict
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+  /v1/supplier-data-requests/{id}/reset-passcode:
+    post:
+      description: Regenerates the passcode for a locked request and sends a new email to the supplier
+      produces:
+      - application/json
+      tags:
+      - supplier-data-requests
+      summary: Reset supplier request passcode
+      parameters:
+      - type: string
+        description: Supplier data request ID
+        name: id
+        in: path
+        required: true
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/models.SupplierReviewResponse'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '401':
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '403':
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '409':
+          description: Conflict
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+  /v1/supplier-data-requests/{id}/review:
+    post:
+      description: Approves or rejects a supplier response with optional rejection reason
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      tags:
+      - supplier-data-requests
+      summary: Review supplier response
+      parameters:
+      - type: string
+        description: Supplier data request ID
+        name: id
+        in: path
+        required: true
+      - description: Review action
+        name: body
+        in: body
+        required: true
+        schema:
+          $ref: '#/definitions/models.SupplierReviewRequest'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/models.SupplierReviewResponse'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '401':
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '403':
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '409':
+          description: Conflict
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+definitions:
+  models.SupplierResponseFileInfo:
+    type: object
+    properties:
+      content_type:
+        type: string
+      created_at:
+        type: string
+      document_type:
+        type: string
+      file_size_bytes:
+        type: integer
+      filename:
+        type: string
+      id:
+        type: string
+      url:
+        type: string
+  models.SupplierReviewResponse:
+    type: object
+    properties:
+      message:
+        type: string
+      status:
+        type: string
+  models.SupplierReviewRequest:
+    type: object
+    properties:
+      action:
+        description: '"approve" or "reject"'
+        type: string
+      reason:
+        description: Required when action is "reject"
+        type: string
+  models.SupplierDataRequestListItem:
+    type: object
+    properties:
+      created_at:
+        type: string
+      expires_at:
+        type: string
+      has_response:
+        type: boolean
+      id:
+        type: string
+      is_locked:
+        type: boolean
+      manufacturer:
+        type: string
+      rejection_reason:
+        type: string
+      reviewed_at:
+        type: string
+      reviewed_by:
+        type: string
+      status:
+        type: string
+      supplier_email:
+        type: string
+  models.SupplierDataRequestDetailResponse:
+    type: object
+    properties:
+      article_numbers:
+        type: array
+        items:
+          type: string
+      created_at:
+        type: string
+      created_by:
+        type: string
+      documents:
+        type: array
+        items:
+          type: string
+      expires_at:
+        type: string
+      id:
+        type: string
+      is_locked:
+        type: boolean
+      manufacturer:
+        type: string
+      master_data:
+        type: array
+        items:
+          type: string
+      order_number:
+        type: string
+      other_details:
+        type: string
+      rejection_reason:
+        type: string
+      response:
+        description: The supplier's response, if any.
+        allOf:
+        - $ref: '#/definitions/models.SupplierGetResponseResponse'
+      reviewed_at:
+        type: string
+      reviewed_by:
+        type: string
+      status:
+        type: string
+      supplier_email:
+        type: string
+  models.ErrorResponse:
+    type: object
+    properties:
+      code:
+        type: string
+      details: {}
+      error:
+        type: string
+  models.SupplierGetResponseResponse:
+    type: object
+    properties:
+      files:
+        type: array
+        items:
+          $ref: '#/definitions/models.SupplierResponseFileInfo'
+      id:
+        type: string
+      master_data_values:
+        type: object
+        additionalProperties:
+          type: string
+      status:
+        description: '"draft" or "submitted"'
+        type: string
+      submitted_at:
+        type: string
+      updated_at:
+        type: string
+  models.SupplierExtendExpiryRequest:
+    type: object
+    properties:
+      expiry_days:
+        description: Number of days from now until the request expires (1-30, default 7)
+        type: integer
+securityDefinitions:
+  BearerAuth:
+    description: 'Firebase JWT token. Format: "Bearer {token}"'
+    type: apiKey
+    name: Authorization
+    in: header

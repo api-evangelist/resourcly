@@ -1,0 +1,81 @@
+swagger: '2.0'
+info:
+  description: API for document processing, item similarity search, and analytics.
+  title: Resourcly analytics feedback API
+  termsOfService: https://resourcly.com/terms
+  contact:
+    name: API Support
+    email: support@resourcly.com
+  license:
+    name: Proprietary
+  version: 1.0.0
+host: api.resourcly.com
+basePath: /v1
+tags:
+- name: feedback
+paths:
+  /v1/feedback:
+    post:
+      description: Accepts a multipart form with title, description, email, and optional images.
+      consumes:
+      - multipart/form-data
+      produces:
+      - application/json
+      tags:
+      - feedback
+      summary: Submit a bug report
+      parameters:
+      - type: string
+        description: Bug report title
+        name: title
+        in: formData
+        required: true
+      - type: string
+        description: Bug report description
+        name: description
+        in: formData
+        required: true
+      - type: string
+        description: Contact email
+        name: email
+        in: formData
+        required: true
+      - type: file
+        description: Screenshot images (multiple allowed)
+        name: images
+        in: formData
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/services.FeedbackResponse'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+definitions:
+  services.FeedbackResponse:
+    type: object
+    properties:
+      linear_issue_id:
+        type: string
+      linear_issue_url:
+        type: string
+  models.ErrorResponse:
+    type: object
+    properties:
+      code:
+        type: string
+      details: {}
+      error:
+        type: string
+securityDefinitions:
+  BearerAuth:
+    description: 'Firebase JWT token. Format: "Bearer {token}"'
+    type: apiKey
+    name: Authorization
+    in: header

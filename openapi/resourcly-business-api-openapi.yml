@@ -1,0 +1,90 @@
+swagger: '2.0'
+info:
+  description: API for document processing, item similarity search, and analytics.
+  title: Resourcly analytics business API
+  termsOfService: https://resourcly.com/terms
+  contact:
+    name: API Support
+    email: support@resourcly.com
+  license:
+    name: Proprietary
+  version: 1.0.0
+host: api.resourcly.com
+basePath: /v1
+tags:
+- name: business
+paths:
+  /business/dev-features:
+    get:
+      security:
+      - BearerAuth: []
+      description: Returns the feature flags enabled for the authenticated user's business.
+      produces:
+      - application/json
+      tags:
+      - business
+      summary: Get business feature flags
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/handlers.BusinessDevFeatures'
+        '401':
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+  /business/features:
+    get:
+      security:
+      - BearerAuth: []
+      description: Returns a map of feature -> enabled for the authenticated user's business.
+      produces:
+      - application/json
+      tags:
+      - business
+      summary: Get business features
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              type: string
+        '401':
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+definitions:
+  models.ErrorResponse:
+    type: object
+    properties:
+      code:
+        type: string
+      details: {}
+      error:
+        type: string
+  handlers.BusinessDevFeatures:
+    type: object
+    properties:
+      bom_artifacts:
+        description: 'BomArtifacts gates the conversational BOM Artifacts feature (portal
+
+          sidebar section + rag-agent endpoints). Enabled per-business via the admin
+
+          dev-features endpoint; consumed by the frontend''s useBusinessDevFeatures.'
+        type: boolean
+      bom_raw_import:
+        description: 'BomRawImport gates the dynamic BOM import (import every column as-is into
+
+          a first-class raw structure, no static mapping). Same flag the gateway
+
+          import handler checks server-side.'
+        type: boolean
+      model_extraction:
+        type: boolean
+securityDefinitions:
+  BearerAuth:
+    description: 'Firebase JWT token. Format: "Bearer {token}"'
+    type: apiKey
+    name: Authorization
+    in: header

@@ -1,0 +1,511 @@
+swagger: '2.0'
+info:
+  description: API for document processing, item similarity search, and analytics.
+  title: Resourcly analytics storage API
+  termsOfService: https://resourcly.com/terms
+  contact:
+    name: API Support
+    email: support@resourcly.com
+  license:
+    name: Proprietary
+  version: 1.0.0
+host: api.resourcly.com
+basePath: /v1
+tags:
+- name: storage
+paths:
+  /storage/download-url:
+    get:
+      security:
+      - BearerAuth: []
+      description: Returns a V4 signed GET URL for the file. By default the URL forces a download (Content-Disposition attachment); with disposition=inline it renders in the browser with the object's own Content-Type (used for previews).
+      produces:
+      - application/json
+      tags:
+      - storage
+      summary: Get download URL
+      parameters:
+      - type: string
+        description: Leaf business node ID
+        name: business_node_id
+        in: query
+        required: true
+      - type: string
+        description: Node-relative file key
+        name: key
+        in: query
+        required: true
+      - type: string
+        description: \
+        name: disposition
+        in: query
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/models.StorageDownloadURLResponse'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '401':
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '403':
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+  /storage/folders:
+    post:
+      security:
+      - BearerAuth: []
+      description: Creates an empty folder (zero-byte placeholder object) in the given directory of the business node's storage space. Refused with 409 inside folders synced from an external data source.
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      tags:
+      - storage
+      summary: Create folder
+      parameters:
+      - description: Parent path and folder name
+        name: request
+        in: body
+        required: true
+        schema:
+          $ref: '#/definitions/models.StorageCreateFolderRequest'
+      responses:
+        '201':
+          description: Created
+          schema:
+            $ref: '#/definitions/models.StorageCreateFolderResponse'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '401':
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '403':
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '409':
+          description: Conflict
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+  /storage/list:
+    get:
+      security:
+      - BearerAuth: []
+      description: Lists one level of files and folders in the business node's storage space. Page through with page_token; an empty next_page_token means the level is exhausted. Folder keys can repeat across pages and should be deduped client-side.
+      produces:
+      - application/json
+      tags:
+      - storage
+      summary: List storage directory
+      parameters:
+      - type: string
+        description: Leaf business node ID (root of the storage space)
+        name: business_node_id
+        in: query
+        required: true
+      - type: string
+        description: Directory path relative to the node root (empty = root)
+        name: path
+        in: query
+      - type: string
+        description: Opaque page token from a previous response
+        name: page_token
+        in: query
+      - type: integer
+        description: Items per page (default 200, max 1000)
+        name: page_size
+        in: query
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/models.StorageListResponse'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '401':
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '403':
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+  /storage/objects:
+    delete:
+      security:
+      - BearerAuth: []
+      description: Deletes a single file, or every object under a folder key. Type must be "file" or "folder". Deleting a folder synced from an external data source (or a folder containing one) also disconnects that data source; items INSIDE a synced folder cannot be deleted (409), and deletion is refused with 409 while an affected sync is running.
+      produces:
+      - application/json
+      tags:
+      - storage
+      summary: Delete file or folder
+      parameters:
+      - type: string
+        description: Leaf business node ID
+        name: business_node_id
+        in: query
+        required: true
+      - type: string
+        description: Node-relative key (folder keys may end with /)
+        name: key
+        in: query
+        required: true
+      - type: string
+        description: \
+        name: type
+        in: query
+        required: true
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/models.StorageDeleteResponse'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '401':
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '403':
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '409':
+          description: Conflict
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+  /storage/paste:
+    post:
+      security:
+      - BearerAuth: []
+      description: Copies or moves a batch of files/folders (siblings from one folder level) into a destination directory, optionally in a different accessible business node. Both modes resolve name collisions with numeric " (2)" suffixes — nothing is overwritten. Moving a folder into itself or its own subtree is rejected. Nothing can be pasted INTO a folder synced from an external data source, and items inside a synced folder can be copied out but not moved (409). Partial failures return 200 with a failed list.
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      tags:
+      - storage
+      summary: Paste (copy/move) items
+      parameters:
+      - description: Source/destination nodes, path, mode and items
+        name: request
+        in: body
+        required: true
+        schema:
+          $ref: '#/definitions/models.StoragePasteRequest'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/models.StoragePasteResponse'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '401':
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '403':
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '409':
+          description: Conflict
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+  /storage/prepare-upload:
+    post:
+      security:
+      - BearerAuth: []
+      description: 'Returns the key an upload should use for the given file — unchanged when free, numerically suffixed ("a.pdf" → "a (2).pdf") when the name is already taken — plus a V4 signed PUT URL for exactly that key. PUT the file body to upload_url sending upload_headers verbatim: they carry an if-generation-match precondition (412 if the object appeared meanwhile — re-resolve and retry) and a content-length-range that GCS enforces on the actual received bytes (400 when over max_size_bytes). Called once per file right before its upload. Refused with 409 inside folders synced from an external data source.'
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      tags:
+      - storage
+      summary: Prepare upload
+      parameters:
+      - description: Target directory and relative file key
+        name: request
+        in: body
+        required: true
+        schema:
+          $ref: '#/definitions/models.StoragePrepareUploadRequest'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/models.StoragePrepareUploadResponse'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '401':
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '403':
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '409':
+          description: Conflict
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+  /storage/rename:
+    put:
+      security:
+      - BearerAuth: []
+      description: Moves a file or folder (copy + delete) to a new key within the same business node. A folder move relocates every object under its prefix; the destination must not be inside the source, and a destination name that already exists is rejected with 409. Items inside a folder synced from an external data source cannot be renamed or moved, and nothing can move into one (409); renaming or moving the synced folder itself (or an ancestor) keeps its connection pointed at the new location.
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      tags:
+      - storage
+      summary: Rename or move
+      parameters:
+      - description: Source and destination keys
+        name: request
+        in: body
+        required: true
+        schema:
+          $ref: '#/definitions/models.StorageRenameRequest'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/models.StorageRenameResponse'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '401':
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '403':
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '409':
+          description: Conflict
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+definitions:
+  models.StorageListResponse:
+    type: object
+    properties:
+      items:
+        type: array
+        items:
+          $ref: '#/definitions/models.StorageItem'
+      next_page_token:
+        type: string
+      path:
+        type: string
+      path_shared:
+        description: dir is a shared folder or inside one (owner badge)
+        type: boolean
+      path_synced:
+        type: boolean
+  models.StorageRenameResponse:
+    type: object
+    properties:
+      moved:
+        type: integer
+  models.StoragePasteResponse:
+    type: object
+    properties:
+      failed:
+        type: array
+        items:
+          $ref: '#/definitions/models.StoragePasteError'
+      objects:
+        type: integer
+      pasted:
+        type: integer
+  models.StorageItem:
+    type: object
+    properties:
+      contains_synced:
+        description: normal folder with synced folder(s) beneath it
+        type: boolean
+      content_type:
+        type: string
+      key:
+        type: string
+      last_modified:
+        type: string
+      name:
+        type: string
+      shared_root:
+        description: folder has an active shared-storage share (owner-side badge)
+        type: boolean
+      size:
+        type: integer
+      synced:
+        description: item is a synced folder or inside one
+        type: boolean
+      synced_root:
+        description: item IS a synced folder
+        type: boolean
+      type:
+        description: '"file" or "folder"'
+        type: string
+  models.StoragePrepareUploadResponse:
+    type: object
+    properties:
+      key:
+        type: string
+      max_size_bytes:
+        type: integer
+      upload_headers:
+        type: object
+        additionalProperties:
+          type: string
+      upload_url:
+        type: string
+  models.StorageRenameRequest:
+    type: object
+    properties:
+      business_node_id:
+        type: string
+      destination_key:
+        type: string
+      source_key:
+        type: string
+      type:
+        type: string
+  models.StorageDownloadURLResponse:
+    type: object
+    properties:
+      url:
+        type: string
+  models.StorageCreateFolderResponse:
+    type: object
+    properties:
+      key:
+        type: string
+  models.StoragePrepareUploadRequest:
+    type: object
+    properties:
+      business_node_id:
+        type: string
+      key:
+        type: string
+      path:
+        type: string
+  models.StorageDeleteResponse:
+    type: object
+    properties:
+      deleted:
+        type: integer
+  models.StorageCreateFolderRequest:
+    type: object
+    properties:
+      business_node_id:
+        type: string
+      name:
+        type: string
+      path:
+        type: string
+  models.ErrorResponse:
+    type: object
+    properties:
+      code:
+        type: string
+      details: {}
+      error:
+        type: string
+  models.StoragePasteItem:
+    type: object
+    properties:
+      key:
+        type: string
+      type:
+        type: string
+  models.StoragePasteError:
+    type: object
+    properties:
+      key:
+        type: string
+      message:
+        type: string
+  models.StoragePasteRequest:
+    type: object
+    properties:
+      destination_business_node_id:
+        type: string
+      destination_path:
+        type: string
+      items:
+        type: array
+        items:
+          $ref: '#/definitions/models.StoragePasteItem'
+      mode:
+        type: string
+      source_business_node_id:
+        type: string
+securityDefinitions:
+  BearerAuth:
+    description: 'Firebase JWT token. Format: "Bearer {token}"'
+    type: apiKey
+    name: Authorization
+    in: header

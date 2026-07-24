@@ -1,0 +1,184 @@
+swagger: '2.0'
+info:
+  description: API for document processing, item similarity search, and analytics.
+  title: Resourcly analytics upload API
+  termsOfService: https://resourcly.com/terms
+  contact:
+    name: API Support
+    email: support@resourcly.com
+  license:
+    name: Proprietary
+  version: 1.0.0
+host: api.resourcly.com
+basePath: /v1
+tags:
+- name: upload
+paths:
+  /upload/analyze:
+    post:
+      security:
+      - BearerAuth: []
+      description: Detects whether a file is ERP or BOM and suggests column mappings based on headers and sample rows.
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      tags:
+      - upload
+      summary: Analyze spreadsheet columns with AI
+      parameters:
+      - description: Headers and sample rows
+        name: body
+        in: body
+        required: true
+        schema:
+          $ref: '#/definitions/handlers.AnalyzeColumnsRequest'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/services.UploadAnalysisResult'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '401':
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+definitions:
+  handlers.AnalyzeColumnsRequest:
+    type: object
+    properties:
+      force_file_type:
+        description: 'ForceFileType optionally overrides AI auto-detection ("erp" or "bom").
+
+          When set, the file is classified as that type and only that type''s
+
+          column mappings are populated. Empty means auto-detect.'
+        type: string
+      headers:
+        type: array
+        items:
+          type: string
+      sample_rows:
+        type: array
+        items:
+          type: array
+          items:
+            type: string
+  models.ERPAttributeMapping:
+    type: object
+    properties:
+      label:
+        description: human-friendly display name (AI-suggested, user-editable)
+        type: string
+      source_column:
+        description: exact header text in the uploaded file == metadata key
+        type: string
+      type:
+        description: '"string" | "number" (display/format hint)'
+        type: string
+  services.UploadAnalysisResult:
+    type: object
+    properties:
+      columns:
+        description: Columns contains the suggested column mapping.
+        allOf:
+        - $ref: '#/definitions/services.UploadColumnMapping'
+      confidence:
+        description: Confidence is a value between 0 and 1 indicating how confident the AI is.
+        type: number
+      file_type:
+        description: FileType is "erp", "bom", or "unknown".
+        type: string
+      reasoning:
+        description: Reasoning explains why the AI chose this classification.
+        type: string
+      suggested_levels:
+        description: 'SuggestedLevels contains the computed hierarchy levels for sample rows
+
+          when hierarchy_type is "teamcenter_traversal". Index aligns with sample_rows.'
+        type: array
+        items:
+          type: integer
+  services.UploadColumnMapping:
+    type: object
+    properties:
+      attributes:
+        description: 'Attributes holds every remaining ERP column (dynamic import): each
+
+          spreadsheet column that is NOT one of the first-class ERP fields above,
+
+          so it can be labeled by the AI, edited by the user, and preserved.'
+        type: array
+        items:
+          $ref: '#/definitions/models.ERPAttributeMapping'
+      description_column:
+        type: string
+      description_columns:
+        type: array
+        items:
+          type: string
+      find_no_column:
+        description: 'FindNoColumn is the column containing Find Number (position within parent).
+
+          Used by teamcenter_traversal.'
+        type: string
+      hierarchy_pattern:
+        description: 'HierarchyPattern is a regex to extract the level from the hierarchy source column.
+
+          Used when hierarchy_type is "embedded_level" or "dot_notation".'
+        type: string
+      hierarchy_source_column:
+        description: HierarchySourceColumn is the column that contains the embedded hierarchy info.
+        type: string
+      hierarchy_type:
+        description: 'Hierarchy detection
+
+          HierarchyType: "none", "level_column", "embedded_level", "parent_reference", "dot_notation", "teamcenter_traversal"'
+        type: string
+      level_column:
+        type: string
+      manufacturer_column:
+        type: string
+      parent_column:
+        type: string
+      part_number_column:
+        description: BOM-specific columns
+        type: string
+      primary_identifier_column:
+        description: ERP-specific columns
+        type: string
+      purchase_price_column:
+        type: string
+      purchase_quantity_column:
+        type: string
+      quantity_column:
+        type: string
+      secondary_identifier_column:
+        type: string
+      supplier_name_column:
+        type: string
+      supplier_number_column:
+        type: string
+      unit_column:
+        type: string
+  models.ErrorResponse:
+    type: object
+    properties:
+      code:
+        type: string
+      details: {}
+      error:
+        type: string
+securityDefinitions:
+  BearerAuth:
+    description: 'Firebase JWT token. Format: "Bearer {token}"'
+    type: apiKey
+    name: Authorization
+    in: header
