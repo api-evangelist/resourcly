@@ -1,0 +1,9 @@
+generated: '2026-07-20'
+method: searched
+source: openapi/resourcly-openapi-original.json
+scheme: in-product release notes
+current_version: 1.0.0
+source_operation: GET /v1/release-notes
+note: Resourcly ships release notes through the authenticated API (GET /v1/release-notes, models.CustomerChangelogResponse).
+  No public dated changelog page is published, so no entries[] are captured to avoid fabrication.
+entries: []

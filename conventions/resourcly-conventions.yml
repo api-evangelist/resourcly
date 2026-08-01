@@ -1,0 +1,42 @@
+generated: '2026-07-20'
+method: derived
+source: openapi/resourcly-openapi-original.json
+authentication:
+  style: Firebase JWT bearer token
+  header: Authorization
+  format: Bearer {token}
+  ref: authentication/resourcly-authentication.yml
+pagination:
+  style: mixed
+  note: Different endpoint families use different pagination params; no single convention.
+  variants:
+  - params:
+    - limit
+    - offset
+    example: GET /items
+  - params:
+    - page
+    - page_size
+    example: GET /documents, GET /boms
+  - params:
+    - page_token
+    - limit
+    example: cursor-style listing on drive/storage endpoints
+idempotency:
+  supported: false
+  note: No idempotency-key header or parameter is documented in the spec.
+rate_limiting:
+  signaled: true
+  note: HTTP 429 Too Many Requests is a documented response on select endpoints; no rate-limit response
+    headers are documented in the spec.
+error_envelope:
+  ref: errors/resourcly-problem-types.yml
+  documented_schema: models.ErrorResponse {code, error, details}
+  observed_gateway: '{error, status, message}'
+versioning:
+  scheme: uri-path
+  current: v1
+  base: https://api.resourcly.com/v1
+multitenancy:
+  note: Many list endpoints accept business_node_id / business_node_ids to scope results to a tenant business
+    node.

@@ -1,25 +1,413 @@
 aid: resourcly
 name: Resourcly
-description: Resourcly is a company surfaced as a portfolio company of techstars and added to the API
-  Evangelist network as a stub for enrichment. This profile is a lead awaiting the enrichment pipeline.
+description: >-
+  Resourcly is an AI-powered platform for deep inventory optimisation across
+  manufacturing. It harmonises fragmented PLM and ERP parts data, finds duplicate
+  and substitute parts through similarity and visual search, and turns that
+  reconciled inventory core into working-capital and part-availability gains.
+  The platform ingests documents, BOMs, ERP inventory files and supplier
+  catalogs, runs AI-driven similarity clustering, price and should-cost analysis,
+  HS-code classification and BOM comparison, and surfaces procurement
+  recommendations. A public REST API (Swagger 2.0, Firebase-JWT authenticated)
+  exposes documents, items, inventory, BOMs, suppliers, storage, search and
+  analytics operations. Resourcly is a Techstars-backed company.
 url: https://raw.githubusercontent.com/api-evangelist/resourcly/refs/heads/main/apis.yml
 x-type: company
 x-source: vc-portfolio
 x-backed-by:
 - techstars
-x-tier: stub
-x-tier-reason: portfolio-lead
+x-tier: enriched
+x-tier-reason: portfolio-lead-with-api
+accessModel:
+  pricing: unknown
+  onboarding: self-serve
+  trial: false
+  try_now: false
+  public: false
+  label: Self-serve signup
+  confidence: medium
+  source:
+  - authentication
+  generated: '2026-07-22'
+  method: derived
 specificationVersion: '0.20'
 created: '2026-07-17'
-modified: '2026-07-17'
+modified: '2026-07-20'
+image: https://resourcly.com/icon.png
 tags:
 - Company
-apis: []
+- Manufacturing
+- Inventory Optimization
+- PLM
+- ERP
+- Procurement
+- Supply Chain
+- Artificial Intelligence
+- Data Harmonization
+- Similarity Search
+- BOM
+apis:
+- aid: resourcly:resourcly-analytics-api
+  name: Resourcly analytics API
+  description: The analytics API from Resourcly — 7 operation(s) for analytics.
+  humanURL: https://api.resourcly.com/docs/
+  baseURL: https://api.resourcly.com/v1
+  tags:
+  - analytics
+  properties:
+  - type: OpenAPI
+    url: openapi/resourcly-analytics-api-openapi.yml
+  - type: Documentation
+    url: https://api.resourcly.com/docs/
+  - type: APIReference
+    url: https://api.resourcly.com/docs/
+- aid: resourcly:resourcly-auth-api
+  name: Resourcly auth API
+  description: The auth API from Resourcly — 1 operation(s) for auth.
+  humanURL: https://api.resourcly.com/docs/
+  baseURL: https://api.resourcly.com/v1
+  tags:
+  - auth
+  properties:
+  - type: OpenAPI
+    url: openapi/resourcly-auth-api-openapi.yml
+  - type: Documentation
+    url: https://api.resourcly.com/docs/
+  - type: APIReference
+    url: https://api.resourcly.com/docs/
+- aid: resourcly:resourcly-bom-comparisons-api
+  name: Resourcly bom-comparisons API
+  description: The bom-comparisons API from Resourcly — 4 operation(s) for bom-comparisons.
+  humanURL: https://api.resourcly.com/docs/
+  baseURL: https://api.resourcly.com/v1
+  tags:
+  - bom-comparisons
+  properties:
+  - type: OpenAPI
+    url: openapi/resourcly-bom-comparisons-api-openapi.yml
+  - type: Documentation
+    url: https://api.resourcly.com/docs/
+  - type: APIReference
+    url: https://api.resourcly.com/docs/
+- aid: resourcly:resourcly-boms-api
+  name: Resourcly boms API
+  description: The boms API from Resourcly — 8 operation(s) for boms.
+  humanURL: https://api.resourcly.com/docs/
+  baseURL: https://api.resourcly.com/v1
+  tags:
+  - boms
+  properties:
+  - type: OpenAPI
+    url: openapi/resourcly-boms-api-openapi.yml
+  - type: Documentation
+    url: https://api.resourcly.com/docs/
+  - type: APIReference
+    url: https://api.resourcly.com/docs/
+- aid: resourcly:resourcly-business-api
+  name: Resourcly business API
+  description: The business API from Resourcly — 2 operation(s) for business.
+  humanURL: https://api.resourcly.com/docs/
+  baseURL: https://api.resourcly.com/v1
+  tags:
+  - business
+  properties:
+  - type: OpenAPI
+    url: openapi/resourcly-business-api-openapi.yml
+  - type: Documentation
+    url: https://api.resourcly.com/docs/
+  - type: APIReference
+    url: https://api.resourcly.com/docs/
+- aid: resourcly:resourcly-datasources-api
+  name: Resourcly datasources API
+  description: The datasources API from Resourcly — 11 operation(s) for datasources.
+  humanURL: https://api.resourcly.com/docs/
+  baseURL: https://api.resourcly.com/v1
+  tags:
+  - datasources
+  properties:
+  - type: OpenAPI
+    url: openapi/resourcly-datasources-api-openapi.yml
+  - type: Documentation
+    url: https://api.resourcly.com/docs/
+  - type: APIReference
+    url: https://api.resourcly.com/docs/
+- aid: resourcly:resourcly-documents-api
+  name: Resourcly documents API
+  description: The documents API from Resourcly — 4 operation(s) for documents.
+  humanURL: https://api.resourcly.com/docs/
+  baseURL: https://api.resourcly.com/v1
+  tags:
+  - documents
+  properties:
+  - type: OpenAPI
+    url: openapi/resourcly-documents-api-openapi.yml
+  - type: Documentation
+    url: https://api.resourcly.com/docs/
+  - type: APIReference
+    url: https://api.resourcly.com/docs/
+- aid: resourcly:resourcly-drive-api
+  name: Resourcly drive API
+  description: The drive API from Resourcly — 10 operation(s) for drive.
+  humanURL: https://api.resourcly.com/docs/
+  baseURL: https://api.resourcly.com/v1
+  tags:
+  - drive
+  properties:
+  - type: OpenAPI
+    url: openapi/resourcly-drive-api-openapi.yml
+  - type: Documentation
+    url: https://api.resourcly.com/docs/
+  - type: APIReference
+    url: https://api.resourcly.com/docs/
+- aid: resourcly:resourcly-duplicates-api
+  name: Resourcly duplicates API
+  description: The duplicates API from Resourcly — 1 operation(s) for duplicates.
+  humanURL: https://api.resourcly.com/docs/
+  baseURL: https://api.resourcly.com/v1
+  tags:
+  - duplicates
+  properties:
+  - type: OpenAPI
+    url: openapi/resourcly-duplicates-api-openapi.yml
+  - type: Documentation
+    url: https://api.resourcly.com/docs/
+  - type: APIReference
+    url: https://api.resourcly.com/docs/
+- aid: resourcly:resourcly-email-api
+  name: Resourcly email API
+  description: The email API from Resourcly — 1 operation(s) for email.
+  humanURL: https://api.resourcly.com/docs/
+  baseURL: https://api.resourcly.com/v1
+  tags:
+  - email
+  properties:
+  - type: OpenAPI
+    url: openapi/resourcly-email-api-openapi.yml
+  - type: Documentation
+    url: https://api.resourcly.com/docs/
+  - type: APIReference
+    url: https://api.resourcly.com/docs/
+- aid: resourcly:resourcly-feedback-api
+  name: Resourcly feedback API
+  description: The feedback API from Resourcly — 1 operation(s) for feedback.
+  humanURL: https://api.resourcly.com/docs/
+  baseURL: https://api.resourcly.com/v1
+  tags:
+  - feedback
+  properties:
+  - type: OpenAPI
+    url: openapi/resourcly-feedback-api-openapi.yml
+  - type: Documentation
+    url: https://api.resourcly.com/docs/
+  - type: APIReference
+    url: https://api.resourcly.com/docs/
+- aid: resourcly:resourcly-health-api
+  name: Resourcly health API
+  description: The health API from Resourcly — 3 operation(s) for health.
+  humanURL: https://api.resourcly.com/docs/
+  baseURL: https://api.resourcly.com/v1
+  tags:
+  - health
+  properties:
+  - type: OpenAPI
+    url: openapi/resourcly-health-api-openapi.yml
+  - type: Documentation
+    url: https://api.resourcly.com/docs/
+  - type: APIReference
+    url: https://api.resourcly.com/docs/
+- aid: resourcly:resourcly-imports-api
+  name: Resourcly imports API
+  description: The imports API from Resourcly — 6 operation(s) for imports.
+  humanURL: https://api.resourcly.com/docs/
+  baseURL: https://api.resourcly.com/v1
+  tags:
+  - imports
+  properties:
+  - type: OpenAPI
+    url: openapi/resourcly-imports-api-openapi.yml
+  - type: Documentation
+    url: https://api.resourcly.com/docs/
+  - type: APIReference
+    url: https://api.resourcly.com/docs/
+- aid: resourcly:resourcly-inventory-api
+  name: Resourcly inventory API
+  description: The inventory API from Resourcly — 10 operation(s) for inventory.
+  humanURL: https://api.resourcly.com/docs/
+  baseURL: https://api.resourcly.com/v1
+  tags:
+  - inventory
+  properties:
+  - type: OpenAPI
+    url: openapi/resourcly-inventory-api-openapi.yml
+  - type: Documentation
+    url: https://api.resourcly.com/docs/
+  - type: APIReference
+    url: https://api.resourcly.com/docs/
+- aid: resourcly:resourcly-items-api
+  name: Resourcly Items API
+  description: The Items API from Resourcly — 15 operation(s) for items.
+  humanURL: https://api.resourcly.com/docs/
+  baseURL: https://api.resourcly.com/v1
+  tags:
+  - Items
+  properties:
+  - type: OpenAPI
+    url: openapi/resourcly-items-api-openapi.yml
+  - type: Documentation
+    url: https://api.resourcly.com/docs/
+  - type: APIReference
+    url: https://api.resourcly.com/docs/
+- aid: resourcly:resourcly-release-notes-api
+  name: Resourcly release-notes API
+  description: The release-notes API from Resourcly — 1 operation(s) for release-notes.
+  humanURL: https://api.resourcly.com/docs/
+  baseURL: https://api.resourcly.com/v1
+  tags:
+  - release-notes
+  properties:
+  - type: OpenAPI
+    url: openapi/resourcly-release-notes-api-openapi.yml
+  - type: Documentation
+    url: https://api.resourcly.com/docs/
+  - type: APIReference
+    url: https://api.resourcly.com/docs/
+- aid: resourcly:resourcly-search-api
+  name: Resourcly search API
+  description: The search API from Resourcly — 5 operation(s) for search.
+  humanURL: https://api.resourcly.com/docs/
+  baseURL: https://api.resourcly.com/v1
+  tags:
+  - search
+  properties:
+  - type: OpenAPI
+    url: openapi/resourcly-search-api-openapi.yml
+  - type: Documentation
+    url: https://api.resourcly.com/docs/
+  - type: APIReference
+    url: https://api.resourcly.com/docs/
+- aid: resourcly:resourcly-storage-api
+  name: Resourcly storage API
+  description: The storage API from Resourcly — 7 operation(s) for storage.
+  humanURL: https://api.resourcly.com/docs/
+  baseURL: https://api.resourcly.com/v1
+  tags:
+  - storage
+  properties:
+  - type: OpenAPI
+    url: openapi/resourcly-storage-api-openapi.yml
+  - type: Documentation
+    url: https://api.resourcly.com/docs/
+  - type: APIReference
+    url: https://api.resourcly.com/docs/
+- aid: resourcly:resourcly-supplier-data-requests-api
+  name: Resourcly supplier-data-requests API
+  description: >-
+    The supplier-data-requests API from Resourcly — 5 operation(s) for supplier-data-requests.
+  humanURL: https://api.resourcly.com/docs/
+  baseURL: https://api.resourcly.com/v1
+  tags:
+  - supplier-data-requests
+  properties:
+  - type: OpenAPI
+    url: openapi/resourcly-supplier-data-requests-api-openapi.yml
+  - type: Documentation
+    url: https://api.resourcly.com/docs/
+  - type: APIReference
+    url: https://api.resourcly.com/docs/
+- aid: resourcly:resourcly-supplier-portal-api
+  name: Resourcly supplier-portal API
+  description: The supplier-portal API from Resourcly — 5 operation(s) for supplier-portal.
+  humanURL: https://api.resourcly.com/docs/
+  baseURL: https://api.resourcly.com/v1
+  tags:
+  - supplier-portal
+  properties:
+  - type: OpenAPI
+    url: openapi/resourcly-supplier-portal-api-openapi.yml
+  - type: Documentation
+    url: https://api.resourcly.com/docs/
+  - type: APIReference
+    url: https://api.resourcly.com/docs/
+- aid: resourcly:resourcly-suppliers-api
+  name: Resourcly suppliers API
+  description: The suppliers API from Resourcly — 4 operation(s) for suppliers.
+  humanURL: https://api.resourcly.com/docs/
+  baseURL: https://api.resourcly.com/v1
+  tags:
+  - suppliers
+  properties:
+  - type: OpenAPI
+    url: openapi/resourcly-suppliers-api-openapi.yml
+  - type: Documentation
+    url: https://api.resourcly.com/docs/
+  - type: APIReference
+    url: https://api.resourcly.com/docs/
+- aid: resourcly:resourcly-upload-api
+  name: Resourcly upload API
+  description: The upload API from Resourcly — 1 operation(s) for upload.
+  humanURL: https://api.resourcly.com/docs/
+  baseURL: https://api.resourcly.com/v1
+  tags:
+  - upload
+  properties:
+  - type: OpenAPI
+    url: openapi/resourcly-upload-api-openapi.yml
+  - type: Documentation
+    url: https://api.resourcly.com/docs/
+  - type: APIReference
+    url: https://api.resourcly.com/docs/
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
 - FN: APIs.json
   email: info@apis.io
 common:
+- type: DomainSecurity
+  url: security/resourcly-domain-security.yml
+- type: AgenticAccess
+  url: agentic-access/resourcly-agentic-access.yml
+- type: Authentication
+  url: authentication/resourcly-authentication.yml
 - type: Website
-  url: https://resourcly.earth/
+  url: https://resourcly.com/
+- type: Documentation
+  url: https://api.resourcly.com/docs/
+- type: APIReference
+  url: https://api.resourcly.com/docs/
+- type: TermsOfService
+  url: https://resourcly.com/terms
+- type: PrivacyPolicy
+  url: https://resourcly.com/policy
+- type: TrustCenter
+  url: https://trust.resourcly.com/
+- type: Support
+  url: https://resourcly.com/contact
+- type: LinkedIn
+  url: https://www.linkedin.com/company/resourcly
+- type: Conventions
+  url: conventions/resourcly-conventions.yml
+- type: ErrorCatalog
+  url: errors/resourcly-problem-types.yml
+- type: DataModel
+  url: data-model/resourcly-data-model.yml
+- type: MCPServer
+  url: mcp/resourcly-mcp.yml
+- type: LLMsTxt
+  url: llms/resourcly-llms.txt
+- type: Overlay
+  url: overlays/resourcly-openapi-overlay.yaml
+- type: WellKnown
+  url: well-known/resourcly-well-known.yml
+- type: Lifecycle
+  url: lifecycle/resourcly-lifecycle.yml
+- type: ChangeLog
+  url: changelog/resourcly-changelog.yml
+- type: Conformance
+  url: conformance/resourcly-conformance.yml
+- type: AgentSkill
+  url: skills/_index.yml
+x-enrichment:
+  date: '2026-07-20'
+  status: enriched
+  artifacts_added: 17
+  pass: local-v1

@@ -1,0 +1,64 @@
+generated: '2026-07-20'
+method: derived
+source: openapi/resourcly-openapi-original.json
+format: custom
+envelope:
+  note: 'JSON error envelope. Documented schema models.ErrorResponse: {code, error, details}. Live gateway
+    4xx/5xx also observed as {error, status, message}.'
+  fields:
+  - code
+  - error
+  - details
+  - status
+  - message
+problems:
+- status: 400
+  title: Bad Request
+  description: Bad Request
+  occurrences: 81
+  example_operation: POST /analytics/price-regression/stream
+- status: 401
+  title: Unauthorized
+  description: Unauthorized
+  occurrences: 110
+  example_operation: GET /analytics/cost-summary
+- status: 403
+  title: Forbidden
+  description: Forbidden
+  occurrences: 17
+  example_operation: POST /datasources/unzip
+- status: 404
+  title: Not Found
+  description: Not Found
+  occurrences: 50
+  example_operation: GET /bom-comparisons/{id}
+- status: 409
+  title: Conflict
+  description: Conflict
+  occurrences: 9
+  example_operation: DELETE /boms/{id}/permanent
+- status: 413
+  title: Payload Too Large
+  description: Request Entity Too Large
+  occurrences: 1
+  example_operation: POST /analytics/price-regression/stream
+- status: 422
+  title: Unprocessable Entity
+  description: Unprocessable Entity
+  occurrences: 1
+  example_operation: POST /datasources/analyze-file
+- status: 429
+  title: Too Many Requests
+  description: Too Many Requests
+  occurrences: 3
+  example_operation: POST /datasources/import/bom
+- status: 500
+  title: Internal Server Error
+  description: Internal Server Error
+  occurrences: 75
+  example_operation: GET /analytics/cost-summary
+- status: 503
+  title: Service Unavailable
+  description: Service Unavailable
+  occurrences: 11
+  example_operation: GET /analytics/items/price-analysis

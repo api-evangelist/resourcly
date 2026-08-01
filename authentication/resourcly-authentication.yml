@@ -1,0 +1,16 @@
+generated: '2026-07-20'
+method: derived
+source: openapi/resourcly-openapi-original.json
+summary:
+  types:
+  - apiKey
+  api_key_in:
+  - header
+schemes:
+- name: BearerAuth
+  type: apiKey
+  in: header
+  parameter: Authorization
+  description: 'Firebase JWT token. Format: "Bearer {token}"'
+  sources:
+  - openapi/resourcly-openapi-original.json

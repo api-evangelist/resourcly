@@ -1,0 +1,27 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for Resourcly API
+  version: 1.0.0
+extends: openapi/resourcly-openapi-original.json
+actions:
+- target: $.info
+  update:
+    x-apievangelist-enriched: true
+    x-apievangelist-auth: firebase-jwt-bearer
+    x-apievangelist-artifacts:
+    - authentication
+    - conventions
+    - errors
+    - data-model
+    - mcp
+    - conformance
+    - lifecycle
+    - changelog
+    - llms
+    - skills
+    - agentic-access
+    - domain-security
+- target: $
+  update:
+    x-apievangelist-note: Overlay captures API Evangelist derived enhancements; the original Swagger 2.0
+      spec is unmodified.

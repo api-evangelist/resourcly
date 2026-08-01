@@ -1,0 +1,23 @@
+generated: '2026-07-20'
+method: searched
+host: https://resourcly.com
+note: Probed website + API hosts. No .well-known discovery documents are published.
+documents:
+- host: resourcly.com
+  path: /.well-known/security.txt
+  status: 404
+- host: resourcly.com
+  path: /.well-known/openid-configuration
+  status: 404
+- host: resourcly.com
+  path: /.well-known/oauth-authorization-server
+  status: 404
+- host: resourcly.com
+  path: /.well-known/api-catalog
+  status: 404
+- host: resourcly.com
+  path: /.well-known/ai-plugin.json
+  status: 404
+- host: api.resourcly.com
+  path: /.well-known/security.txt
+  status: 404

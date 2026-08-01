@@ -1,0 +1,24 @@
+# Resourcly
+
+> Resourcly is an AI-powered platform for deep inventory optimisation across manufacturing. It harmonises fragmented PLM and ERP parts data, finds duplicate and substitute parts via similarity and visual search, and turns a reconciled inventory core into working-capital and part-availability gains. The public REST API (Swagger 2.0, Firebase-JWT authenticated) covers documents, items, ERP inventory, BOMs, suppliers, storage, search and analytics.
+
+## APIs
+- [Resourcly API docs](https://api.resourcly.com/docs/): Swagger UI for the Resourcly REST API (base https://api.resourcly.com/v1)
+- [Resourcly API spec](openapi/resourcly-openapi-original.json): Swagger 2.0 definition, 112 paths / 121 operations
+
+## Specs & Artifacts
+- [Authentication profile](authentication/resourcly-authentication.yml): Firebase JWT bearer token
+- [API conventions](conventions/resourcly-conventions.yml): auth, pagination, error envelope, rate limiting
+- [Error catalog](errors/resourcly-problem-types.yml): derived 4xx/5xx problem types
+- [Data model](data-model/resourcly-data-model.yml): entity-relationship graph
+- [MCP tools (candidate)](mcp/resourcly-mcp.yml): one tool per operation
+- [Conformance](conformance/resourcly-conformance.yml): standards assertions
+- [Lifecycle](lifecycle/resourcly-lifecycle.yml): versioning, release notes
+- [Agentic access](agentic-access/resourcly-agentic-access.yml): per-operation agent execution contracts
+
+## Docs
+- [Product](https://resourcly.com/product): platform overview
+- [Terms of Service](https://resourcly.com/terms)
+- [Privacy Policy](https://resourcly.com/policy)
+- [Trust Center](https://trust.resourcly.com/)
+- [Contact / Support](https://resourcly.com/contact)

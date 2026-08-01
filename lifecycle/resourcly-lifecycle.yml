@@ -1,0 +1,19 @@
+generated: '2026-07-20'
+method: searched
+source: openapi/resourcly-openapi-original.json
+versioning:
+  scheme: uri-path
+  current: v1
+  base: https://api.resourcly.com/v1
+release_notes:
+  in_product: true
+  api_operation: GET /v1/release-notes
+  note: '"What''s new" release notes are exposed via the API; no public dated changelog page was found.'
+deprecation:
+  policy_url: null
+  sunset_header: false
+  note: No deprecation policy or Sunset/Deprecation header support documented.
+status_page: null
+trust_center: https://trust.resourcly.com/
+terms_of_service: https://resourcly.com/terms
+deprecated_operations: []

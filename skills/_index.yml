@@ -1,0 +1,34 @@
+generated: '2026-07-20'
+method: generated
+api: openapi/resourcly-openapi-original.json
+skills:
+- file: resourcly-find-duplicate-parts.md
+  name: Find duplicate and similar parts
+  api: openapi/resourcly-openapi-original.json
+  operations:
+  - 'GET /items'
+  - 'GET /items/similarity-clusters'
+  - 'GET /items/{id}/similar'
+  - 'GET /items/{id1}/compare/{id2}'
+  - 'GET /items/{id1}/compare/{id2}/ai-analysis'
+  - 'PUT /items/{id1}/comparison-status/{id2}'
+- file: resourcly-import-and-compare-boms.md
+  name: Import and compare BOMs
+  api: openapi/resourcly-openapi-original.json
+  operations:
+  - 'POST /boms/preview'
+  - 'POST /boms/import'
+  - 'GET /boms'
+  - 'POST /bom-comparisons'
+  - 'GET /bom-comparisons/{id}'
+  - 'GET /bom-comparisons/{id}/lines'
+  - 'GET /bom-comparisons/{id}/export'
+- file: resourcly-supplier-data-request.md
+  name: Request and review supplier data
+  api: openapi/resourcly-openapi-original.json
+  operations:
+  - 'POST /v1/email/supplier-data-request'
+  - 'GET /v1/supplier-data-requests'
+  - 'GET /v1/supplier-data-requests/{id}'
+  - 'POST /v1/supplier-data-requests/{id}/review'
+  - 'POST /v1/supplier-data-requests/{id}/extend-expiry'

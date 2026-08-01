@@ -1,0 +1,373 @@
+generated: '2026-07-20'
+method: derived
+status: candidate
+source: openapi/resourcly-openapi-original.json
+note: 'Candidate MCP tool list derived one-per-operation from the Resourcly Swagger 2.0 spec. No official
+  hosted MCP server was found. Auth: Firebase JWT bearer.'
+server:
+  name: resourcly
+  transport: http
+tools:
+- name: get_analytics_cost_summary
+  description: Get should-cost summary
+  source_operation: openapi/resourcly-openapi-original.json#GET /analytics/cost-summary
+- name: get_analytics_export_items_csv
+  description: Export items as CSV
+  source_operation: openapi/resourcly-openapi-original.json#GET /analytics/export/items/csv
+- name: get_analytics_export_procurement_xlsx
+  description: Export procurement recommendation report as XLSX
+  source_operation: openapi/resourcly-openapi-original.json#GET /analytics/export/procurement/xlsx
+- name: get_analytics_items_merged
+  description: List items linked to multiple source documents
+  source_operation: openapi/resourcly-openapi-original.json#GET /analytics/items/merged
+- name: get_analytics_items_price_analysis
+  description: Get item price analysis with similar items
+  source_operation: openapi/resourcly-openapi-original.json#GET /analytics/items/price-analysis
+- name: get_analytics_items_stats
+  description: Get item analytics statistics
+  source_operation: openapi/resourcly-openapi-original.json#GET /analytics/items/stats
+- name: create_analytics_price_regression_stream
+  description: Stream AI price regression analysis
+  source_operation: openapi/resourcly-openapi-original.json#POST /analytics/price-regression/stream
+- name: get_bom_comparisons
+  description: List BOM comparisons
+  source_operation: openapi/resourcly-openapi-original.json#GET /bom-comparisons
+- name: create_bom_comparisons
+  description: Create BOM comparison
+  source_operation: openapi/resourcly-openapi-original.json#POST /bom-comparisons
+- name: get_bom_comparisons_x
+  description: Get BOM comparison
+  source_operation: openapi/resourcly-openapi-original.json#GET /bom-comparisons/{id}
+- name: get_bom_comparisons_export
+  description: Export BOM comparison as XLSX
+  source_operation: openapi/resourcly-openapi-original.json#GET /bom-comparisons/{id}/export
+- name: get_bom_comparisons_lines
+  description: Get paginated BOM comparison lines
+  source_operation: openapi/resourcly-openapi-original.json#GET /bom-comparisons/{id}/lines
+- name: get_boms
+  description: List BOMs
+  source_operation: openapi/resourcly-openapi-original.json#GET /boms
+- name: create_boms_import
+  description: Import BOM from CSV/XLSX
+  source_operation: openapi/resourcly-openapi-original.json#POST /boms/import
+- name: create_boms_preview
+  description: Preview BOM file
+  source_operation: openapi/resourcly-openapi-original.json#POST /boms/preview
+- name: get_boms_x
+  description: Get BOM
+  source_operation: openapi/resourcly-openapi-original.json#GET /boms/{id}
+- name: delete_boms
+  description: Delete BOM
+  source_operation: openapi/resourcly-openapi-original.json#DELETE /boms/{id}
+- name: get_boms_deletion_preview
+  description: Preview permanent BOM deletion
+  source_operation: openapi/resourcly-openapi-original.json#GET /boms/{id}/deletion-preview
+- name: get_boms_lines
+  description: Get BOM lines (lazy tree loading)
+  source_operation: openapi/resourcly-openapi-original.json#GET /boms/{id}/lines
+- name: delete_boms_permanent
+  description: Permanently delete an archived BOM
+  source_operation: openapi/resourcly-openapi-original.json#DELETE /boms/{id}/permanent
+- name: get_boms_raw_rows
+  description: Get dynamic BOM raw rows
+  source_operation: openapi/resourcly-openapi-original.json#GET /boms/{id}/raw-rows
+- name: get_business_dev_features
+  description: Get business feature flags
+  source_operation: openapi/resourcly-openapi-original.json#GET /business/dev-features
+- name: get_business_features
+  description: Get business features
+  source_operation: openapi/resourcly-openapi-original.json#GET /business/features
+- name: get_datasources
+  description: List data sources
+  source_operation: openapi/resourcly-openapi-original.json#GET /datasources
+- name: create_datasources_analyze_file
+  description: Analyze a data-source spreadsheet
+  source_operation: openapi/resourcly-openapi-original.json#POST /datasources/analyze-file
+- name: create_datasources_import
+  description: Import from data sources
+  source_operation: openapi/resourcly-openapi-original.json#POST /datasources/import
+- name: create_datasources_import_preview
+  description: Preview a data-source import
+  source_operation: openapi/resourcly-openapi-original.json#POST /datasources/import-preview
+- name: get_datasources_import_preview
+  description: Browse a data-source import preview as a tree
+  source_operation: openapi/resourcly-openapi-original.json#GET /datasources/import-preview/{preview_id}
+- name: create_datasources_import_status
+  description: Get import status for data source files
+  source_operation: openapi/resourcly-openapi-original.json#POST /datasources/import-status
+- name: create_datasources_import_bom
+  description: Import BOM spreadsheets from data sources
+  source_operation: openapi/resourcly-openapi-original.json#POST /datasources/import/bom
+- name: create_datasources_import_erp
+  description: Import an ERP inventory spreadsheet from data sources
+  source_operation: openapi/resourcly-openapi-original.json#POST /datasources/import/erp
+- name: create_datasources_import_items
+  description: Import item documents from data sources (folder-mapping filtered)
+  source_operation: openapi/resourcly-openapi-original.json#POST /datasources/import/items
+- name: create_datasources_unzip
+  description: Unzip data source file
+  source_operation: openapi/resourcly-openapi-original.json#POST /datasources/unzip
+- name: get_datasources_url
+  description: Get download URL
+  source_operation: openapi/resourcly-openapi-original.json#GET /datasources/url
+- name: get_documents
+  description: List documents
+  source_operation: openapi/resourcly-openapi-original.json#GET /documents
+- name: get_documents_x
+  description: Get document
+  source_operation: openapi/resourcly-openapi-original.json#GET /documents/{id}
+- name: delete_documents
+  description: Delete document
+  source_operation: openapi/resourcly-openapi-original.json#DELETE /documents/{id}
+- name: get_documents_download
+  description: Download document
+  source_operation: openapi/resourcly-openapi-original.json#GET /documents/{id}/download
+- name: get_documents_url
+  description: Get document URL
+  source_operation: openapi/resourcly-openapi-original.json#GET /documents/{id}/url
+- name: get_health
+  description: Liveness probe
+  source_operation: openapi/resourcly-openapi-original.json#GET /health
+- name: get_imports
+  description: List import jobs
+  source_operation: openapi/resourcly-openapi-original.json#GET /imports
+- name: create_imports
+  description: Create import job
+  source_operation: openapi/resourcly-openapi-original.json#POST /imports
+- name: create_imports_validate
+  description: Validate upload paths against the folder mapping
+  source_operation: openapi/resourcly-openapi-original.json#POST /imports/validate
+- name: get_imports_x
+  description: Get import job
+  source_operation: openapi/resourcly-openapi-original.json#GET /imports/{id}
+- name: delete_imports
+  description: Delete import job
+  source_operation: openapi/resourcly-openapi-original.json#DELETE /imports/{id}
+- name: get_imports_documents
+  description: Get import documents
+  source_operation: openapi/resourcly-openapi-original.json#GET /imports/{id}/documents
+- name: create_imports_documents
+  description: Upload document to import
+  source_operation: openapi/resourcly-openapi-original.json#POST /imports/{id}/documents
+- name: delete_imports_documents
+  description: Delete import documents
+  source_operation: openapi/resourcly-openapi-original.json#DELETE /imports/{id}/documents
+- name: create_imports_rerun
+  description: Re-run import job
+  source_operation: openapi/resourcly-openapi-original.json#POST /imports/{id}/rerun
+- name: create_imports_retrigger
+  description: Retrigger import documents
+  source_operation: openapi/resourcly-openapi-original.json#POST /imports/{id}/retrigger
+- name: get_inventory_aggregates
+  description: Get ERP inventory aggregates
+  source_operation: openapi/resourcly-openapi-original.json#GET /inventory/aggregates
+- name: get_inventory_duplicates
+  description: Get Duplicate ERP Inventory Items
+  source_operation: openapi/resourcly-openapi-original.json#GET /inventory/duplicates/{id}/{identifier}
+- name: get_inventory_erp_items_by_identifier
+  description: Get ERP Inventory Items by primary_identifier
+  source_operation: openapi/resourcly-openapi-original.json#GET /inventory/erp-items/by-identifier/{identifier}
+- name: get_inventory_files
+  description: List ERP inventory files
+  source_operation: openapi/resourcly-openapi-original.json#GET /inventory/files
+- name: get_inventory_items
+  description: List ERP inventory items
+  source_operation: openapi/resourcly-openapi-original.json#GET /inventory/items
+- name: get_inventory_items_by_identifier
+  description: Get Item by primary_identifier
+  source_operation: openapi/resourcly-openapi-original.json#GET /inventory/items/by-identifier/{identifier}
+- name: get_inventory_items_part_number
+  description: Get Items by primary_identifier
+  source_operation: openapi/resourcly-openapi-original.json#GET /inventory/items/part-number
+- name: get_inventory_items_x
+  description: Get ERP Inventory Item by ID
+  source_operation: openapi/resourcly-openapi-original.json#GET /inventory/items/{id}
+- name: get_inventory_mapping_latest
+  description: Get most recent ERP inventory column mapping
+  source_operation: openapi/resourcly-openapi-original.json#GET /inventory/mapping/latest
+- name: create_inventory_upload
+  description: Upload ERP inventory XLSX
+  source_operation: openapi/resourcly-openapi-original.json#POST /inventory/upload
+- name: get_items
+  description: List items with pagination
+  source_operation: openapi/resourcly-openapi-original.json#GET /items
+- name: create_items_comparison_status_batch
+  description: Get comparison review statuses for multiple item pairs
+  source_operation: openapi/resourcly-openapi-original.json#POST /items/comparison-status/batch
+- name: get_items_similarity
+  description: List items by similarity score range
+  source_operation: openapi/resourcly-openapi-original.json#GET /items/similarity
+- name: get_items_similarity_clusters
+  description: List item clusters by AI classification
+  source_operation: openapi/resourcly-openapi-original.json#GET /items/similarity-clusters
+- name: get_items_similarity_counts
+  description: Get similarity out-degree counts for items
+  source_operation: openapi/resourcly-openapi-original.json#GET /items/similarity-counts
+- name: get_items_compare
+  description: Compare two items side-by-side
+  source_operation: openapi/resourcly-openapi-original.json#GET /items/{id1}/compare/{id2}
+- name: get_items_compare_ai_analysis
+  description: Get AI-powered engineering analysis for two items
+  source_operation: openapi/resourcly-openapi-original.json#GET /items/{id1}/compare/{id2}/ai-analysis
+- name: get_items_comparison_status
+  description: Get comparison review status for two items
+  source_operation: openapi/resourcly-openapi-original.json#GET /items/{id1}/comparison-status/{id2}
+- name: update_items_comparison_status
+  description: Update comparison review status for two items
+  source_operation: openapi/resourcly-openapi-original.json#PUT /items/{id1}/comparison-status/{id2}
+- name: get_items_x
+  description: Get item details
+  source_operation: openapi/resourcly-openapi-original.json#GET /items/{id}
+- name: delete_items_hs_code
+  description: Remove an item's HS code decision
+  source_operation: openapi/resourcly-openapi-original.json#DELETE /items/{id}/hs-code
+- name: create_items_hs_code_override
+  description: Overwrite an item's HS code
+  source_operation: openapi/resourcly-openapi-original.json#POST /items/{id}/hs-code/override
+- name: create_items_hs_code_verify
+  description: Verify an item's HS code
+  source_operation: openapi/resourcly-openapi-original.json#POST /items/{id}/hs-code/verify
+- name: get_items_similar
+  description: Get similar items
+  source_operation: openapi/resourcly-openapi-original.json#GET /items/{id}/similar
+- name: get_items_source_url
+  description: Get signed source document URL for an item
+  source_operation: openapi/resourcly-openapi-original.json#GET /items/{id}/source-url
+- name: get_items_visual_similar
+  description: Get visually similar items
+  source_operation: openapi/resourcly-openapi-original.json#GET /items/{id}/visual-similar
+- name: get_ready
+  description: Readiness probe
+  source_operation: openapi/resourcly-openapi-original.json#GET /ready
+- name: get_ready_detailed
+  description: Detailed readiness probe with pool stats
+  source_operation: openapi/resourcly-openapi-original.json#GET /ready/detailed
+- name: create_search
+  description: Unified search
+  source_operation: openapi/resourcly-openapi-original.json#POST /search
+- name: get_search_autocomplete
+  description: Autocomplete suggestions
+  source_operation: openapi/resourcly-openapi-original.json#GET /search/autocomplete
+- name: create_search_visual
+  description: Visual search
+  source_operation: openapi/resourcly-openapi-original.json#POST /search/visual
+- name: create_search_visual_images
+  description: Upload image for visual search
+  source_operation: openapi/resourcly-openapi-original.json#POST /search/visual/images
+- name: get_search_visual_images
+  description: Get search image metadata
+  source_operation: openapi/resourcly-openapi-original.json#GET /search/visual/images/{id}
+- name: get_storage_download_url
+  description: Get download URL
+  source_operation: openapi/resourcly-openapi-original.json#GET /storage/download-url
+- name: create_storage_folders
+  description: Create folder
+  source_operation: openapi/resourcly-openapi-original.json#POST /storage/folders
+- name: get_storage_list
+  description: List storage directory
+  source_operation: openapi/resourcly-openapi-original.json#GET /storage/list
+- name: delete_storage_objects
+  description: Delete file or folder
+  source_operation: openapi/resourcly-openapi-original.json#DELETE /storage/objects
+- name: create_storage_paste
+  description: Paste (copy/move) items
+  source_operation: openapi/resourcly-openapi-original.json#POST /storage/paste
+- name: create_storage_prepare_upload
+  description: Prepare upload
+  source_operation: openapi/resourcly-openapi-original.json#POST /storage/prepare-upload
+- name: update_storage_rename
+  description: Rename or move
+  source_operation: openapi/resourcly-openapi-original.json#PUT /storage/rename
+- name: create_suppliers_import
+  description: Import supplier catalog
+  source_operation: openapi/resourcly-openapi-original.json#POST /suppliers/import
+- name: get_suppliers_media
+  description: Get supplier media file
+  source_operation: openapi/resourcly-openapi-original.json#GET /suppliers/{id}/media/{filename}
+- name: get_suppliers_products
+  description: List supplier products
+  source_operation: openapi/resourcly-openapi-original.json#GET /suppliers/{id}/products
+- name: get_suppliers_products_count
+  description: Get supplier product count
+  source_operation: openapi/resourcly-openapi-original.json#GET /suppliers/{id}/products/count
+- name: create_upload_analyze
+  description: Analyze spreadsheet columns with AI
+  source_operation: openapi/resourcly-openapi-original.json#POST /upload/analyze
+- name: create_v1_auth_switch_environment
+  description: Switch environment
+  source_operation: openapi/resourcly-openapi-original.json#POST /v1/auth/switch-environment
+- name: get_v1_drive_browse
+  description: Browse the data store
+  source_operation: openapi/resourcly-openapi-original.json#GET /v1/drive/browse
+- name: create_v1_drive_download
+  description: Request download
+  source_operation: openapi/resourcly-openapi-original.json#POST /v1/drive/download
+- name: create_v1_drive_download_zip
+  description: Bulk download as ZIP
+  source_operation: openapi/resourcly-openapi-original.json#POST /v1/drive/download/zip
+- name: get_v1_drive_objects
+  description: Get object details
+  source_operation: openapi/resourcly-openapi-original.json#GET /v1/drive/objects/{id}
+- name: create_v1_drive_objects_restore
+  description: Restore object from cold storage
+  source_operation: openapi/resourcly-openapi-original.json#POST /v1/drive/objects/{id}/restore
+- name: create_v1_drive_search
+  description: Search the data store
+  source_operation: openapi/resourcly-openapi-original.json#POST /v1/drive/search
+- name: get_v1_drive_shared
+  description: Access shared content
+  source_operation: openapi/resourcly-openapi-original.json#GET /v1/drive/shared/{id}
+- name: get_v1_drive_shares
+  description: List share links
+  source_operation: openapi/resourcly-openapi-original.json#GET /v1/drive/shares
+- name: create_v1_drive_shares
+  description: Create a share link
+  source_operation: openapi/resourcly-openapi-original.json#POST /v1/drive/shares
+- name: delete_v1_drive_shares
+  description: Delete a share link
+  source_operation: openapi/resourcly-openapi-original.json#DELETE /v1/drive/shares/{id}
+- name: get_v1_drive_stats
+  description: Get storage statistics
+  source_operation: openapi/resourcly-openapi-original.json#GET /v1/drive/stats
+- name: create_v1_email_supplier_data_request
+  description: Send a supplier data request email
+  source_operation: openapi/resourcly-openapi-original.json#POST /v1/email/supplier-data-request
+- name: create_v1_feedback
+  description: Submit a bug report
+  source_operation: openapi/resourcly-openapi-original.json#POST /v1/feedback
+- name: update_v1_items_preferred
+  description: Mark an item as a preferred part
+  source_operation: openapi/resourcly-openapi-original.json#PUT /v1/items/{id}/preferred
+- name: get_v1_release_notes
+  description: List release notes (what's new)
+  source_operation: openapi/resourcly-openapi-original.json#GET /v1/release-notes
+- name: get_v1_supplier_data_requests
+  description: List supplier data requests
+  source_operation: openapi/resourcly-openapi-original.json#GET /v1/supplier-data-requests
+- name: get_v1_supplier_data_requests_x
+  description: Get supplier data request detail
+  source_operation: openapi/resourcly-openapi-original.json#GET /v1/supplier-data-requests/{id}
+- name: create_v1_supplier_data_requests_extend_expiry
+  description: Extend supplier request expiry
+  source_operation: openapi/resourcly-openapi-original.json#POST /v1/supplier-data-requests/{id}/extend-expiry
+- name: create_v1_supplier_data_requests_reset_passcode
+  description: Reset supplier request passcode
+  source_operation: openapi/resourcly-openapi-original.json#POST /v1/supplier-data-requests/{id}/reset-passcode
+- name: create_v1_supplier_data_requests_review
+  description: Review supplier response
+  source_operation: openapi/resourcly-openapi-original.json#POST /v1/supplier-data-requests/{id}/review
+- name: get_v1_supplier_request
+  description: Get supplier request details
+  source_operation: openapi/resourcly-openapi-original.json#GET /v1/supplier/request/{id}
+- name: delete_v1_supplier_request_files
+  description: Delete supplier response file
+  source_operation: openapi/resourcly-openapi-original.json#DELETE /v1/supplier/request/{id}/files/{fileId}
+- name: create_v1_supplier_request_respond
+  description: Save or submit supplier response
+  source_operation: openapi/resourcly-openapi-original.json#POST /v1/supplier/request/{id}/respond
+- name: create_v1_supplier_request_upload
+  description: Upload supplier response file
+  source_operation: openapi/resourcly-openapi-original.json#POST /v1/supplier/request/{id}/upload
+- name: create_v1_supplier_verify_passcode
+  description: Verify supplier passcode
+  source_operation: openapi/resourcly-openapi-original.json#POST /v1/supplier/verify-passcode

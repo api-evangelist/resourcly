@@ -1,0 +1,28 @@
+generated: '2026-07-20'
+method: probed
+source: live DNS/TLS/HTTP probes of apis.yml + OpenAPI hosts
+hosts:
+- host: resourcly.com
+  https: true
+  tls_version: TLSv1.3
+  cert_expires: Oct 12 21:24:45 2026 GMT
+  hsts: true
+  hsts_max_age: 31536000
+- host: api.resourcly.com
+  https: true
+  tls_version: TLSv1.3
+  cert_expires: Oct 12 21:24:45 2026 GMT
+  hsts: null
+domains:
+- domain: resourcly.com
+  dnssec: false
+  caa:
+  - 0 issue "comodoca.com"
+  - 0 issue "digicert.com; cansignhttpexchanges=yes"
+  - 0 issue "letsencrypt.org"
+  - 0 issue "pki.goog; cansignhttpexchanges=yes"
+  - 0 issue "ssl.com"
+  - 0 issuewild "comodoca.com"
+  spf: true
+  dmarc: true
+  dmarc_policy: reject

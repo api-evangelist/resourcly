@@ -1,0 +1,23 @@
+generated: '2026-07-20'
+method: derived
+source: openapi/resourcly-openapi-original.json
+standards:
+- id: oauth2
+  conforms: false
+  evidence: auth is a Firebase-issued JWT presented as a bearer token (apiKey-in-header scheme), not an
+    OAuth2 authorization-server flow
+- id: jwt-bearer
+  conforms: true
+  evidence: 'securityScheme BearerAuth: Firebase JWT in Authorization header'
+- id: rfc9457-problem-details
+  conforms: false
+  evidence: errors use a custom JSON envelope (code/error/details), not application/problem+json
+- id: openapi3
+  conforms: false
+  evidence: spec is Swagger 2.0
+- id: pagination
+  conforms: true
+  evidence: list endpoints expose limit/offset, page/page_size and page_token parameters
+- id: idempotency
+  conforms: false
+  evidence: no idempotency-key mechanism documented

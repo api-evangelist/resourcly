@@ -1,0 +1,294 @@
+generated: '2026-07-20'
+method: derived
+source: openapi/resourcly-openapi-original.json
+note: Entity-relationship graph derived from Swagger 2.0 definitions ($ref links + id-reference fields).
+  Firebase-JWT identity scopes all resources to a business/tenant.
+entities:
+- models.AIAnalysisItemSummary
+- models.AIItemComparisonResponse
+- models.BomColumnMapping
+- models.BomResult
+- models.CustomerChangelogItem
+- models.DataSourceFileImportStatus
+- models.DataSourceImportBomFile
+- models.DataSourceImportBomRequest
+- models.DataSourceImportBomResponse
+- models.DataSourceImportErpRequest
+- models.DataSourceImportItemsRequest
+- models.DataSourceItem
+- models.DataSourcesImportRequest
+- models.DataSourcesImportResponse
+- models.DataSourcesImportStatusRequest
+- models.DataSourcesImportStatusResponse
+- models.DataSourcesListResponse
+- models.DataSourcesSignedURLResponse
+- models.Document
+- models.DocumentListResponse
+- models.DocumentTable
+- models.DocumentUploadWithImportResponse
+- models.DriveDownloadItem
+- models.DriveObject
+- models.DriveShareLink
+- models.DriveShareScope
+- models.ERPInventoryAggregatesResponse
+- models.ERPInventoryFile
+- models.ERPInventoryFileListResponse
+- models.ERPInventoryItem
+- models.ERPInventoryItemListResponse
+- models.HSCodeAlternative
+- models.HSCodeOverrideRequest
+- models.HSCodeSuggestion
+- models.HSCodeVerifyRequest
+- models.ImportJob
+- models.ImportJobCreateResponse
+- models.ImportJobDeleteResponse
+- models.ImportJobDocumentsResponse
+- models.ImportJobListResponse
+- models.ImportJobOptions
+- models.ImportJobRerunResponse
+- models.ImportJobRetriggerRequest
+- models.ImportJobRetriggerResponse
+- models.ItemAnalyticsResponse
+- models.ItemComparisonResponse
+- models.ItemComparisonSide
+- models.ItemDetailsResponse
+- models.ItemHSCode
+- models.ItemPair
+- models.ItemPriceAnalysisResponse
+- models.ItemPriceDetail
+- models.ItemPriceEntry
+- models.ItemResult
+- models.ItemValidationConfig
+- models.MergedItemDocument
+- models.MergedItemEntry
+- models.MergedItemsListResponse
+- models.SourceDocumentInfo
+- models.StorageItem
+- models.StoragePasteItem
+- models.SupplierDataRequest
+- models.SupplierDataRequestDetailResponse
+- models.SupplierDataRequestListItem
+- models.SupplierDataResponse
+- models.SupplierExtendExpiryRequest
+- models.SupplierGetResponseResponse
+- models.SupplierImportInfo
+- models.SupplierRequestDetailsResponse
+- models.SupplierResponseFileInfo
+- models.SupplierReviewRequest
+- models.SupplierReviewResponse
+- models.SupplierSubmitResponseRequest
+- models.SupplierSubmitResponseResponse
+- models.SupplierUploadFileResponse
+- models.SupplierVerifyPasscodeRequest
+- models.SupplierVerifyPasscodeResponse
+- models.UpdateItemPreferredRequest
+- models.VisualSimilarItem
+relationships:
+- from: models.BomResult
+  to: boms
+  type: belongs_to
+  via: bom_id
+- from: models.DataSourceFileImportStatus
+  to: documents
+  type: belongs_to
+  via: document_id
+- from: models.DataSourceImportBomFile
+  to: models.BomColumnMapping
+  type: has_one
+  via: mapping
+- from: models.DataSourceImportBomRequest
+  to: models.DataSourceImportBomFile
+  type: has_many
+  via: files
+- from: models.DataSourceImportBomResponse
+  to: imports
+  type: belongs_to
+  via: import_id
+- from: models.DataSourceImportErpRequest
+  to: models.ErpColumnMapping
+  type: has_one
+  via: mapping
+- from: models.DataSourcesImportResponse
+  to: imports
+  type: belongs_to
+  via: import_id
+- from: models.DataSourcesImportResponse
+  to: models.SupplierImportInfo
+  type: has_many
+  via: supplier_imports
+- from: models.DataSourcesListResponse
+  to: models.DataSourceItem
+  type: has_many
+  via: items
+- from: models.Document
+  to: imports
+  type: belongs_to
+  via: import_id
+- from: models.DocumentListResponse
+  to: models.Document
+  type: has_many
+  via: documents
+- from: models.DocumentUploadWithImportResponse
+  to: documents
+  type: belongs_to
+  via: document_id
+- from: models.DocumentUploadWithImportResponse
+  to: imports
+  type: belongs_to
+  via: import_id
+- from: models.DriveShareLink
+  to: models.DriveShareScope
+  type: has_one
+  via: scope
+- from: models.DriveShareScope
+  to: models.DriveSearchRequest
+  type: has_one
+  via: query
+- from: models.ERPInventoryFile
+  to: models.InventoryUploadMapping
+  type: has_one
+  via: column_mapping
+- from: models.ERPInventoryFile
+  to: imports
+  type: belongs_to
+  via: import_id
+- from: models.ERPInventoryFileListResponse
+  to: models.ERPInventoryFile
+  type: has_many
+  via: files
+- from: models.ERPInventoryItem
+  to: items
+  type: belongs_to
+  via: item_id
+- from: models.ERPInventoryItemListResponse
+  to: models.ERPInventoryItem
+  type: has_many
+  via: items
+- from: models.HSCodeSuggestion
+  to: models.HSCodeAlternative
+  type: has_many
+  via: alternative_codes
+- from: models.HSCodeSuggestion
+  to: items
+  type: belongs_to
+  via: item_id
+- from: models.ImportJob
+  to: models.ImportJobOptions
+  type: has_one
+  via: options
+- from: models.ImportJobCreateResponse
+  to: imports
+  type: belongs_to
+  via: import_id
+- from: models.ImportJobDeleteResponse
+  to: imports
+  type: belongs_to
+  via: import_id
+- from: models.ImportJobDocumentsResponse
+  to: models.Document
+  type: has_many
+  via: documents
+- from: models.ImportJobDocumentsResponse
+  to: imports
+  type: belongs_to
+  via: import_id
+- from: models.ImportJobListResponse
+  to: models.ImportJob
+  type: has_many
+  via: import_jobs
+- from: models.ImportJobRerunResponse
+  to: imports
+  type: belongs_to
+  via: import_id
+- from: models.ImportJobRetriggerResponse
+  to: imports
+  type: belongs_to
+  via: import_id
+- from: models.ItemAnalyticsResponse
+  to: models.AIClassificationClusterEntry
+  type: has_many
+  via: ai_classification_clusters
+- from: models.ItemAnalyticsResponse
+  to: models.DailyCountEntry
+  type: has_many
+  via: new_items_timeline
+- from: models.ItemAnalyticsResponse
+  to: models.ReviewStatusTimelineEntry
+  type: has_many
+  via: review_status_timeline
+- from: models.ItemComparisonResponse
+  to: models.ItemComparisonSide
+  type: has_one
+  via: item2
+- from: models.ItemComparisonResponse
+  to: models.SpecDiff
+  type: has_many
+  via: spec_diffs
+- from: models.ItemComparisonSide
+  to: models.SourceDocumentInfo
+  type: has_many
+  via: source_documents
+- from: models.ItemComparisonSide
+  to: models.MatchedSpec
+  type: has_many
+  via: specifications
+- from: models.ItemDetailsResponse
+  to: models.HSCodeSuggestion
+  type: has_many
+  via: hs_code_suggestions
+- from: models.ItemDetailsResponse
+  to: models.SourceDocumentInfo
+  type: has_many
+  via: source_documents
+- from: models.ItemDetailsResponse
+  to: models.MatchedSpec
+  type: has_many
+  via: specifications
+- from: models.ItemHSCode
+  to: items
+  type: belongs_to
+  via: item_id
+- from: models.ItemPriceAnalysisResponse
+  to: models.ItemPriceEntry
+  type: has_many
+  via: items
+- from: models.ItemPriceEntry
+  to: models.ItemPriceDetail
+  type: has_one
+  via: main_item
+- from: models.ItemPriceEntry
+  to: models.ItemPriceDetail
+  type: has_many
+  via: similar_items
+- from: models.ItemResult
+  to: items
+  type: belongs_to
+  via: item_id
+- from: models.ItemValidationConfig
+  to: models.DataGovernanceConditionSpec
+  type: has_many
+  via: conditions
+- from: models.ItemValidationConfig
+  to: models.DataGovernanceStatementSpec
+  type: has_many
+  via: statements
+- from: models.MergedItemEntry
+  to: models.MergedItemDocument
+  type: has_many
+  via: documents
+- from: models.MergedItemsListResponse
+  to: models.MergedItemEntry
+  type: has_many
+  via: items
+- from: models.SourceDocumentInfo
+  to: models.DocumentTable
+  type: has_many
+  via: tables
+- from: models.SupplierGetResponseResponse
+  to: models.SupplierResponseFileInfo
+  type: has_many
+  via: files
+- from: models.VisualSimilarItem
+  to: items
+  type: belongs_to
+  via: item_id
