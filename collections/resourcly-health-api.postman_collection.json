@@ -1,0 +1,315 @@
+{
+  "item": [
+    {
+      "id": "0bfc8990-567d-4039-b258-b45954ba2c7a",
+      "name": "health",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "97866978-7a37-479d-9dd1-eea2ca03789b",
+          "name": "Liveness probe",
+          "request": {
+            "name": "Liveness probe",
+            "description": {
+              "content": "Returns OK if the service is alive",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "health"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "f8975b85-de3a-4c63-8236-51b5c7dd0375",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "health"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"string\",\n  \"version\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "be5ac428-06fe-4fb1-8752-56b7e6533a1b",
+          "name": "Readiness probe",
+          "request": {
+            "name": "Readiness probe",
+            "description": {
+              "content": "Returns service readiness status including database connectivity",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "ready"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "0611004b-5d9a-47d2-84e9-594beb3344d0",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ready"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"services\": {\n    \"key_0\": \"string\",\n    \"key_1\": \"string\"\n  },\n  \"status\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "52524ada-2cd5-4ac1-8e80-cfe96cfbac1f",
+              "name": "Service Unavailable",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ready"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Service Unavailable",
+              "code": 503,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"services\": {\n    \"key_0\": \"string\",\n    \"key_1\": \"string\"\n  },\n  \"status\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "5334fd98-90bb-40ac-bb65-5c25f97c9296",
+          "name": "Detailed readiness probe with pool stats",
+          "request": {
+            "name": "Detailed readiness probe with pool stats",
+            "description": {
+              "content": "Returns service readiness status including database pool statistics for observability",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "ready",
+                "detailed"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "2f55188a-cb94-4332-9fd4-b756876ba038",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ready",
+                    "detailed"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"pool_stats\": {\n    \"acquired_conns\": 6158,\n    \"backpressure\": \"string\",\n    \"idle_conns\": 8935,\n    \"max_conns\": 2104,\n    \"total_conns\": 9072,\n    \"usage_percent\": 5612.8671312618135\n  },\n  \"services\": {\n    \"key_0\": \"string\",\n    \"key_1\": \"string\",\n    \"key_2\": \"string\"\n  },\n  \"status\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "9977133c-70b0-4785-92ca-0031f1230c0e",
+              "name": "Service Unavailable",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ready",
+                    "detailed"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Service Unavailable",
+              "code": 503,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"pool_stats\": {\n    \"acquired_conns\": 6158,\n    \"backpressure\": \"string\",\n    \"idle_conns\": 8935,\n    \"max_conns\": 2104,\n    \"total_conns\": 9072,\n    \"usage_percent\": 5612.8671312618135\n  },\n  \"services\": {\n    \"key_0\": \"string\",\n    \"key_1\": \"string\",\n    \"key_2\": \"string\"\n  },\n  \"status\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "//api.resourcly.com/v1",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "5436f98f-4c30-45a6-afb3-0d20b7a5412e",
+    "name": "Resourcly analytics health API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "API for document processing, item similarity search, and analytics.\n\nContact Support:\n Name: API Support\n Email: support@resourcly.com",
+      "type": "text/plain"
+    }
+  }
+}

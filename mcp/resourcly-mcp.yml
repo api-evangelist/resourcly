@@ -371,3 +371,9 @@ tools:
 - name: create_v1_supplier_verify_passcode
   description: Verify supplier passcode
   source_operation: openapi/resourcly-openapi-original.json#POST /v1/supplier/verify-passcode
+deployment:
+  mode: none
+  verified: derived
+  tools: 121
+  checked: '2026-08-12'
+  source: catalog MCP census

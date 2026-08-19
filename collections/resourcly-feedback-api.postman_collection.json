@@ -1,0 +1,328 @@
+{
+  "item": [
+    {
+      "id": "2acbefcb-6b3b-4387-a351-1eca577e1622",
+      "name": "feedback",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "4a855316-25d2-432d-8bcd-476a8b7877f4",
+          "name": "Submit a bug report",
+          "request": {
+            "name": "Submit a bug report",
+            "description": {
+              "content": "Accepts a multipart form with title, description, email, and optional images.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "feedback"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "multipart/form-data"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "title",
+                  "value": "<string>",
+                  "type": "text",
+                  "description": "(Required) Bug report title"
+                },
+                {
+                  "key": "description",
+                  "value": "<string>",
+                  "type": "text",
+                  "description": "(Required) Bug report description"
+                },
+                {
+                  "key": "email",
+                  "value": "<string>",
+                  "type": "text",
+                  "description": "(Required) Contact email"
+                },
+                {
+                  "key": "images",
+                  "type": "file",
+                  "description": "Screenshot images (multiple allowed)"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "c684c3f0-515e-4161-9586-becf97af94cb",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "feedback"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "(Required) Bug report title",
+                        "type": "text/plain"
+                      },
+                      "key": "title",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) Bug report description",
+                        "type": "text/plain"
+                      },
+                      "key": "description",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) Contact email",
+                        "type": "text/plain"
+                      },
+                      "key": "email",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Screenshot images (multiple allowed)",
+                        "type": "text/plain"
+                      },
+                      "key": "images",
+                      "value": "<binary>",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"linear_issue_id\": \"string\",\n  \"linear_issue_url\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ba8e3b8a-1ee6-4a7a-88f1-cf9ed2ea43d1",
+              "name": "Bad Request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "feedback"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "(Required) Bug report title",
+                        "type": "text/plain"
+                      },
+                      "key": "title",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) Bug report description",
+                        "type": "text/plain"
+                      },
+                      "key": "description",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) Contact email",
+                        "type": "text/plain"
+                      },
+                      "key": "email",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Screenshot images (multiple allowed)",
+                        "type": "text/plain"
+                      },
+                      "key": "images",
+                      "value": "<binary>",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"details\": \"\",\n  \"error\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5d6bf8d8-5ba3-4aef-9ba1-7fda08d1442d",
+              "name": "Internal Server Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "feedback"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "(Required) Bug report title",
+                        "type": "text/plain"
+                      },
+                      "key": "title",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) Bug report description",
+                        "type": "text/plain"
+                      },
+                      "key": "description",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) Contact email",
+                        "type": "text/plain"
+                      },
+                      "key": "email",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Screenshot images (multiple allowed)",
+                        "type": "text/plain"
+                      },
+                      "key": "images",
+                      "value": "<binary>",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"details\": \"\",\n  \"error\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "//api.resourcly.com/v1",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "1182042c-cf41-4633-b614-05b984223ca7",
+    "name": "Resourcly analytics feedback API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "API for document processing, item similarity search, and analytics.\n\nContact Support:\n Name: API Support\n Email: support@resourcly.com",
+      "type": "text/plain"
+    }
+  }
+}

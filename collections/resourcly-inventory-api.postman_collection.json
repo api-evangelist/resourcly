@@ -1,0 +1,3643 @@
+{
+  "item": [
+    {
+      "id": "c15db575-2bb5-48fd-bfc1-616d6ecb11e6",
+      "name": "inventory",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "efc68efc-d7cd-4a86-85dd-dac50b29b148",
+          "name": "Get ERP inventory aggregates",
+          "request": {
+            "name": "Get ERP inventory aggregates",
+            "description": {
+              "content": "Fetches aggregated statistics for a business node's inventory items.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "inventory",
+                "aggregates"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "business_node_id",
+                  "value": "<string>",
+                  "description": "(Required) Business node ID (leaf) the inventory is scoped to"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "Authorization"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "bb0acca4-1d5b-4b19-a975-808afafa8ff1",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "inventory",
+                    "aggregates"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "business_node_id",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"duplicate_primary_identifier_count\": 4744,\n  \"matched_primary_identifiers\": 8473,\n  \"total_records\": 5929,\n  \"total_unique_primary_identifiers\": 7170,\n  \"unconsolidated_count\": 4308,\n  \"unmatched_primary_identifiers\": 2072\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "966a1727-b4c1-4e0c-b463-e34abcc8984c",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "inventory",
+                    "aggregates"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "business_node_id",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"details\": \"\",\n  \"error\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "4e153dba-a2e4-4da0-8291-5f7cc8fcf441",
+              "name": "Internal Server Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "inventory",
+                    "aggregates"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "business_node_id",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"details\": \"\",\n  \"error\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "b7825ce8-52d7-4cf1-a96e-f5a3edbf0f49",
+          "name": "Get Duplicate ERP Inventory Items",
+          "request": {
+            "name": "Get Duplicate ERP Inventory Items",
+            "description": {
+              "content": "Retrieves all ERP inventory items that have the same primary identifier but a different ID",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "inventory",
+                "duplicates",
+                ":id",
+                ":identifier"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "business_node_id",
+                  "value": "<string>",
+                  "description": "(Required) Business node ID (leaf) the inventory is scoped to"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "id",
+                  "description": "(Required) ERP Inventory Item ID to exclude"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "identifier",
+                  "description": "(Required) Primary Identifier to match"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "Authorization"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "9b003dbf-a027-40ca-99ac-1556207eb36a",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "inventory",
+                    "duplicates",
+                    ":id",
+                    ":identifier"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "business_node_id",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) ERP Inventory Item ID to exclude"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "identifier",
+                      "description": "(Required) Primary Identifier to match"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"created_at\": \"string\",\n    \"description_name\": \"string\",\n    \"erp_inventory_file_id\": \"string\",\n    \"erp_primary_identifier\": \"string\",\n    \"erp_secondary_identifier\": \"string\",\n    \"id\": \"string\",\n    \"is_preferred\": false,\n    \"item_id\": \"string\",\n    \"metadata\": \"\",\n    \"purchase_price\": 5533.623483937113,\n    \"quantity\": 2805.3480573483034,\n    \"supplier_name\": \"string\",\n    \"supplier_number\": \"string\"\n  },\n  {\n    \"created_at\": \"string\",\n    \"description_name\": \"string\",\n    \"erp_inventory_file_id\": \"string\",\n    \"erp_primary_identifier\": \"string\",\n    \"erp_secondary_identifier\": \"string\",\n    \"id\": \"string\",\n    \"is_preferred\": false,\n    \"item_id\": \"string\",\n    \"metadata\": \"\",\n    \"purchase_price\": 5184.962631953621,\n    \"quantity\": 2509.9824561046903,\n    \"supplier_name\": \"string\",\n    \"supplier_number\": \"string\"\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "bab3d919-9b08-461a-a794-6e080e13abda",
+              "name": "Bad Request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "inventory",
+                    "duplicates",
+                    ":id",
+                    ":identifier"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "business_node_id",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) ERP Inventory Item ID to exclude"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "identifier",
+                      "description": "(Required) Primary Identifier to match"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"details\": \"\",\n  \"error\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "0a73f89e-1bc2-47ba-b471-4ad88a7a7fa4",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "inventory",
+                    "duplicates",
+                    ":id",
+                    ":identifier"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "business_node_id",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) ERP Inventory Item ID to exclude"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "identifier",
+                      "description": "(Required) Primary Identifier to match"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"details\": \"\",\n  \"error\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "8dbf3b90-7235-4a43-a714-e4258c28f084",
+              "name": "Internal Server Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "inventory",
+                    "duplicates",
+                    ":id",
+                    ":identifier"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "business_node_id",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) ERP Inventory Item ID to exclude"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "identifier",
+                      "description": "(Required) Primary Identifier to match"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"details\": \"\",\n  \"error\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "845c2b3c-d9b3-4da2-9358-c3f06753b9c5",
+          "name": "Get ERP Inventory Items by primary_identifier",
+          "request": {
+            "name": "Get ERP Inventory Items by primary_identifier",
+            "description": {
+              "content": "Retrieves all ERP inventory items by their primary identifier",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "inventory",
+                "erp-items",
+                "by-identifier",
+                ":identifier"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "business_node_id",
+                  "value": "<string>",
+                  "description": "(Required) Business node ID (leaf) the inventory is scoped to"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "identifier",
+                  "description": "(Required) Primary Identifier"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "Authorization"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "9d286d11-7326-4d51-8da7-688f87d39874",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "inventory",
+                    "erp-items",
+                    "by-identifier",
+                    ":identifier"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "business_node_id",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "identifier",
+                      "description": "(Required) Primary Identifier"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"created_at\": \"string\",\n    \"description_name\": \"string\",\n    \"erp_inventory_file_id\": \"string\",\n    \"erp_primary_identifier\": \"string\",\n    \"erp_secondary_identifier\": \"string\",\n    \"id\": \"string\",\n    \"is_preferred\": false,\n    \"item_id\": \"string\",\n    \"metadata\": \"\",\n    \"purchase_price\": 5533.623483937113,\n    \"quantity\": 2805.3480573483034,\n    \"supplier_name\": \"string\",\n    \"supplier_number\": \"string\"\n  },\n  {\n    \"created_at\": \"string\",\n    \"description_name\": \"string\",\n    \"erp_inventory_file_id\": \"string\",\n    \"erp_primary_identifier\": \"string\",\n    \"erp_secondary_identifier\": \"string\",\n    \"id\": \"string\",\n    \"is_preferred\": false,\n    \"item_id\": \"string\",\n    \"metadata\": \"\",\n    \"purchase_price\": 5184.962631953621,\n    \"quantity\": 2509.9824561046903,\n    \"supplier_name\": \"string\",\n    \"supplier_number\": \"string\"\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f8e2bcf2-0a50-451d-a453-d6955caba262",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "inventory",
+                    "erp-items",
+                    "by-identifier",
+                    ":identifier"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "business_node_id",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "identifier",
+                      "description": "(Required) Primary Identifier"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"details\": \"\",\n  \"error\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f2a09801-8dd2-4589-a07f-7058d28cd073",
+              "name": "Not Found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "inventory",
+                    "erp-items",
+                    "by-identifier",
+                    ":identifier"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "business_node_id",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "identifier",
+                      "description": "(Required) Primary Identifier"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"details\": \"\",\n  \"error\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "1d5d67a1-7479-4484-a2cf-5c1ce7615462",
+              "name": "Internal Server Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "inventory",
+                    "erp-items",
+                    "by-identifier",
+                    ":identifier"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "business_node_id",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "identifier",
+                      "description": "(Required) Primary Identifier"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"details\": \"\",\n  \"error\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "774f9e07-4621-41c5-ac42-45c7d0ccc20b",
+          "name": "List ERP inventory files",
+          "request": {
+            "name": "List ERP inventory files",
+            "description": {
+              "content": "Fetches a paginated list of inventory files for a business node.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "inventory",
+                "files"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "business_node_id",
+                  "value": "<string>",
+                  "description": "(Required) Business node ID (leaf) the inventory is scoped to"
+                },
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "<integer>",
+                  "description": "Page number (default: 1)"
+                },
+                {
+                  "disabled": false,
+                  "key": "page_size",
+                  "value": "<integer>",
+                  "description": "Items per page (default: 20)"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "Authorization"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "4974cde5-71b8-483f-9f33-7024cb5915d2",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "inventory",
+                    "files"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "business_node_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "page",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "page_size",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"files\": [\n    {\n      \"bucket_url\": \"string\",\n      \"business_id\": \"string\",\n      \"column_mapping\": {\n        \"attributes\": [\n          {\n            \"label\": \"string\",\n            \"source_column\": \"string\",\n            \"type\": \"string\"\n          },\n          {\n            \"label\": \"string\",\n            \"source_column\": \"string\",\n            \"type\": \"string\"\n          }\n        ],\n        \"description_columns\": [\n          \"string\",\n          \"string\"\n        ],\n        \"description_name\": \"string\",\n        \"primary_identifier_column\": \"string\",\n        \"primary_identifier_name\": \"string\",\n        \"purchase_price_column\": \"string\",\n        \"purchase_price_name\": \"string\",\n        \"purchase_quantity_column\": \"string\",\n        \"purchase_quantity_name\": \"string\",\n        \"secondary_identifier_column\": \"string\",\n        \"secondary_identifier_name\": \"string\",\n        \"supplier_name_column\": \"string\",\n        \"supplier_name_name\": \"string\",\n        \"supplier_number_column\": \"string\",\n        \"supplier_number_name\": \"string\"\n      },\n      \"created_at\": \"string\",\n      \"extraction_error\": \"string\",\n      \"extraction_status\": \"string\",\n      \"filename\": \"string\",\n      \"id\": \"string\",\n      \"import_id\": \"string\",\n      \"ingested_count\": 253,\n      \"item_count\": 4945,\n      \"status\": \"string\"\n    },\n    {\n      \"bucket_url\": \"string\",\n      \"business_id\": \"string\",\n      \"column_mapping\": {\n        \"attributes\": [\n          {\n            \"label\": \"string\",\n            \"source_column\": \"string\",\n            \"type\": \"string\"\n          },\n          {\n            \"label\": \"string\",\n            \"source_column\": \"string\",\n            \"type\": \"string\"\n          }\n        ],\n        \"description_columns\": [\n          \"string\",\n          \"string\"\n        ],\n        \"description_name\": \"string\",\n        \"primary_identifier_column\": \"string\",\n        \"primary_identifier_name\": \"string\",\n        \"purchase_price_column\": \"string\",\n        \"purchase_price_name\": \"string\",\n        \"purchase_quantity_column\": \"string\",\n        \"purchase_quantity_name\": \"string\",\n        \"secondary_identifier_column\": \"string\",\n        \"secondary_identifier_name\": \"string\",\n        \"supplier_name_column\": \"string\",\n        \"supplier_name_name\": \"string\",\n        \"supplier_number_column\": \"string\",\n        \"supplier_number_name\": \"string\"\n      },\n      \"created_at\": \"string\",\n      \"extraction_error\": \"string\",\n      \"extraction_status\": \"string\",\n      \"filename\": \"string\",\n      \"id\": \"string\",\n      \"import_id\": \"string\",\n      \"ingested_count\": 6514,\n      \"item_count\": 6888,\n      \"status\": \"string\"\n    }\n  ],\n  \"total_count\": 8362\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b2053a45-355c-48ac-9558-5ddafe601062",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "inventory",
+                    "files"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "business_node_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "page",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "page_size",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"details\": \"\",\n  \"error\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d597689d-11b6-40f0-8633-d426c7da342a",
+              "name": "Internal Server Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "inventory",
+                    "files"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "business_node_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "page",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "page_size",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"details\": \"\",\n  \"error\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "88ef773c-766d-47ff-8827-e2cb025aa113",
+          "name": "List ERP inventory items",
+          "request": {
+            "name": "List ERP inventory items",
+            "description": {
+              "content": "Fetches a paginated list of inventory items for a business node, with optional file filter and search.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "inventory",
+                "items"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "business_node_id",
+                  "value": "<string>",
+                  "description": "(Required) Business node ID (leaf) the inventory is scoped to"
+                },
+                {
+                  "disabled": false,
+                  "key": "file_id",
+                  "value": "<string>",
+                  "description": "Filter by ERP inventory file ID (UUID)"
+                },
+                {
+                  "disabled": false,
+                  "key": "search",
+                  "value": "<string>",
+                  "description": "Search by primary identifier, secondary identifier, or description"
+                },
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "<integer>",
+                  "description": "Page number (default: 1)"
+                },
+                {
+                  "disabled": false,
+                  "key": "page_size",
+                  "value": "<integer>",
+                  "description": "Items per page (default: 20)"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "Authorization"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "a17e8109-29e5-4a08-80e8-f6b26c059613",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "inventory",
+                    "items"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "business_node_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "file_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "search",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "page",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "page_size",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"items\": [\n    {\n      \"created_at\": \"string\",\n      \"description_name\": \"string\",\n      \"erp_inventory_file_id\": \"string\",\n      \"erp_primary_identifier\": \"string\",\n      \"erp_secondary_identifier\": \"string\",\n      \"id\": \"string\",\n      \"is_preferred\": false,\n      \"item_id\": \"string\",\n      \"metadata\": \"\",\n      \"purchase_price\": 9449.33096562719,\n      \"quantity\": 5263.021432734448,\n      \"supplier_name\": \"string\",\n      \"supplier_number\": \"string\"\n    },\n    {\n      \"created_at\": \"string\",\n      \"description_name\": \"string\",\n      \"erp_inventory_file_id\": \"string\",\n      \"erp_primary_identifier\": \"string\",\n      \"erp_secondary_identifier\": \"string\",\n      \"id\": \"string\",\n      \"is_preferred\": false,\n      \"item_id\": \"string\",\n      \"metadata\": \"\",\n      \"purchase_price\": 7347.310187257965,\n      \"quantity\": 1636.8155289057772,\n      \"supplier_name\": \"string\",\n      \"supplier_number\": \"string\"\n    }\n  ],\n  \"total_count\": 7537\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "8e19b3c6-1c44-476e-94b8-c27d47f7483f",
+              "name": "Bad Request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "inventory",
+                    "items"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "business_node_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "file_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "search",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "page",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "page_size",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"details\": \"\",\n  \"error\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d0962f3e-48f6-4844-8404-57cab8e29019",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "inventory",
+                    "items"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "business_node_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "file_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "search",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "page",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "page_size",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"details\": \"\",\n  \"error\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "13aaf7f6-27ef-48b3-87d2-801e434b8dd2",
+              "name": "Internal Server Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "inventory",
+                    "items"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "business_node_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "file_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "search",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "page",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "page_size",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"details\": \"\",\n  \"error\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "68b8bd09-4108-4772-a4ed-fb9b20a8e424",
+          "name": "Get Item by primary_identifier",
+          "request": {
+            "name": "Get Item by primary_identifier",
+            "description": {
+              "content": "Retrieves an item by its primary identifier (part_number)",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "inventory",
+                "items",
+                "by-identifier",
+                ":identifier"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "business_node_id",
+                  "value": "<string>",
+                  "description": "(Required) Business node ID (leaf) the item is scoped to"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "identifier",
+                  "description": "(Required) Primary Identifier (Part Number)"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "Authorization"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "9d683759-68f6-4f39-af00-90c55d7bdce3",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "inventory",
+                    "items",
+                    "by-identifier",
+                    ":identifier"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "business_node_id",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "identifier",
+                      "description": "(Required) Primary Identifier (Part Number)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"additionalData\": \"\",\n  \"businessID\": \"string\",\n  \"businessNodeID\": \"string\",\n  \"category\": \"string\",\n  \"createdAt\": \"string\",\n  \"duplicateConfidence\": 9315.092027906414,\n  \"duplicateGroupID\": \"string\",\n  \"duplicateStatus\": \"string\",\n  \"hasERPData\": false,\n  \"id\": \"string\",\n  \"isPreferred\": true,\n  \"manufacturer\": \"string\",\n  \"partNumber\": \"string\",\n  \"references\": [\n    \"string\",\n    \"string\"\n  ],\n  \"specifications\": \"\",\n  \"title\": \"string\",\n  \"updatedAt\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "9f7417a6-a48b-4d0b-9647-353165791141",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "inventory",
+                    "items",
+                    "by-identifier",
+                    ":identifier"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "business_node_id",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "identifier",
+                      "description": "(Required) Primary Identifier (Part Number)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"details\": \"\",\n  \"error\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "30924531-db35-4b68-99d3-a1456f41cd66",
+              "name": "Not Found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "inventory",
+                    "items",
+                    "by-identifier",
+                    ":identifier"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "business_node_id",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "identifier",
+                      "description": "(Required) Primary Identifier (Part Number)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"details\": \"\",\n  \"error\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6924d813-be73-405a-8092-0a7ec9eb5f7f",
+              "name": "Internal Server Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "inventory",
+                    "items",
+                    "by-identifier",
+                    ":identifier"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "business_node_id",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "identifier",
+                      "description": "(Required) Primary Identifier (Part Number)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"details\": \"\",\n  \"error\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "5b8a2465-2334-4640-bdc6-d8033f61fd60",
+          "name": "Get Items by primary_identifier",
+          "request": {
+            "name": "Get Items by primary_identifier",
+            "description": {
+              "content": "Retrieves ERP inventory items by their primary identifier (part_number).\nWithin the same part number, a single ERP entry may appear multiple\ntimes linked to different item IDs. The caller is responsible for\nchecking each entry's item ID to determine which item it belongs to.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "inventory",
+                "items",
+                "part-number"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "identifiers",
+                  "value": "<string>,<string>",
+                  "description": "(Required) Primary identifiers (repeat the identifiers query parameter)"
+                },
+                {
+                  "disabled": false,
+                  "key": "business_node_id",
+                  "value": "<string>",
+                  "description": "Optional business node ID (leaf) to scope the lookup; omit for a business-wide lookup"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "Authorization"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "e0d14c1c-262d-4c4a-8884-4770f69461b5",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "inventory",
+                    "items",
+                    "part-number"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "identifiers",
+                      "value": "<string>,<string>"
+                    },
+                    {
+                      "key": "business_node_id",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"created_at\": \"string\",\n    \"description_name\": \"string\",\n    \"erp_inventory_file_id\": \"string\",\n    \"erp_primary_identifier\": \"string\",\n    \"erp_secondary_identifier\": \"string\",\n    \"id\": \"string\",\n    \"is_preferred\": false,\n    \"item_id\": \"string\",\n    \"metadata\": \"\",\n    \"purchase_price\": 5533.623483937113,\n    \"quantity\": 2805.3480573483034,\n    \"supplier_name\": \"string\",\n    \"supplier_number\": \"string\"\n  },\n  {\n    \"created_at\": \"string\",\n    \"description_name\": \"string\",\n    \"erp_inventory_file_id\": \"string\",\n    \"erp_primary_identifier\": \"string\",\n    \"erp_secondary_identifier\": \"string\",\n    \"id\": \"string\",\n    \"is_preferred\": false,\n    \"item_id\": \"string\",\n    \"metadata\": \"\",\n    \"purchase_price\": 5184.962631953621,\n    \"quantity\": 2509.9824561046903,\n    \"supplier_name\": \"string\",\n    \"supplier_number\": \"string\"\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "edfc8c22-3d2c-41e6-9c5b-c662a0aaf2f2",
+              "name": "Bad Request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "inventory",
+                    "items",
+                    "part-number"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "identifiers",
+                      "value": "<string>,<string>"
+                    },
+                    {
+                      "key": "business_node_id",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"details\": \"\",\n  \"error\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "22fe7978-141a-4261-8164-6752037d7871",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "inventory",
+                    "items",
+                    "part-number"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "identifiers",
+                      "value": "<string>,<string>"
+                    },
+                    {
+                      "key": "business_node_id",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"details\": \"\",\n  \"error\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "673d3211-1ebf-46b9-bb8f-f2a67e3a7b9b",
+              "name": "Not Found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "inventory",
+                    "items",
+                    "part-number"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "identifiers",
+                      "value": "<string>,<string>"
+                    },
+                    {
+                      "key": "business_node_id",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"details\": \"\",\n  \"error\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "834da3e9-bf39-4356-bbca-d620ed72657d",
+              "name": "Internal Server Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "inventory",
+                    "items",
+                    "part-number"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "identifiers",
+                      "value": "<string>,<string>"
+                    },
+                    {
+                      "key": "business_node_id",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"details\": \"\",\n  \"error\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "c8571ac0-ef58-4efb-a630-8a90dfe488f2",
+          "name": "Get ERP Inventory Item by ID",
+          "request": {
+            "name": "Get ERP Inventory Item by ID",
+            "description": {
+              "content": "Retrieves an ERP inventory item by its unique ID",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "inventory",
+                "items",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "business_node_id",
+                  "value": "<string>",
+                  "description": "(Required) Business node ID (leaf) the inventory is scoped to"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "id",
+                  "description": "(Required) ERP Inventory Item ID"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "Authorization"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "b4ca9cc7-3294-4cde-8c50-4d03e3c03a7d",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "inventory",
+                    "items",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "business_node_id",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) ERP Inventory Item ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"created_at\": \"string\",\n  \"description_name\": \"string\",\n  \"erp_inventory_file_id\": \"string\",\n  \"erp_primary_identifier\": \"string\",\n  \"erp_secondary_identifier\": \"string\",\n  \"id\": \"string\",\n  \"is_preferred\": true,\n  \"item_id\": \"string\",\n  \"metadata\": \"\",\n  \"purchase_price\": 3813.579777054018,\n  \"quantity\": 9236.244487199068,\n  \"supplier_name\": \"string\",\n  \"supplier_number\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "8b57764f-ad0f-4f22-b7ca-b85e01c08958",
+              "name": "Bad Request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "inventory",
+                    "items",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "business_node_id",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) ERP Inventory Item ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"details\": \"\",\n  \"error\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "12d428f2-6dbb-4ea8-a292-305be5618a5b",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "inventory",
+                    "items",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "business_node_id",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) ERP Inventory Item ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"details\": \"\",\n  \"error\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3bd6963e-9345-4bca-9825-07687de94e30",
+              "name": "Not Found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "inventory",
+                    "items",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "business_node_id",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) ERP Inventory Item ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"details\": \"\",\n  \"error\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ca907459-e605-4266-ba43-bc2030aa81d5",
+              "name": "Internal Server Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "inventory",
+                    "items",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "business_node_id",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) ERP Inventory Item ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"details\": \"\",\n  \"error\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "856cd521-3f85-46f8-9562-75767a8ce79e",
+          "name": "Get most recent ERP inventory column mapping",
+          "request": {
+            "name": "Get most recent ERP inventory column mapping",
+            "description": {
+              "content": "Fetches the column mapping from the most recently uploaded ERP inventory file for a business node.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "inventory",
+                "mapping",
+                "latest"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "business_node_id",
+                  "value": "<string>",
+                  "description": "(Required) Business node ID (leaf) the inventory is scoped to"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "Authorization"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "f31af5d4-9fe0-4793-aad3-5e3f7d641d80",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "inventory",
+                    "mapping",
+                    "latest"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "business_node_id",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"attributes\": [\n    {\n      \"label\": \"string\",\n      \"source_column\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"label\": \"string\",\n      \"source_column\": \"string\",\n      \"type\": \"string\"\n    }\n  ],\n  \"description_columns\": [\n    \"string\",\n    \"string\"\n  ],\n  \"description_name\": \"string\",\n  \"primary_identifier_column\": \"string\",\n  \"primary_identifier_name\": \"string\",\n  \"purchase_price_column\": \"string\",\n  \"purchase_price_name\": \"string\",\n  \"purchase_quantity_column\": \"string\",\n  \"purchase_quantity_name\": \"string\",\n  \"secondary_identifier_column\": \"string\",\n  \"secondary_identifier_name\": \"string\",\n  \"supplier_name_column\": \"string\",\n  \"supplier_name_name\": \"string\",\n  \"supplier_number_column\": \"string\",\n  \"supplier_number_name\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "64e39ee8-e565-4884-b881-7a190b1668bb",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "inventory",
+                    "mapping",
+                    "latest"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "business_node_id",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"details\": \"\",\n  \"error\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "23851d72-5cb2-4351-9ada-1267c917429e",
+              "name": "Internal Server Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "inventory",
+                    "mapping",
+                    "latest"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "business_node_id",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"details\": \"\",\n  \"error\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "ffce74cf-2ee7-4709-bf0a-a7143ade5fe0",
+          "name": "Upload ERP inventory XLSX",
+          "request": {
+            "name": "Upload ERP inventory XLSX",
+            "description": {
+              "content": "Uploads an XLSX file with inventory. Saves file to bucket, logs an import job and erp_inventory_file row.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "inventory",
+                "upload"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "multipart/form-data"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "Authorization"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            },
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "file",
+                  "type": "file",
+                  "description": "(Required) XLSX file"
+                },
+                {
+                  "key": "business_node_id",
+                  "value": "<string>",
+                  "type": "text",
+                  "description": "(Required) Business node ID (leaf organizational unit) the inventory belongs to"
+                },
+                {
+                  "key": "primary_identifier_column",
+                  "value": "<string>",
+                  "type": "text",
+                  "description": "(Required) Primary inventory identifier column header"
+                },
+                {
+                  "key": "secondary_identifier_column",
+                  "value": "<string>",
+                  "type": "text",
+                  "description": "Secondary inventory identifier column header"
+                },
+                {
+                  "key": "description_columns",
+                  "value": "[\"<string>\",\"<string>\"]",
+                  "type": "text",
+                  "description": "One or more description column headers (repeat the field)"
+                },
+                {
+                  "key": "primary_name",
+                  "value": "<string>",
+                  "type": "text",
+                  "description": "Display name for the primary identifier"
+                },
+                {
+                  "key": "secondary_name",
+                  "value": "<string>",
+                  "type": "text",
+                  "description": "Display name for the secondary identifier"
+                },
+                {
+                  "key": "description_names",
+                  "value": "[\"<string>\",\"<string>\"]",
+                  "type": "text",
+                  "description": "One or more display names for description (repeat or comma-separated)"
+                },
+                {
+                  "key": "purchase_price_column",
+                  "value": "<string>",
+                  "type": "text",
+                  "description": "Purchase price column header"
+                },
+                {
+                  "key": "purchase_quantity_column",
+                  "value": "<string>",
+                  "type": "text",
+                  "description": "Purchase quantity column header"
+                },
+                {
+                  "key": "purchase_price_name",
+                  "value": "<string>",
+                  "type": "text",
+                  "description": "Display name for the purchase price"
+                },
+                {
+                  "key": "purchase_quantity_name",
+                  "value": "<string>",
+                  "type": "text",
+                  "description": "Display name for the purchase quantity"
+                },
+                {
+                  "key": "supplier_number_column",
+                  "value": "<string>",
+                  "type": "text",
+                  "description": "Supplier number column header"
+                },
+                {
+                  "key": "supplier_name_column",
+                  "value": "<string>",
+                  "type": "text",
+                  "description": "Supplier name column header"
+                },
+                {
+                  "key": "supplier_number_name",
+                  "value": "<string>",
+                  "type": "text",
+                  "description": "Display name for the supplier number"
+                },
+                {
+                  "key": "supplier_name_name",
+                  "value": "<string>",
+                  "type": "text",
+                  "description": "Display name for the supplier name"
+                },
+                {
+                  "key": "attributes",
+                  "value": "<string>",
+                  "type": "text",
+                  "description": "JSON-encoded array of dynamic columns: [{source_column,label,type}]"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "efde478b-dcac-4b98-b30f-b47ec007000c",
+              "name": "Created",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "inventory",
+                    "upload"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "(Required) XLSX file",
+                        "type": "text/plain"
+                      },
+                      "key": "file",
+                      "value": "<binary>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) Business node ID (leaf organizational unit) the inventory belongs to",
+                        "type": "text/plain"
+                      },
+                      "key": "business_node_id",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) Primary inventory identifier column header",
+                        "type": "text/plain"
+                      },
+                      "key": "primary_identifier_column",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Secondary inventory identifier column header",
+                        "type": "text/plain"
+                      },
+                      "key": "secondary_identifier_column",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "One or more description column headers (repeat the field)",
+                        "type": "text/plain"
+                      },
+                      "key": "description_columns",
+                      "value": "[\"<string>\",\"<string>\"]",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Display name for the primary identifier",
+                        "type": "text/plain"
+                      },
+                      "key": "primary_name",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Display name for the secondary identifier",
+                        "type": "text/plain"
+                      },
+                      "key": "secondary_name",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "One or more display names for description (repeat or comma-separated)",
+                        "type": "text/plain"
+                      },
+                      "key": "description_names",
+                      "value": "[\"<string>\",\"<string>\"]",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Purchase price column header",
+                        "type": "text/plain"
+                      },
+                      "key": "purchase_price_column",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Purchase quantity column header",
+                        "type": "text/plain"
+                      },
+                      "key": "purchase_quantity_column",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Display name for the purchase price",
+                        "type": "text/plain"
+                      },
+                      "key": "purchase_price_name",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Display name for the purchase quantity",
+                        "type": "text/plain"
+                      },
+                      "key": "purchase_quantity_name",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Supplier number column header",
+                        "type": "text/plain"
+                      },
+                      "key": "supplier_number_column",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Supplier name column header",
+                        "type": "text/plain"
+                      },
+                      "key": "supplier_name_column",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Display name for the supplier number",
+                        "type": "text/plain"
+                      },
+                      "key": "supplier_number_name",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Display name for the supplier name",
+                        "type": "text/plain"
+                      },
+                      "key": "supplier_name_name",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "JSON-encoded array of dynamic columns: [{source_column,label,type}]",
+                        "type": "text/plain"
+                      },
+                      "key": "attributes",
+                      "value": "<string>",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"bucket_url\": \"string\",\n  \"column_mapping\": {\n    \"attributes\": [\n      {\n        \"label\": \"string\",\n        \"source_column\": \"string\",\n        \"type\": \"string\"\n      },\n      {\n        \"label\": \"string\",\n        \"source_column\": \"string\",\n        \"type\": \"string\"\n      }\n    ],\n    \"description_columns\": [\n      \"string\",\n      \"string\"\n    ],\n    \"description_name\": \"string\",\n    \"primary_identifier_column\": \"string\",\n    \"primary_identifier_name\": \"string\",\n    \"purchase_price_column\": \"string\",\n    \"purchase_price_name\": \"string\",\n    \"purchase_quantity_column\": \"string\",\n    \"purchase_quantity_name\": \"string\",\n    \"secondary_identifier_column\": \"string\",\n    \"secondary_identifier_name\": \"string\",\n    \"supplier_name_column\": \"string\",\n    \"supplier_name_name\": \"string\",\n    \"supplier_number_column\": \"string\",\n    \"supplier_number_name\": \"string\"\n  },\n  \"created_at\": \"string\",\n  \"id\": \"string\",\n  \"import_id\": \"string\",\n  \"ingested_count\": 135,\n  \"item_count\": 7678\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "636fa3a4-f024-4634-bb85-57199f887510",
+              "name": "Bad Request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "inventory",
+                    "upload"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "(Required) XLSX file",
+                        "type": "text/plain"
+                      },
+                      "key": "file",
+                      "value": "<binary>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) Business node ID (leaf organizational unit) the inventory belongs to",
+                        "type": "text/plain"
+                      },
+                      "key": "business_node_id",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) Primary inventory identifier column header",
+                        "type": "text/plain"
+                      },
+                      "key": "primary_identifier_column",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Secondary inventory identifier column header",
+                        "type": "text/plain"
+                      },
+                      "key": "secondary_identifier_column",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "One or more description column headers (repeat the field)",
+                        "type": "text/plain"
+                      },
+                      "key": "description_columns",
+                      "value": "[\"<string>\",\"<string>\"]",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Display name for the primary identifier",
+                        "type": "text/plain"
+                      },
+                      "key": "primary_name",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Display name for the secondary identifier",
+                        "type": "text/plain"
+                      },
+                      "key": "secondary_name",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "One or more display names for description (repeat or comma-separated)",
+                        "type": "text/plain"
+                      },
+                      "key": "description_names",
+                      "value": "[\"<string>\",\"<string>\"]",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Purchase price column header",
+                        "type": "text/plain"
+                      },
+                      "key": "purchase_price_column",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Purchase quantity column header",
+                        "type": "text/plain"
+                      },
+                      "key": "purchase_quantity_column",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Display name for the purchase price",
+                        "type": "text/plain"
+                      },
+                      "key": "purchase_price_name",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Display name for the purchase quantity",
+                        "type": "text/plain"
+                      },
+                      "key": "purchase_quantity_name",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Supplier number column header",
+                        "type": "text/plain"
+                      },
+                      "key": "supplier_number_column",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Supplier name column header",
+                        "type": "text/plain"
+                      },
+                      "key": "supplier_name_column",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Display name for the supplier number",
+                        "type": "text/plain"
+                      },
+                      "key": "supplier_number_name",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Display name for the supplier name",
+                        "type": "text/plain"
+                      },
+                      "key": "supplier_name_name",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "JSON-encoded array of dynamic columns: [{source_column,label,type}]",
+                        "type": "text/plain"
+                      },
+                      "key": "attributes",
+                      "value": "<string>",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"details\": \"\",\n  \"error\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ccc996d5-14dd-4647-a0be-8bb970952ad2",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "inventory",
+                    "upload"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "(Required) XLSX file",
+                        "type": "text/plain"
+                      },
+                      "key": "file",
+                      "value": "<binary>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) Business node ID (leaf organizational unit) the inventory belongs to",
+                        "type": "text/plain"
+                      },
+                      "key": "business_node_id",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) Primary inventory identifier column header",
+                        "type": "text/plain"
+                      },
+                      "key": "primary_identifier_column",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Secondary inventory identifier column header",
+                        "type": "text/plain"
+                      },
+                      "key": "secondary_identifier_column",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "One or more description column headers (repeat the field)",
+                        "type": "text/plain"
+                      },
+                      "key": "description_columns",
+                      "value": "[\"<string>\",\"<string>\"]",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Display name for the primary identifier",
+                        "type": "text/plain"
+                      },
+                      "key": "primary_name",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Display name for the secondary identifier",
+                        "type": "text/plain"
+                      },
+                      "key": "secondary_name",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "One or more display names for description (repeat or comma-separated)",
+                        "type": "text/plain"
+                      },
+                      "key": "description_names",
+                      "value": "[\"<string>\",\"<string>\"]",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Purchase price column header",
+                        "type": "text/plain"
+                      },
+                      "key": "purchase_price_column",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Purchase quantity column header",
+                        "type": "text/plain"
+                      },
+                      "key": "purchase_quantity_column",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Display name for the purchase price",
+                        "type": "text/plain"
+                      },
+                      "key": "purchase_price_name",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Display name for the purchase quantity",
+                        "type": "text/plain"
+                      },
+                      "key": "purchase_quantity_name",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Supplier number column header",
+                        "type": "text/plain"
+                      },
+                      "key": "supplier_number_column",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Supplier name column header",
+                        "type": "text/plain"
+                      },
+                      "key": "supplier_name_column",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Display name for the supplier number",
+                        "type": "text/plain"
+                      },
+                      "key": "supplier_number_name",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Display name for the supplier name",
+                        "type": "text/plain"
+                      },
+                      "key": "supplier_name_name",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "JSON-encoded array of dynamic columns: [{source_column,label,type}]",
+                        "type": "text/plain"
+                      },
+                      "key": "attributes",
+                      "value": "<string>",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"details\": \"\",\n  \"error\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "61b0b4d0-9512-457a-b063-669a477e6115",
+              "name": "Internal Server Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "inventory",
+                    "upload"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "(Required) XLSX file",
+                        "type": "text/plain"
+                      },
+                      "key": "file",
+                      "value": "<binary>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) Business node ID (leaf organizational unit) the inventory belongs to",
+                        "type": "text/plain"
+                      },
+                      "key": "business_node_id",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) Primary inventory identifier column header",
+                        "type": "text/plain"
+                      },
+                      "key": "primary_identifier_column",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Secondary inventory identifier column header",
+                        "type": "text/plain"
+                      },
+                      "key": "secondary_identifier_column",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "One or more description column headers (repeat the field)",
+                        "type": "text/plain"
+                      },
+                      "key": "description_columns",
+                      "value": "[\"<string>\",\"<string>\"]",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Display name for the primary identifier",
+                        "type": "text/plain"
+                      },
+                      "key": "primary_name",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Display name for the secondary identifier",
+                        "type": "text/plain"
+                      },
+                      "key": "secondary_name",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "One or more display names for description (repeat or comma-separated)",
+                        "type": "text/plain"
+                      },
+                      "key": "description_names",
+                      "value": "[\"<string>\",\"<string>\"]",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Purchase price column header",
+                        "type": "text/plain"
+                      },
+                      "key": "purchase_price_column",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Purchase quantity column header",
+                        "type": "text/plain"
+                      },
+                      "key": "purchase_quantity_column",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Display name for the purchase price",
+                        "type": "text/plain"
+                      },
+                      "key": "purchase_price_name",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Display name for the purchase quantity",
+                        "type": "text/plain"
+                      },
+                      "key": "purchase_quantity_name",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Supplier number column header",
+                        "type": "text/plain"
+                      },
+                      "key": "supplier_number_column",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Supplier name column header",
+                        "type": "text/plain"
+                      },
+                      "key": "supplier_name_column",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Display name for the supplier number",
+                        "type": "text/plain"
+                      },
+                      "key": "supplier_number_name",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Display name for the supplier name",
+                        "type": "text/plain"
+                      },
+                      "key": "supplier_name_name",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "JSON-encoded array of dynamic columns: [{source_column,label,type}]",
+                        "type": "text/plain"
+                      },
+                      "key": "attributes",
+                      "value": "<string>",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"details\": \"\",\n  \"error\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "//api.resourcly.com/v1",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "3c61c1e2-7df9-4151-bb32-f22471a634a1",
+    "name": "Resourcly analytics inventory API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "API for document processing, item similarity search, and analytics.\n\nContact Support:\n Name: API Support\n Email: support@resourcly.com",
+      "type": "text/plain"
+    }
+  }
+}

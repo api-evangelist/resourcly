@@ -1,0 +1,242 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Resourcly analytics imports API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "imports",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List import jobs",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/imports",
+            "params": [
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number"
+              },
+              {
+                "name": "page_size",
+                "value": "",
+                "type": "query",
+                "description": "Items per page"
+              }
+            ]
+          },
+          "docs": "Returns a paginated list of import jobs for the authenticated business"
+        },
+        {
+          "info": {
+            "name": "Create import job",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/imports",
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "query",
+                "description": "Import job name"
+              },
+              {
+                "name": "source",
+                "value": "",
+                "type": "query",
+                "description": "Import source (web_upload, api, bulk_import)"
+              },
+              {
+                "name": "replace_existing",
+                "value": "",
+                "type": "query",
+                "description": "Delete and re-process documents with same filename"
+              },
+              {
+                "name": "total_documents",
+                "value": "",
+                "type": "query",
+                "description": "Expected total number of documents in this import"
+              }
+            ]
+          },
+          "docs": "Creates a new import job for batch document uploads"
+        },
+        {
+          "info": {
+            "name": "Validate upload paths against the folder mapping",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/imports/validate"
+          },
+          "docs": "Categorizes local upload file paths against the business import folder mapping, returning which are valid item files (with a derived part number) and which are not. Used by the V2 upload flow to upload only importable files."
+        },
+        {
+          "info": {
+            "name": "Get import job",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/imports/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "Import job ID (UUID)"
+              }
+            ]
+          },
+          "docs": "Returns a single import job by ID"
+        },
+        {
+          "info": {
+            "name": "Delete import job",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/imports/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "Import job ID (UUID)"
+              }
+            ]
+          },
+          "docs": "Deletes an import job and all its associated documents"
+        },
+        {
+          "info": {
+            "name": "Get import documents",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/imports/:id/documents",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "Import job ID (UUID)"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number"
+              },
+              {
+                "name": "page_size",
+                "value": "",
+                "type": "query",
+                "description": "Items per page"
+              },
+              {
+                "name": "status",
+                "value": "",
+                "type": "query",
+                "description": "Filter by status (pending, processing, completed, failed)"
+              }
+            ]
+          },
+          "docs": "Returns documents belonging to an import job"
+        },
+        {
+          "info": {
+            "name": "Upload document to import",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/imports/:id/documents",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "Import job ID (UUID)"
+              }
+            ]
+          },
+          "docs": "Uploads a document as part of an import job"
+        },
+        {
+          "info": {
+            "name": "Delete import documents",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/imports/:id/documents",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "Import job ID (UUID)"
+              }
+            ]
+          },
+          "docs": "Deletes all documents from an import job"
+        },
+        {
+          "info": {
+            "name": "Re-run import job",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/imports/:id/rerun",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "Import job ID (UUID)"
+              }
+            ]
+          },
+          "docs": "Re-runs processing for ALL documents in an import job using the original configuration"
+        },
+        {
+          "info": {
+            "name": "Retrigger import documents",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/imports/:id/retrigger",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "Import job ID (UUID)"
+              }
+            ]
+          },
+          "docs": "Retriggers processing for failed or stuck pending documents in an import job"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

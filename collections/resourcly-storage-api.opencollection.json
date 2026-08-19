@@ -1,0 +1,161 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Resourcly analytics storage API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "storage",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get download URL",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/storage/download-url",
+            "params": [
+              {
+                "name": "business_node_id",
+                "value": "",
+                "type": "query",
+                "description": "Leaf business node ID"
+              },
+              {
+                "name": "key",
+                "value": "",
+                "type": "query",
+                "description": "Node-relative file key"
+              },
+              {
+                "name": "disposition",
+                "value": "",
+                "type": "query",
+                "description": "\\"
+              }
+            ]
+          },
+          "docs": "Returns a V4 signed GET URL for the file. By default the URL forces a download (Content-Disposition attachment); with disposition=inline it renders in the browser with the object's own Content-Type (used for previews)."
+        },
+        {
+          "info": {
+            "name": "Create folder",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/storage/folders"
+          },
+          "docs": "Creates an empty folder (zero-byte placeholder object) in the given directory of the business node's storage space. Refused with 409 inside folders synced from an external data source."
+        },
+        {
+          "info": {
+            "name": "List storage directory",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/storage/list",
+            "params": [
+              {
+                "name": "business_node_id",
+                "value": "",
+                "type": "query",
+                "description": "Leaf business node ID (root of the storage space)"
+              },
+              {
+                "name": "path",
+                "value": "",
+                "type": "query",
+                "description": "Directory path relative to the node root (empty = root)"
+              },
+              {
+                "name": "page_token",
+                "value": "",
+                "type": "query",
+                "description": "Opaque page token from a previous response"
+              },
+              {
+                "name": "page_size",
+                "value": "",
+                "type": "query",
+                "description": "Items per page (default 200, max 1000)"
+              }
+            ]
+          },
+          "docs": "Lists one level of files and folders in the business node's storage space. Page through with page_token; an empty next_page_token means the level is exhausted. Folder keys can repeat across pages and should be deduped client-side."
+        },
+        {
+          "info": {
+            "name": "Delete file or folder",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/storage/objects",
+            "params": [
+              {
+                "name": "business_node_id",
+                "value": "",
+                "type": "query",
+                "description": "Leaf business node ID"
+              },
+              {
+                "name": "key",
+                "value": "",
+                "type": "query",
+                "description": "Node-relative key (folder keys may end with /)"
+              },
+              {
+                "name": "type",
+                "value": "",
+                "type": "query",
+                "description": "\\"
+              }
+            ]
+          },
+          "docs": "Deletes a single file, or every object under a folder key. Type must be \"file\" or \"folder\". Deleting a folder synced from an external data source (or a folder containing one) also disconnects that data source; items INSIDE a synced folder cannot be deleted (409), and deletion is refused with 409 while an affected sync is running."
+        },
+        {
+          "info": {
+            "name": "Paste (copy/move) items",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/storage/paste"
+          },
+          "docs": "Copies or moves a batch of files/folders (siblings from one folder level) into a destination directory, optionally in a different accessible business node. Both modes resolve name collisions with numeric \" (2)\" suffixes — nothing is overwritten. Moving a folder into itself or its own subtree is rejected. Nothing can be pasted INTO a folder synced from an external data source, and items inside a synced folder can be copied out but not moved (409). Partial failures return 200 with a failed list."
+        },
+        {
+          "info": {
+            "name": "Prepare upload",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/storage/prepare-upload"
+          },
+          "docs": "Returns the key an upload should use for the given file — unchanged when free, numerically suffixed (\"a.pdf\" → \"a (2).pdf\") when the name is already taken — plus a V4 signed PUT URL for exactly that key. PUT the file body to upload_url sending upload_headers verbatim: they carry an if-generation-match precondition (412 if the object appeared meanwhile — re-resolve and retry) and a content-length-range that GCS enforces on the actual received bytes (400 when over max_size_bytes). Called once per "
+        },
+        {
+          "info": {
+            "name": "Rename or move",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/storage/rename"
+          },
+          "docs": "Moves a file or folder (copy + delete) to a new key within the same business node. A folder move relocates every object under its prefix; the destination must not be inside the source, and a destination name that already exists is rejected with 409. Items inside a folder synced from an external data source cannot be renamed or moved, and nothing can move into one (409); renaming or moving the synced folder itself (or an ancestor) keeps its connection pointed at the new location."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

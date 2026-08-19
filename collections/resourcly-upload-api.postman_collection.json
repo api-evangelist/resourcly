@@ -1,0 +1,305 @@
+{
+  "item": [
+    {
+      "id": "e0b7d4f7-ea5a-494d-bab4-860c67ae0122",
+      "name": "upload",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "f8c4ec13-780d-462d-8e4a-35d6cb8acfd9",
+          "name": "Analyze spreadsheet columns with AI",
+          "request": {
+            "name": "Analyze spreadsheet columns with AI",
+            "description": {
+              "content": "Detects whether a file is ERP or BOM and suggests column mappings based on headers and sample rows.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "upload",
+                "analyze"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "Authorization"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"force_file_type\": \"<string>\",\n  \"headers\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"sample_rows\": [\n    [\n      \"<string>\",\n      \"<string>\"\n    ],\n    [\n      \"<string>\",\n      \"<string>\"\n    ]\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "dd2d2644-e87c-4748-9e83-8ee28f9b0bf9",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "upload",
+                    "analyze"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"force_file_type\": \"<string>\",\n  \"headers\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"sample_rows\": [\n    [\n      \"<string>\",\n      \"<string>\"\n    ],\n    [\n      \"<string>\",\n      \"<string>\"\n    ]\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"columns\": {\n    \"attributes\": [\n      {\n        \"label\": \"string\",\n        \"source_column\": \"string\",\n        \"type\": \"string\"\n      },\n      {\n        \"label\": \"string\",\n        \"source_column\": \"string\",\n        \"type\": \"string\"\n      }\n    ],\n    \"description_column\": \"string\",\n    \"description_columns\": [\n      \"string\",\n      \"string\"\n    ],\n    \"find_no_column\": \"string\",\n    \"hierarchy_pattern\": \"string\",\n    \"hierarchy_source_column\": \"string\",\n    \"hierarchy_type\": \"string\",\n    \"level_column\": \"string\",\n    \"manufacturer_column\": \"string\",\n    \"parent_column\": \"string\",\n    \"part_number_column\": \"string\",\n    \"primary_identifier_column\": \"string\",\n    \"purchase_price_column\": \"string\",\n    \"purchase_quantity_column\": \"string\",\n    \"quantity_column\": \"string\",\n    \"secondary_identifier_column\": \"string\",\n    \"supplier_name_column\": \"string\",\n    \"supplier_number_column\": \"string\",\n    \"unit_column\": \"string\"\n  },\n  \"confidence\": 181.56435169393248,\n  \"file_type\": \"string\",\n  \"reasoning\": \"string\",\n  \"suggested_levels\": [\n    2514,\n    3972\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ce3561fd-d6f0-4a34-a676-503de8cddfdb",
+              "name": "Bad Request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "upload",
+                    "analyze"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"force_file_type\": \"<string>\",\n  \"headers\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"sample_rows\": [\n    [\n      \"<string>\",\n      \"<string>\"\n    ],\n    [\n      \"<string>\",\n      \"<string>\"\n    ]\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"details\": \"\",\n  \"error\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "dd74719c-ba00-4033-98b3-6e386da9f47b",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "upload",
+                    "analyze"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"force_file_type\": \"<string>\",\n  \"headers\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"sample_rows\": [\n    [\n      \"<string>\",\n      \"<string>\"\n    ],\n    [\n      \"<string>\",\n      \"<string>\"\n    ]\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"details\": \"\",\n  \"error\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "8376b0cc-d5db-4ad4-8ff9-a990e91f91d6",
+              "name": "Internal Server Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "upload",
+                    "analyze"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"force_file_type\": \"<string>\",\n  \"headers\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"sample_rows\": [\n    [\n      \"<string>\",\n      \"<string>\"\n    ],\n    [\n      \"<string>\",\n      \"<string>\"\n    ]\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"details\": \"\",\n  \"error\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "//api.resourcly.com/v1",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "e3b05ee4-ead9-4a0f-bdd7-635cd3d46278",
+    "name": "Resourcly analytics upload API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "API for document processing, item similarity search, and analytics.\n\nContact Support:\n Name: API Support\n Email: support@resourcly.com",
+      "type": "text/plain"
+    }
+  }
+}

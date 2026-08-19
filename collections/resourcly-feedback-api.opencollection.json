@@ -1,0 +1,29 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Resourcly analytics feedback API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "feedback",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Submit a bug report",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/feedback"
+          },
+          "docs": "Accepts a multipart form with title, description, email, and optional images."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

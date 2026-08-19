@@ -1,0 +1,110 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Resourcly analytics suppliers API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "suppliers",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Import supplier catalog",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/suppliers/import"
+          },
+          "docs": "Start an async import of supplier catalog files (ZIP, XML, XLSX) from data sources"
+        },
+        {
+          "info": {
+            "name": "Get supplier media file",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/suppliers/:id/media/:filename",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "Supplier UUID"
+              },
+              {
+                "name": "filename",
+                "value": "",
+                "type": "path",
+                "description": "Media filename (e.g., 09990000001.jpg)"
+              }
+            ]
+          },
+          "docs": "Streams a media file (image, PDF, CAD) from the supplier's media asset ZIP"
+        },
+        {
+          "info": {
+            "name": "List supplier products",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/suppliers/:id/products",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "Supplier UUID"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Max results (default 50, max 500)"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "Pagination offset"
+              },
+              {
+                "name": "status",
+                "value": "",
+                "type": "query",
+                "description": "Filter by status: active, orphaned (default active)"
+              }
+            ]
+          },
+          "docs": "Returns paginated list of products for a supplier"
+        },
+        {
+          "info": {
+            "name": "Get supplier product count",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/suppliers/:id/products/count",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "Supplier UUID"
+              }
+            ]
+          },
+          "docs": "Returns the number of active products for a supplier"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,211 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Resourcly analytics datasources API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "datasources",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List data sources",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/datasources",
+            "params": [
+              {
+                "name": "prefix",
+                "value": "",
+                "type": "query",
+                "description": "Folder prefix to list (e.g., 'specs/' or 'drawings/')"
+              },
+              {
+                "name": "max_results",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of results (default 100, max 1000)"
+              },
+              {
+                "name": "page_token",
+                "value": "",
+                "type": "query",
+                "description": "Continuation token for pagination"
+              },
+              {
+                "name": "status",
+                "value": "",
+                "type": "query",
+                "description": "Filter by import status: completed, processing, failed, not_imported"
+              },
+              {
+                "name": "search",
+                "value": "",
+                "type": "query",
+                "description": "Search query to find files by name across all data sources"
+              }
+            ]
+          },
+          "docs": "Lists files and folders in the business's data sources directory with optional prefix filtering"
+        },
+        {
+          "info": {
+            "name": "Analyze a data-source spreadsheet",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/datasources/analyze-file"
+          },
+          "docs": "Reads a single data-source spreadsheet (xlsx/xls/csv) from storage and returns the AI-detected file type and suggested column mapping."
+        },
+        {
+          "info": {
+            "name": "Import from data sources",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/datasources/import"
+          },
+          "docs": "Creates an import job from selected files in the data sources bucket"
+        },
+        {
+          "info": {
+            "name": "Preview a data-source import",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/datasources/import-preview"
+          },
+          "docs": "Categorizes the selected data-source files/folders into needs-review, valid, and invalid buckets using the business import folder mapping, and returns the counts plus the full needs-review list. Valid/invalid files are browsed lazily on demand as a unified tree via GET /datasources/import-preview/{preview_id}."
+        },
+        {
+          "info": {
+            "name": "Browse a data-source import preview as a tree",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/datasources/import-preview/:preview_id",
+            "params": [
+              {
+                "name": "preview_id",
+                "value": "",
+                "type": "path",
+                "description": "Preview ID"
+              },
+              {
+                "name": "path",
+                "value": "",
+                "type": "query",
+                "description": "Folder path relative to the business root (empty = root)"
+              },
+              {
+                "name": "page_token",
+                "value": "",
+                "type": "query",
+                "description": "Opaque token to fetch the next page of a large level"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Page size (default 50, max 200)"
+              }
+            ]
+          },
+          "docs": "Lists one lazily-loaded level of a previously created import preview's unified file tree; each file is tagged valid/invalid/review. Pass `path` (relative to the business root, empty for the root) to list a folder's children, and `page_token` from a previous response to continue a large level. Folders may recur across pages and must be de-duplicated by path."
+        },
+        {
+          "info": {
+            "name": "Get import status for data source files",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/datasources/import-status"
+          },
+          "docs": "Checks which files have been imported and returns their document status and item count"
+        },
+        {
+          "info": {
+            "name": "Import BOM spreadsheets from data sources",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/datasources/import/bom"
+          },
+          "docs": "Enqueues one or more BOM spreadsheets from the data sources bucket for asynchronous import under a single import job"
+        },
+        {
+          "info": {
+            "name": "Import an ERP inventory spreadsheet from data sources",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/datasources/import/erp"
+          },
+          "docs": "Reads one spreadsheet from the data sources bucket by key and imports it as ERP inventory for the given business node"
+        },
+        {
+          "info": {
+            "name": "Import item documents from data sources (folder-mapping filtered)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/datasources/import/items"
+          },
+          "docs": "Imports item documents from the data sources bucket, keeping only files that match the business folder mapping. Creates a re-runnable import job."
+        },
+        {
+          "info": {
+            "name": "Unzip data source file",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/datasources/unzip"
+          },
+          "docs": "Extracts a zip file in the business's data sources directory"
+        },
+        {
+          "info": {
+            "name": "Get download URL",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/datasources/url",
+            "params": [
+              {
+                "name": "key",
+                "value": "",
+                "type": "query",
+                "description": "Object key (path) of the file to download"
+              },
+              {
+                "name": "expiration",
+                "value": "",
+                "type": "query",
+                "description": "URL expiration in minutes (default 60, max 720)"
+              }
+            ]
+          },
+          "docs": "Generates a signed URL for downloading a file from the business's data sources directory"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

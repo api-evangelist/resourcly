@@ -1,0 +1,1870 @@
+{
+  "item": [
+    {
+      "id": "16c01be8-8318-4159-b595-9698451974de",
+      "name": "drive",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "595b456a-460d-4795-b5eb-da9bc7e21241",
+          "name": "Browse the data store",
+          "request": {
+            "name": "Browse the data store",
+            "description": {
+              "content": "List objects and prefixes (folders) at a given path",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "drive",
+                "browse"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "prefix",
+                  "value": "<string>",
+                  "description": "Path prefix to browse"
+                },
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "1",
+                  "description": "Page number"
+                },
+                {
+                  "disabled": false,
+                  "key": "page_size",
+                  "value": "100",
+                  "description": "Page size"
+                },
+                {
+                  "disabled": false,
+                  "key": "delimiter",
+                  "value": "\"/\"",
+                  "description": "Delimiter for folder grouping"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "8e2876da-256c-4fb6-9b16-54a9d71af7d5",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "drive",
+                    "browse"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "prefix",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "page_size",
+                      "value": "100"
+                    },
+                    {
+                      "key": "delimiter",
+                      "value": "\"/\""
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"objects\": [\n    {\n      \"bucket\": \"string\",\n      \"business_id\": \"string\",\n      \"content_type\": \"string\",\n      \"created_at\": \"string\",\n      \"id\": \"string\",\n      \"last_accessed_at\": \"string\",\n      \"metadata\": {\n        \"key_0\": \"string\"\n      },\n      \"name\": \"string\",\n      \"path\": \"string\",\n      \"size\": 2709,\n      \"storage_class\": \"string\",\n      \"tags\": [\n        \"string\",\n        \"string\"\n      ],\n      \"updated_at\": \"string\"\n    },\n    {\n      \"bucket\": \"string\",\n      \"business_id\": \"string\",\n      \"content_type\": \"string\",\n      \"created_at\": \"string\",\n      \"id\": \"string\",\n      \"last_accessed_at\": \"string\",\n      \"metadata\": {\n        \"key_0\": \"string\"\n      },\n      \"name\": \"string\",\n      \"path\": \"string\",\n      \"size\": 2323,\n      \"storage_class\": \"string\",\n      \"tags\": [\n        \"string\",\n        \"string\"\n      ],\n      \"updated_at\": \"string\"\n    }\n  ],\n  \"page\": 7018,\n  \"page_size\": 9725,\n  \"prefixes\": [\n    \"string\",\n    \"string\"\n  ],\n  \"total\": 5464\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "240df673-127f-4f76-bfa7-da83f3aa28d8",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "drive",
+                    "browse"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "prefix",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "page_size",
+                      "value": "100"
+                    },
+                    {
+                      "key": "delimiter",
+                      "value": "\"/\""
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"details\": \"\",\n  \"error\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "a3e71921-5b3d-4807-9815-40bc070834e5",
+          "name": "Request download",
+          "request": {
+            "name": "Request download",
+            "description": {
+              "content": "Generate signed download URL(s) for one or more objects",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "drive",
+                "download"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"object_ids\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "53ec296f-66c7-497a-aa07-20973022e7df",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "drive",
+                    "download"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"download_url\": \"string\",\n  \"download_urls\": [\n    {\n      \"download_url\": \"string\",\n      \"name\": \"string\",\n      \"object_id\": \"string\",\n      \"size\": 2277\n    },\n    {\n      \"download_url\": \"string\",\n      \"name\": \"string\",\n      \"object_id\": \"string\",\n      \"size\": 7131\n    }\n  ],\n  \"expires_at\": \"string\",\n  \"total_size\": 4113\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d82f2f1e-2637-436e-8c04-a96ff296b066",
+              "name": "Bad Request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "drive",
+                    "download"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"details\": \"\",\n  \"error\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f0ffd24a-81bb-47cb-850e-e2a64b8a2e0c",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "drive",
+                    "download"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"details\": \"\",\n  \"error\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "a1e3a45e-a278-4419-8e0b-1ce67c273db9",
+          "name": "Bulk download as ZIP",
+          "request": {
+            "name": "Bulk download as ZIP",
+            "description": {
+              "content": "Stream multiple objects as a single ZIP archive",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "drive",
+                "download",
+                "zip"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/zip"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"object_ids\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "604e3363-1901-4d8d-a382-88c23bf32288",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "drive",
+                    "download",
+                    "zip"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/zip"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/zip"
+                }
+              ],
+              "body": "string",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "d483b5ac-5819-40a9-89f2-2d844f1e6513",
+              "name": "Bad Request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "drive",
+                    "download",
+                    "zip"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/zip"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/zip"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "1588c933-7abd-4b87-ab1c-6c7200bb8cfd",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "drive",
+                    "download",
+                    "zip"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/zip"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/zip"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "b4501914-8ffa-4a82-b164-3b2681b7bc1b",
+          "name": "Get object details",
+          "request": {
+            "name": "Get object details",
+            "description": {
+              "content": "Get metadata for a single object",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "drive",
+                "objects",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "id",
+                  "description": "(Required) Object ID"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "d27c83e2-d8d8-45d6-9768-303b522200e4",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "drive",
+                    "objects",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) Object ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"bucket\": \"string\",\n  \"business_id\": \"string\",\n  \"content_type\": \"string\",\n  \"created_at\": \"string\",\n  \"id\": \"string\",\n  \"last_accessed_at\": \"string\",\n  \"metadata\": {\n    \"key_0\": \"string\",\n    \"key_1\": \"string\",\n    \"key_2\": \"string\"\n  },\n  \"name\": \"string\",\n  \"path\": \"string\",\n  \"size\": 8439,\n  \"storage_class\": \"string\",\n  \"tags\": [\n    \"string\",\n    \"string\"\n  ],\n  \"updated_at\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b34846d9-5d92-40c0-8855-3dba595b1c26",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "drive",
+                    "objects",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) Object ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"details\": \"\",\n  \"error\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "61e658b6-73a4-46c6-9125-25c26f2a31c8",
+              "name": "Not Found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "drive",
+                    "objects",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) Object ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"details\": \"\",\n  \"error\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "54dd29f3-51e7-4b53-b15c-acfce98f3cdf",
+          "name": "Restore object from cold storage",
+          "request": {
+            "name": "Restore object from cold storage",
+            "description": {
+              "content": "Initiate restoration of an object from Coldline/Archive storage",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "drive",
+                "objects",
+                ":id",
+                "restore"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "id",
+                  "description": "(Required) Object ID"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "*/*"
+              }
+            ],
+            "method": "POST",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "ae383de2-3d59-455d-ac34-94d1c6f2cd7e",
+              "name": "Accepted",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "drive",
+                    "objects",
+                    ":id",
+                    "restore"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) Object ID"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Accepted",
+              "code": 202,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "c5131d12-455e-4b16-b1ad-13e77ae265e9",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "drive",
+                    "objects",
+                    ":id",
+                    "restore"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) Object ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "*/*"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "*/*"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"details\": \"\",\n  \"error\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "7460febd-fcba-484b-8960-a73791cc6a16",
+              "name": "Not Found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "drive",
+                    "objects",
+                    ":id",
+                    "restore"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) Object ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "*/*"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "*/*"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"details\": \"\",\n  \"error\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "d980655f-fe86-417d-b174-4052317a70b4",
+          "name": "Search the data store",
+          "request": {
+            "name": "Search the data store",
+            "description": {
+              "content": "Full-text search across all indexed objects in the data store",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "drive",
+                "search"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"content_type\": \"<string>\",\n  \"max_size\": \"<integer>\",\n  \"min_size\": \"<integer>\",\n  \"page\": \"<integer>\",\n  \"page_size\": \"<integer>\",\n  \"prefix\": \"<string>\",\n  \"query\": \"<string>\",\n  \"sort_by\": \"<string>\",\n  \"sort_order\": \"<string>\",\n  \"storage_class\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "edfe9671-127e-4554-a06a-64e1bddb8b46",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "drive",
+                    "search"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"content_type\": \"<string>\",\n  \"max_size\": \"<integer>\",\n  \"min_size\": \"<integer>\",\n  \"page\": \"<integer>\",\n  \"page_size\": \"<integer>\",\n  \"prefix\": \"<string>\",\n  \"query\": \"<string>\",\n  \"sort_by\": \"<string>\",\n  \"sort_order\": \"<string>\",\n  \"storage_class\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"highlights\": {\n    \"key_0\": [\n      \"string\",\n      \"string\"\n    ],\n    \"key_1\": [\n      \"string\",\n      \"string\"\n    ]\n  },\n  \"objects\": [\n    {\n      \"bucket\": \"string\",\n      \"business_id\": \"string\",\n      \"content_type\": \"string\",\n      \"created_at\": \"string\",\n      \"id\": \"string\",\n      \"last_accessed_at\": \"string\",\n      \"metadata\": {\n        \"key_0\": \"string\",\n        \"key_1\": \"string\",\n        \"key_2\": \"string\"\n      },\n      \"name\": \"string\",\n      \"path\": \"string\",\n      \"size\": 714,\n      \"storage_class\": \"string\",\n      \"tags\": [\n        \"string\",\n        \"string\"\n      ],\n      \"updated_at\": \"string\"\n    },\n    {\n      \"bucket\": \"string\",\n      \"business_id\": \"string\",\n      \"content_type\": \"string\",\n      \"created_at\": \"string\",\n      \"id\": \"string\",\n      \"last_accessed_at\": \"string\",\n      \"metadata\": {\n        \"key_0\": \"string\",\n        \"key_1\": \"string\",\n        \"key_2\": \"string\"\n      },\n      \"name\": \"string\",\n      \"path\": \"string\",\n      \"size\": 6037,\n      \"storage_class\": \"string\",\n      \"tags\": [\n        \"string\",\n        \"string\"\n      ],\n      \"updated_at\": \"string\"\n    }\n  ],\n  \"page\": 5931,\n  \"page_size\": 1919,\n  \"total\": 7181\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b6dd91f4-381d-40c5-9d0e-1346a134c554",
+              "name": "Bad Request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "drive",
+                    "search"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"content_type\": \"<string>\",\n  \"max_size\": \"<integer>\",\n  \"min_size\": \"<integer>\",\n  \"page\": \"<integer>\",\n  \"page_size\": \"<integer>\",\n  \"prefix\": \"<string>\",\n  \"query\": \"<string>\",\n  \"sort_by\": \"<string>\",\n  \"sort_order\": \"<string>\",\n  \"storage_class\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"details\": \"\",\n  \"error\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "383df320-ab43-45d7-bc28-567cebf440c5",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "drive",
+                    "search"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"content_type\": \"<string>\",\n  \"max_size\": \"<integer>\",\n  \"min_size\": \"<integer>\",\n  \"page\": \"<integer>\",\n  \"page_size\": \"<integer>\",\n  \"prefix\": \"<string>\",\n  \"query\": \"<string>\",\n  \"sort_by\": \"<string>\",\n  \"sort_order\": \"<string>\",\n  \"storage_class\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"details\": \"\",\n  \"error\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "a5ae345d-9e02-4ef9-b492-f451406f1077",
+          "name": "Access shared content",
+          "request": {
+            "name": "Access shared content",
+            "description": {
+              "content": "Access content via a share link (public, no auth required)",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "drive",
+                "shared",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "password",
+                  "value": "<string>",
+                  "description": "Password for protected links"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "id",
+                  "description": "(Required) Share link ID"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "fee79027-20c2-4bd0-b37e-4c3dabbc455d",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "drive",
+                    "shared",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "password",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) Share link ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"objects\": [\n    {\n      \"bucket\": \"string\",\n      \"business_id\": \"string\",\n      \"content_type\": \"string\",\n      \"created_at\": \"string\",\n      \"id\": \"string\",\n      \"last_accessed_at\": \"string\",\n      \"metadata\": {\n        \"key_0\": \"string\",\n        \"key_1\": \"string\",\n        \"key_2\": \"string\"\n      },\n      \"name\": \"string\",\n      \"path\": \"string\",\n      \"size\": 1308,\n      \"storage_class\": \"string\",\n      \"tags\": [\n        \"string\",\n        \"string\"\n      ],\n      \"updated_at\": \"string\"\n    },\n    {\n      \"bucket\": \"string\",\n      \"business_id\": \"string\",\n      \"content_type\": \"string\",\n      \"created_at\": \"string\",\n      \"id\": \"string\",\n      \"last_accessed_at\": \"string\",\n      \"metadata\": {\n        \"key_0\": \"string\",\n        \"key_1\": \"string\",\n        \"key_2\": \"string\",\n        \"key_3\": \"string\"\n      },\n      \"name\": \"string\",\n      \"path\": \"string\",\n      \"size\": 4304,\n      \"storage_class\": \"string\",\n      \"tags\": [\n        \"string\",\n        \"string\"\n      ],\n      \"updated_at\": \"string\"\n    }\n  ],\n  \"page\": 7768,\n  \"page_size\": 353,\n  \"prefixes\": [\n    \"string\",\n    \"string\"\n  ],\n  \"total\": 5873\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "417466bc-36c5-4ac6-8e73-8a49e79ae5b4",
+              "name": "Password required",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "drive",
+                    "shared",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "password",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) Share link ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"details\": \"\",\n  \"error\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c4b03e12-b463-45ab-ad69-ff3249f65794",
+              "name": "Not Found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "drive",
+                    "shared",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "password",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) Share link ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"details\": \"\",\n  \"error\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "5f31f36c-205e-418f-aa2d-74acfc3f883e",
+          "name": "List share links",
+          "request": {
+            "name": "List share links",
+            "description": {
+              "content": "List all share links created by the authenticated user's business",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "drive",
+                "shares"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "04362e36-eeee-4503-a92e-239f15c3c94f",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "drive",
+                    "shares"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"access_level\": \"string\",\n    \"created_at\": \"string\",\n    \"created_by\": \"string\",\n    \"expires_at\": \"string\",\n    \"id\": \"string\",\n    \"label\": \"string\",\n    \"password_protected\": true,\n    \"scope\": {\n      \"object_ids\": [\n        \"string\",\n        \"string\"\n      ],\n      \"prefix\": \"string\",\n      \"query\": {\n        \"content_type\": \"<string>\",\n        \"max_size\": \"<integer>\",\n        \"min_size\": \"<integer>\",\n        \"page\": \"<integer>\",\n        \"page_size\": \"<integer>\",\n        \"prefix\": \"<string>\",\n        \"query\": \"<string>\",\n        \"sort_by\": \"<string>\",\n        \"sort_order\": \"<string>\",\n        \"storage_class\": \"<string>\"\n      },\n      \"type\": \"string\"\n    },\n    \"url\": \"string\"\n  },\n  {\n    \"access_level\": \"string\",\n    \"created_at\": \"string\",\n    \"created_by\": \"string\",\n    \"expires_at\": \"string\",\n    \"id\": \"string\",\n    \"label\": \"string\",\n    \"password_protected\": true,\n    \"scope\": {\n      \"object_ids\": [\n        \"string\",\n        \"string\"\n      ],\n      \"prefix\": \"string\",\n      \"query\": {\n        \"content_type\": \"<string>\",\n        \"max_size\": \"<integer>\",\n        \"min_size\": \"<integer>\",\n        \"page\": \"<integer>\",\n        \"page_size\": \"<integer>\",\n        \"prefix\": \"<string>\",\n        \"query\": \"<string>\",\n        \"sort_by\": \"<string>\",\n        \"sort_order\": \"<string>\",\n        \"storage_class\": \"<string>\"\n      },\n      \"type\": \"string\"\n    },\n    \"url\": \"string\"\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "eb6b5bfd-6a5b-45d9-b3ee-050d5955f28b",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "drive",
+                    "shares"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"details\": \"\",\n  \"error\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "466b398d-b71f-4fe2-863c-38fbbb917c3a",
+          "name": "Create a share link",
+          "request": {
+            "name": "Create a share link",
+            "description": {
+              "content": "Create a shareable link for files, folders, or search results",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "drive",
+                "shares"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"access_level\": \"<string>\",\n  \"expires_in_hours\": \"<integer>\",\n  \"label\": \"<string>\",\n  \"password\": \"<string>\",\n  \"scope\": {\n    \"object_ids\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"prefix\": \"<string>\",\n    \"query\": {\n      \"content_type\": \"<string>\",\n      \"max_size\": \"<integer>\",\n      \"min_size\": \"<integer>\",\n      \"page\": \"<integer>\",\n      \"page_size\": \"<integer>\",\n      \"prefix\": \"<string>\",\n      \"query\": \"<string>\",\n      \"sort_by\": \"<string>\",\n      \"sort_order\": \"<string>\",\n      \"storage_class\": \"<string>\"\n    },\n    \"type\": \"<string>\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "1a9bedfd-b2ca-4eff-b33b-3aca79aec9b3",
+              "name": "Created",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "drive",
+                    "shares"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"access_level\": \"<string>\",\n  \"expires_in_hours\": \"<integer>\",\n  \"label\": \"<string>\",\n  \"password\": \"<string>\",\n  \"scope\": {\n    \"object_ids\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"prefix\": \"<string>\",\n    \"query\": {\n      \"content_type\": \"<string>\",\n      \"max_size\": \"<integer>\",\n      \"min_size\": \"<integer>\",\n      \"page\": \"<integer>\",\n      \"page_size\": \"<integer>\",\n      \"prefix\": \"<string>\",\n      \"query\": \"<string>\",\n      \"sort_by\": \"<string>\",\n      \"sort_order\": \"<string>\",\n      \"storage_class\": \"<string>\"\n    },\n    \"type\": \"<string>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"access_level\": \"string\",\n  \"created_at\": \"string\",\n  \"created_by\": \"string\",\n  \"expires_at\": \"string\",\n  \"id\": \"string\",\n  \"label\": \"string\",\n  \"password_protected\": false,\n  \"scope\": {\n    \"object_ids\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"prefix\": \"<string>\",\n    \"query\": {\n      \"content_type\": \"<string>\",\n      \"max_size\": \"<integer>\",\n      \"min_size\": \"<integer>\",\n      \"page\": \"<integer>\",\n      \"page_size\": \"<integer>\",\n      \"prefix\": \"<string>\",\n      \"query\": \"<string>\",\n      \"sort_by\": \"<string>\",\n      \"sort_order\": \"<string>\",\n      \"storage_class\": \"<string>\"\n    },\n    \"type\": \"<string>\"\n  },\n  \"url\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "2f77edcf-8adf-48f0-b9ed-87ad2790c462",
+              "name": "Bad Request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "drive",
+                    "shares"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"access_level\": \"<string>\",\n  \"expires_in_hours\": \"<integer>\",\n  \"label\": \"<string>\",\n  \"password\": \"<string>\",\n  \"scope\": {\n    \"object_ids\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"prefix\": \"<string>\",\n    \"query\": {\n      \"content_type\": \"<string>\",\n      \"max_size\": \"<integer>\",\n      \"min_size\": \"<integer>\",\n      \"page\": \"<integer>\",\n      \"page_size\": \"<integer>\",\n      \"prefix\": \"<string>\",\n      \"query\": \"<string>\",\n      \"sort_by\": \"<string>\",\n      \"sort_order\": \"<string>\",\n      \"storage_class\": \"<string>\"\n    },\n    \"type\": \"<string>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"details\": \"\",\n  \"error\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "4da3a684-d765-4471-97c1-33e9dc427204",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "drive",
+                    "shares"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"access_level\": \"<string>\",\n  \"expires_in_hours\": \"<integer>\",\n  \"label\": \"<string>\",\n  \"password\": \"<string>\",\n  \"scope\": {\n    \"object_ids\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"prefix\": \"<string>\",\n    \"query\": {\n      \"content_type\": \"<string>\",\n      \"max_size\": \"<integer>\",\n      \"min_size\": \"<integer>\",\n      \"page\": \"<integer>\",\n      \"page_size\": \"<integer>\",\n      \"prefix\": \"<string>\",\n      \"query\": \"<string>\",\n      \"sort_by\": \"<string>\",\n      \"sort_order\": \"<string>\",\n      \"storage_class\": \"<string>\"\n    },\n    \"type\": \"<string>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"details\": \"\",\n  \"error\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "4de87e86-422e-4d1c-88df-23156b06303e",
+          "name": "Delete a share link",
+          "request": {
+            "name": "Delete a share link",
+            "description": {
+              "content": "Revoke and delete a share link",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "drive",
+                "shares",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "id",
+                  "description": "(Required) Share link ID"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "*/*"
+              }
+            ],
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "462e9e94-71b6-4c5e-813f-058bebcf26b9",
+              "name": "No Content",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "drive",
+                    "shares",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) Share link ID"
+                    }
+                  ]
+                },
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "7f37bd98-dbc6-4d96-b20f-57207bac5690",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "drive",
+                    "shares",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) Share link ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "*/*"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "*/*"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"details\": \"\",\n  \"error\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "20ede905-b038-48a4-8607-d1967d8257de",
+              "name": "Not Found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "drive",
+                    "shares",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) Share link ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "*/*"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "*/*"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"details\": \"\",\n  \"error\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "eda4b78a-e70d-4cf7-8c37-5c6e551d924e",
+          "name": "Get storage statistics",
+          "request": {
+            "name": "Get storage statistics",
+            "description": {
+              "content": "Get aggregate statistics about the data store",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "drive",
+                "stats"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "b6024b36-9cc6-44f9-a553-005fa3cf9a9b",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "drive",
+                    "stats"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"by_content_type\": {\n    \"key_0\": {\n      \"count\": 8011,\n      \"size\": 1111\n    },\n    \"key_1\": {\n      \"count\": 7260,\n      \"size\": 2953\n    }\n  },\n  \"by_storage_class\": {\n    \"key_0\": {\n      \"count\": 3525,\n      \"size\": 2420\n    }\n  },\n  \"total_objects\": 9951,\n  \"total_size\": 7701\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "24475f45-3210-435e-8e72-14c2ee6c6d88",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "drive",
+                    "stats"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"details\": \"\",\n  \"error\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "//api.resourcly.com/v1",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "58f242c6-a0d2-4ed9-b59c-998b55133eb4",
+    "name": "Resourcly analytics drive API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "API for document processing, item similarity search, and analytics.\n\nContact Support:\n Name: API Support\n Email: support@resourcly.com",
+      "type": "text/plain"
+    }
+  }
+}

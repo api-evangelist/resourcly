@@ -1,0 +1,115 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Resourcly analytics search API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "search",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Unified search",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/search"
+          },
+          "docs": "Search items using both Elasticsearch (text) and Vertex AI (semantic) in parallel, merged and deduplicated by item"
+        },
+        {
+          "info": {
+            "name": "Autocomplete suggestions",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/search/autocomplete",
+            "params": [
+              {
+                "name": "q",
+                "value": "",
+                "type": "query",
+                "description": "Search query (min 2 chars)"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Max suggestions"
+              },
+              {
+                "name": "business_node_ids",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated business node IDs to filter by"
+              }
+            ]
+          },
+          "docs": "Returns autocomplete suggestions for part numbers, manufacturers, etc."
+        },
+        {
+          "info": {
+            "name": "Visual search",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/search/visual",
+            "params": [
+              {
+                "name": "image_id",
+                "value": "",
+                "type": "query",
+                "description": "UUID of previously uploaded search image"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Max results"
+              }
+            ]
+          },
+          "docs": "Searches for items using a previously uploaded image (via /search/visual/images). Matches images in documents, then resolves to items via the item_documents links."
+        },
+        {
+          "info": {
+            "name": "Upload image for visual search",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/search/visual/images"
+          },
+          "docs": "Uploads an image to GCS for use in visual search. Returns a UUID that can be used with the visual search endpoint."
+        },
+        {
+          "info": {
+            "name": "Get search image metadata",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/search/visual/images/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "Image UUID"
+              }
+            ]
+          },
+          "docs": "Returns metadata and a signed URL for a previously uploaded search image."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

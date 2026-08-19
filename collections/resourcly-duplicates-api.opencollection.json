@@ -1,0 +1,49 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Resourcly analytics duplicates API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "duplicates",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get similar items",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/items/:id/similar",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "Item ID"
+              },
+              {
+                "name": "min_shared_specs",
+                "value": "",
+                "type": "query",
+                "description": "Minimum shared specs to consider similar (default 3)"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Max results (default 20, max 100)"
+              }
+            ]
+          },
+          "docs": "Returns items similar to the given item, with explanations of why they are similar (shared specs, similarity matches, same duplicate group)"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

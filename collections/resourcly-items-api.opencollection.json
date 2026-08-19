@@ -1,0 +1,392 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Resourcly analytics Items API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Items",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Remove an item's HS code decision",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/items/:id/hs-code",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "Item ID"
+              }
+            ]
+          },
+          "docs": "Deletes the user's verified/override HS code decision for the item, reverting to AI suggestions."
+        },
+        {
+          "info": {
+            "name": "Overwrite an item's HS code",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/items/:id/hs-code/override",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "Item ID"
+              }
+            ]
+          },
+          "docs": "Stores a user-corrected HS code for the item as a durable override that survives AI re-classification. Chapter/heading/subheading are derived from the code."
+        },
+        {
+          "info": {
+            "name": "Verify an item's HS code",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/items/:id/hs-code/verify",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "Item ID"
+              }
+            ]
+          },
+          "docs": "Marks an AI-suggested HS code as verified for the item. The decision persists and survives AI re-classification. If no suggestion_id is given, the highest-confidence suggestion is verified."
+        },
+        {
+          "info": {
+            "name": "List items with pagination",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/items",
+            "params": [
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Max results (default 50, max 100)"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "Pagination offset"
+              },
+              {
+                "name": "business_node_ids",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated business node UUIDs to filter by"
+              },
+              {
+                "name": "with_files",
+                "value": "",
+                "type": "query",
+                "description": "When true (default), return only items with at least one attached file (any type). Pass false to include items with no files."
+              }
+            ]
+          },
+          "docs": "Returns a paginated list of all items the user has access to, ordered by creation date (newest first)."
+        },
+        {
+          "info": {
+            "name": "Get comparison review statuses for multiple item pairs",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/items/comparison-status/batch"
+          },
+          "docs": "Returns review statuses for a batch of item pairs"
+        },
+        {
+          "info": {
+            "name": "List items by similarity score range",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/items/similarity",
+            "params": [
+              {
+                "name": "min_score",
+                "value": "",
+                "type": "query",
+                "description": "Minimum similarity score (inclusive)"
+              },
+              {
+                "name": "max_score",
+                "value": "",
+                "type": "query",
+                "description": "Maximum similarity score (exclusive), 0 for no upper bound"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Max results (default 50, max 100)"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "Pagination offset"
+              }
+            ]
+          },
+          "docs": "Returns items that have at least one similarity relationship with a score"
+        },
+        {
+          "info": {
+            "name": "List item clusters by AI classification",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/items/similarity-clusters",
+            "params": [
+              {
+                "name": "ai_classification",
+                "value": "",
+                "type": "query",
+                "description": "AI classification value (e.g. duplicate, alternative)"
+              }
+            ]
+          },
+          "docs": "Returns connected components of items linked by SIMILARITY edges whose"
+        },
+        {
+          "info": {
+            "name": "Get similarity out-degree counts for items",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/items/similarity-counts",
+            "params": [
+              {
+                "name": "ids",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated item UUIDs"
+              },
+              {
+                "name": "threshold",
+                "value": "",
+                "type": "query",
+                "description": "Minimum similarity score (default 0.70)"
+              }
+            ]
+          },
+          "docs": "Returns for each item ID how many unique other items it has a one-way SIMILARITY relationship to above the given threshold"
+        },
+        {
+          "info": {
+            "name": "Compare two items side-by-side",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/items/:id1/compare/:id2",
+            "params": [
+              {
+                "name": "id1",
+                "value": "",
+                "type": "path",
+                "description": "First item ID"
+              },
+              {
+                "name": "id2",
+                "value": "",
+                "type": "path",
+                "description": "Second item ID"
+              }
+            ]
+          },
+          "docs": "Returns a detailed comparison of two items including specifications, similarity scores, and spec differences for side-by-side display"
+        },
+        {
+          "info": {
+            "name": "Get AI-powered engineering analysis for two items",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/items/:id1/compare/:id2/ai-analysis",
+            "params": [
+              {
+                "name": "id1",
+                "value": "",
+                "type": "path",
+                "description": "First item ID"
+              },
+              {
+                "name": "id2",
+                "value": "",
+                "type": "path",
+                "description": "Second item ID"
+              }
+            ]
+          },
+          "docs": "Returns a cached AI analysis or generates a new one using Claude.\nThe analysis includes engineering verdict, side-by-side attribute comparison,\nand catalog management recommendations."
+        },
+        {
+          "info": {
+            "name": "Get comparison review status for two items",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/items/:id1/comparison-status/:id2",
+            "params": [
+              {
+                "name": "id1",
+                "value": "",
+                "type": "path",
+                "description": "First item ID"
+              },
+              {
+                "name": "id2",
+                "value": "",
+                "type": "path",
+                "description": "Second item ID"
+              }
+            ]
+          },
+          "docs": "Returns the review status (duplicate/alternative/rejected/pending) for a pair of items"
+        },
+        {
+          "info": {
+            "name": "Update comparison review status for two items",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/items/:id1/comparison-status/:id2",
+            "params": [
+              {
+                "name": "id1",
+                "value": "",
+                "type": "path",
+                "description": "First item ID"
+              },
+              {
+                "name": "id2",
+                "value": "",
+                "type": "path",
+                "description": "Second item ID"
+              }
+            ]
+          },
+          "docs": "Sets the review status (duplicate/alternative/rejected) for a pair of items. Pass null status to reset to pending."
+        },
+        {
+          "info": {
+            "name": "Get item details",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/items/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "Item ID"
+              }
+            ]
+          },
+          "docs": "Returns detailed information about an item including specifications, source document, and duplicate group info"
+        },
+        {
+          "info": {
+            "name": "Get signed source document URL for an item",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/items/:id/source-url",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "Item ID"
+              }
+            ]
+          },
+          "docs": "Returns a short-lived signed URL to download the item's source document"
+        },
+        {
+          "info": {
+            "name": "Get visually similar items",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/items/:id/visual-similar",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "Item ID"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Max results (default 20, max 100)"
+              },
+              {
+                "name": "threshold",
+                "value": "",
+                "type": "query",
+                "description": "Min similarity score 0-1 (default 0.3)"
+              }
+            ]
+          },
+          "docs": "Finds items with visually similar document images using gemini-embedding-2 image embeddings.\nCompares up to 5 images from the item's source document against all other document images."
+        },
+        {
+          "info": {
+            "name": "Mark an item as a preferred part",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/v1/items/:id/preferred",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "Item ID"
+              }
+            ]
+          },
+          "docs": "Sets or clears the preferred-part flag on an item. The flag is read-only everywhere else and can only be changed here."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

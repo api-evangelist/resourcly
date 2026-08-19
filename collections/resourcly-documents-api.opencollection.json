@@ -1,0 +1,125 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Resourcly analytics documents API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "documents",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List documents",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/documents",
+            "params": [
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number"
+              },
+              {
+                "name": "page_size",
+                "value": "",
+                "type": "query",
+                "description": "Items per page"
+              }
+            ]
+          },
+          "docs": "Returns a paginated list of documents for the authenticated business"
+        },
+        {
+          "info": {
+            "name": "Get document",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/documents/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "Document ID (UUID or business_id:filename for legacy)"
+              }
+            ]
+          },
+          "docs": "Returns a single document by ID"
+        },
+        {
+          "info": {
+            "name": "Delete document",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/documents/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "Document ID (UUID or business_id:filename for legacy)"
+              }
+            ]
+          },
+          "docs": "Deletes a document and its associated data"
+        },
+        {
+          "info": {
+            "name": "Download document",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/documents/:id/download",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "Document ID (UUID or business_id:filename for legacy)"
+              }
+            ]
+          },
+          "docs": "Streams the document file directly to the client"
+        },
+        {
+          "info": {
+            "name": "Get document URL",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/documents/:id/url",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "Document ID (UUID or business_id:filename for legacy)"
+              },
+              {
+                "name": "download",
+                "value": "",
+                "type": "query",
+                "description": "If true, generate a download URL instead of a view URL"
+              }
+            ]
+          },
+          "docs": "Returns a signed URL for the document (valid for 5 minutes). By default the URL is\nconfigured for inline viewing in the browser. Pass ?download=true to get a download URL instead."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

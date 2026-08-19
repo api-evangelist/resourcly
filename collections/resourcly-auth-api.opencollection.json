@@ -1,0 +1,29 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Resourcly analytics auth API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "auth",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Switch environment",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/auth/switch-environment"
+          },
+          "docs": "Switches the user's environment between LIVE and SANDBOX and returns a new custom token with the environment claim"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

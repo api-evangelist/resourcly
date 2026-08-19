@@ -1,0 +1,105 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Resourcly analytics supplier-data-requests API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "supplier-data-requests",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List supplier data requests",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/supplier-data-requests"
+          },
+          "docs": "Lists all supplier data requests for the user's business"
+        },
+        {
+          "info": {
+            "name": "Get supplier data request detail",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/supplier-data-requests/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "Supplier data request ID"
+              }
+            ]
+          },
+          "docs": "Gets full details of a supplier data request including the supplier's response"
+        },
+        {
+          "info": {
+            "name": "Extend supplier request expiry",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/supplier-data-requests/:id/extend-expiry",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "Supplier data request ID"
+              }
+            ]
+          },
+          "docs": "Extends the expiry date of a request, regenerates the passcode, and sends a new email"
+        },
+        {
+          "info": {
+            "name": "Reset supplier request passcode",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/supplier-data-requests/:id/reset-passcode",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "Supplier data request ID"
+              }
+            ]
+          },
+          "docs": "Regenerates the passcode for a locked request and sends a new email to the supplier"
+        },
+        {
+          "info": {
+            "name": "Review supplier response",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/supplier-data-requests/:id/review",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "Supplier data request ID"
+              }
+            ]
+          },
+          "docs": "Approves or rejects a supplier response with optional rejection reason"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

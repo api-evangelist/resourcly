@@ -1,0 +1,221 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Resourcly analytics boms API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "boms",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List BOMs",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/boms",
+            "params": [
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number"
+              },
+              {
+                "name": "page_size",
+                "value": "",
+                "type": "query",
+                "description": "Items per page"
+              },
+              {
+                "name": "business_node_id",
+                "value": "",
+                "type": "query",
+                "description": "Filter by business node"
+              },
+              {
+                "name": "search",
+                "value": "",
+                "type": "query",
+                "description": "Filter by BOM name (substring) or BOM id"
+              },
+              {
+                "name": "status",
+                "value": "",
+                "type": "query",
+                "description": "Filter by status. Omit for active BOMs (excludes archived); pass 'archived' for archived BOMs"
+              }
+            ]
+          },
+          "docs": "Returns a paginated list of BOMs for the authenticated business"
+        },
+        {
+          "info": {
+            "name": "Import BOM from CSV/XLSX",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/boms/import"
+          },
+          "docs": "Uploads a spreadsheet file and creates a BOM with parsed lines"
+        },
+        {
+          "info": {
+            "name": "Preview BOM file",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/boms/preview"
+          },
+          "docs": "Parses a spreadsheet and returns preview rows with a default empty column mapping"
+        },
+        {
+          "info": {
+            "name": "Get BOM",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/boms/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "BOM ID"
+              }
+            ]
+          },
+          "docs": "Returns BOM metadata (without lines). Use GET /boms/{id}/lines to fetch lines lazily."
+        },
+        {
+          "info": {
+            "name": "Delete BOM",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/boms/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "BOM ID"
+              }
+            ]
+          },
+          "docs": "Soft-deletes a BOM by setting status to archived"
+        },
+        {
+          "info": {
+            "name": "Preview permanent BOM deletion",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/boms/:id/deletion-preview",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "BOM ID"
+              }
+            ]
+          },
+          "docs": "Returns the impact of permanently deleting an archived BOM: line count and how many of the items it created are safe to delete (no documents, not ERP-linked, not used by another active BOM). The BOM must be archived."
+        },
+        {
+          "info": {
+            "name": "Get BOM lines (lazy tree loading)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/boms/:id/lines",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "BOM ID"
+              },
+              {
+                "name": "parent_id",
+                "value": "",
+                "type": "query",
+                "description": "Parent line ID (omit for root lines)"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number"
+              },
+              {
+                "name": "page_size",
+                "value": "",
+                "type": "query",
+                "description": "Items per page"
+              },
+              {
+                "name": "search",
+                "value": "",
+                "type": "query",
+                "description": "Substring match on part number or description across all tree levels (returns a flat list, ignores parent_id)"
+              }
+            ]
+          },
+          "docs": "Returns direct children of a parent line, or root-level lines when parent_id is omitted. Supports pagination."
+        },
+        {
+          "info": {
+            "name": "Permanently delete an archived BOM",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/boms/:id/permanent",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "BOM ID"
+              }
+            ]
+          },
+          "docs": "Starts an asynchronous permanent delete of an archived BOM. The BOM is moved to status 'deleting' immediately and returns 202; a background worker then removes its lines, comparisons, and the BOM row, and deletes the items it created that are safe to remove (no documents attached, not ERP-linked, not referenced by another active BOM). This cannot be undone. The BOM must be 'archived'; a BOM already 'deleting' returns 409."
+        },
+        {
+          "info": {
+            "name": "Get dynamic BOM raw rows",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/boms/:id/raw-rows",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "BOM ID"
+              }
+            ]
+          },
+          "docs": "Returns a page of a dynamic (raw_import) BOM's original rows with all columns."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

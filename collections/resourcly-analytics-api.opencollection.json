@@ -1,0 +1,125 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Resourcly analytics API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "analytics",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get should-cost summary",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/analytics/cost-summary"
+          },
+          "docs": "Returns should-cost metrics: total estimated cost, average cost\nper item, and cost breakdown by category."
+        },
+        {
+          "info": {
+            "name": "Export items as CSV",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/analytics/export/items/csv"
+          },
+          "docs": "Generates and returns a CSV file with all items for the business"
+        },
+        {
+          "info": {
+            "name": "Export procurement recommendation report as XLSX",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/analytics/export/procurement/xlsx"
+          },
+          "docs": "Generates a multi-sheet XLSX with consolidation summary,\nduplicate groups with members, and all items."
+        },
+        {
+          "info": {
+            "name": "List items linked to multiple source documents",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/analytics/items/merged",
+            "params": [
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Page size (default 50, max 100)"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "Offset for pagination (default 0)"
+              }
+            ]
+          },
+          "docs": "Returns a paginated list of items that have been enriched from\nmore than one source document (merged items), along with the\nsource document metadata for each item."
+        },
+        {
+          "info": {
+            "name": "Get item price analysis with similar items",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/analytics/items/price-analysis",
+            "params": [
+              {
+                "name": "threshold",
+                "value": "",
+                "type": "query",
+                "description": "Minimum similarity score (0-1, default 0.8)"
+              }
+            ]
+          },
+          "docs": "Returns price ranges (min/max) and inventory stock for items\nthat have similarity relationships above the given threshold, aggregated from ERP data."
+        },
+        {
+          "info": {
+            "name": "Get item analytics statistics",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/analytics/items/stats",
+            "params": [
+              {
+                "name": "days",
+                "value": "",
+                "type": "query",
+                "description": "Number of days for timelines (default 30, max 90)"
+              }
+            ]
+          },
+          "docs": "Returns aggregated item analytics for the authenticated business:\nduplicate %, similarity distribution, new items timeline,\ndocumentation availability, review status timeline, and active/passive breakdown."
+        },
+        {
+          "info": {
+            "name": "Stream AI price regression analysis",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/analytics/price-regression/stream"
+          },
+          "docs": "Accepts an XLSX spreadsheet (max 1 MB) containing purchased parts with\nactual and predicted prices, and streams a token-by-token analysis\nidentifying the part with the highest savings potential."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

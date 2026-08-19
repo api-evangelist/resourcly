@@ -1,0 +1,354 @@
+{
+  "item": [
+    {
+      "id": "1621ccbf-5d90-4b9f-8c09-d66b6d3c45ad",
+      "name": "duplicates",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "81250817-d314-40e0-a200-6c29b8756504",
+          "name": "Get similar items",
+          "request": {
+            "name": "Get similar items",
+            "description": {
+              "content": "Returns items similar to the given item, with explanations of why they are similar (shared specs, similarity matches, same duplicate group)",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "items",
+                ":id",
+                "similar"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "min_shared_specs",
+                  "value": "3",
+                  "description": "Minimum shared specs to consider similar (default 3)"
+                },
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "20",
+                  "description": "Max results (default 20, max 100)"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "id",
+                  "description": "(Required) Item ID"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "Authorization"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "819d5d58-359c-4133-8d89-e229b892324d",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "items",
+                    ":id",
+                    "similar"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "min_shared_specs",
+                      "value": "3"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "20"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "id",
+                      "description": "(Required) Item ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"item_id\": \"string\",\n  \"similar_items\": [\n    {\n      \"classification\": \"string\",\n      \"internal_code\": \"string\",\n      \"item_id\": \"string\",\n      \"manufacturer\": \"string\",\n      \"match_details\": {\n        \"key_0\": 451.71511207301785,\n        \"key_1\": 4609.291291091935,\n        \"key_2\": true,\n        \"key_3\": \"string\"\n      },\n      \"part_number\": \"string\",\n      \"shared_specs\": [\n        {\n          \"display_value\": \"string\",\n          \"key\": \"string\",\n          \"original_keys\": [\n            \"string\",\n            \"string\"\n          ]\n        },\n        {\n          \"display_value\": \"string\",\n          \"key\": \"string\",\n          \"original_keys\": [\n            \"string\",\n            \"string\"\n          ]\n        }\n      ],\n      \"similarity_score\": 6483.836186933141,\n      \"similarity_type\": \"string\",\n      \"title\": \"string\"\n    },\n    {\n      \"classification\": \"string\",\n      \"internal_code\": \"string\",\n      \"item_id\": \"string\",\n      \"manufacturer\": \"string\",\n      \"match_details\": {\n        \"key_0\": 2150,\n        \"key_1\": 989\n      },\n      \"part_number\": \"string\",\n      \"shared_specs\": [\n        {\n          \"display_value\": \"string\",\n          \"key\": \"string\",\n          \"original_keys\": [\n            \"string\",\n            \"string\"\n          ]\n        },\n        {\n          \"display_value\": \"string\",\n          \"key\": \"string\",\n          \"original_keys\": [\n            \"string\",\n            \"string\"\n          ]\n        }\n      ],\n      \"similarity_score\": 1594.9634489083253,\n      \"similarity_type\": \"string\",\n      \"title\": \"string\"\n    }\n  ],\n  \"source\": \"string\",\n  \"total\": 3923\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "1e6d82d8-febc-48d8-be24-010273b596da",
+              "name": "Bad Request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "items",
+                    ":id",
+                    "similar"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "min_shared_specs",
+                      "value": "3"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "20"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "id",
+                      "description": "(Required) Item ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"details\": \"\",\n  \"error\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f41f51ee-dda6-4fc8-aa3f-ed72bc743cbe",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "items",
+                    ":id",
+                    "similar"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "min_shared_specs",
+                      "value": "3"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "20"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "id",
+                      "description": "(Required) Item ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"details\": \"\",\n  \"error\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "dd61117c-f94c-48b5-ae35-8f59f2e262f9",
+              "name": "Duplicate service not available",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "items",
+                    ":id",
+                    "similar"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "min_shared_specs",
+                      "value": "3"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "20"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "id",
+                      "description": "(Required) Item ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Service Unavailable",
+              "code": 503,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"details\": \"\",\n  \"error\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "//api.resourcly.com/v1",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "7a7fd5f8-7512-4261-861d-a4d444a1c122",
+    "name": "Resourcly analytics duplicates API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "API for document processing, item similarity search, and analytics.\n\nContact Support:\n Name: API Support\n Email: support@resourcly.com",
+      "type": "text/plain"
+    }
+  }
+}

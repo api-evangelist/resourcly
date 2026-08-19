@@ -1,0 +1,29 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Resourcly analytics release-notes API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "release-notes",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List release notes (what's new)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/release-notes"
+          },
+          "docs": "Returns sent release notes visible to the caller's business."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

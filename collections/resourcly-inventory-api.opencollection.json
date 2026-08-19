@@ -1,0 +1,272 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Resourcly analytics inventory API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "inventory",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get ERP inventory aggregates",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/inventory/aggregates",
+            "params": [
+              {
+                "name": "business_node_id",
+                "value": "",
+                "type": "query",
+                "description": "Business node ID (leaf) the inventory is scoped to"
+              }
+            ]
+          },
+          "docs": "Fetches aggregated statistics for a business node's inventory items."
+        },
+        {
+          "info": {
+            "name": "Get Duplicate ERP Inventory Items",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/inventory/duplicates/:id/:identifier",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "ERP Inventory Item ID to exclude"
+              },
+              {
+                "name": "identifier",
+                "value": "",
+                "type": "path",
+                "description": "Primary Identifier to match"
+              },
+              {
+                "name": "business_node_id",
+                "value": "",
+                "type": "query",
+                "description": "Business node ID (leaf) the inventory is scoped to"
+              }
+            ]
+          },
+          "docs": "Retrieves all ERP inventory items that have the same primary identifier but a different ID"
+        },
+        {
+          "info": {
+            "name": "Get ERP Inventory Items by primary_identifier",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/inventory/erp-items/by-identifier/:identifier",
+            "params": [
+              {
+                "name": "identifier",
+                "value": "",
+                "type": "path",
+                "description": "Primary Identifier"
+              },
+              {
+                "name": "business_node_id",
+                "value": "",
+                "type": "query",
+                "description": "Business node ID (leaf) the inventory is scoped to"
+              }
+            ]
+          },
+          "docs": "Retrieves all ERP inventory items by their primary identifier"
+        },
+        {
+          "info": {
+            "name": "List ERP inventory files",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/inventory/files",
+            "params": [
+              {
+                "name": "business_node_id",
+                "value": "",
+                "type": "query",
+                "description": "Business node ID (leaf) the inventory is scoped to"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number (default: 1)"
+              },
+              {
+                "name": "page_size",
+                "value": "",
+                "type": "query",
+                "description": "Items per page (default: 20)"
+              }
+            ]
+          },
+          "docs": "Fetches a paginated list of inventory files for a business node."
+        },
+        {
+          "info": {
+            "name": "List ERP inventory items",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/inventory/items",
+            "params": [
+              {
+                "name": "business_node_id",
+                "value": "",
+                "type": "query",
+                "description": "Business node ID (leaf) the inventory is scoped to"
+              },
+              {
+                "name": "file_id",
+                "value": "",
+                "type": "query",
+                "description": "Filter by ERP inventory file ID (UUID)"
+              },
+              {
+                "name": "search",
+                "value": "",
+                "type": "query",
+                "description": "Search by primary identifier, secondary identifier, or description"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number (default: 1)"
+              },
+              {
+                "name": "page_size",
+                "value": "",
+                "type": "query",
+                "description": "Items per page (default: 20)"
+              }
+            ]
+          },
+          "docs": "Fetches a paginated list of inventory items for a business node, with optional file filter and search."
+        },
+        {
+          "info": {
+            "name": "Get Item by primary_identifier",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/inventory/items/by-identifier/:identifier",
+            "params": [
+              {
+                "name": "identifier",
+                "value": "",
+                "type": "path",
+                "description": "Primary Identifier (Part Number)"
+              },
+              {
+                "name": "business_node_id",
+                "value": "",
+                "type": "query",
+                "description": "Business node ID (leaf) the item is scoped to"
+              }
+            ]
+          },
+          "docs": "Retrieves an item by its primary identifier (part_number)"
+        },
+        {
+          "info": {
+            "name": "Get Items by primary_identifier",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/inventory/items/part-number",
+            "params": [
+              {
+                "name": "identifiers",
+                "value": "",
+                "type": "query",
+                "description": "Primary identifiers (repeat the identifiers query parameter)"
+              },
+              {
+                "name": "business_node_id",
+                "value": "",
+                "type": "query",
+                "description": "Optional business node ID (leaf) to scope the lookup; omit for a business-wide lookup"
+              }
+            ]
+          },
+          "docs": "Retrieves ERP inventory items by their primary identifier (part_number).\nWithin the same part number, a single ERP entry may appear multiple\ntimes linked to different item IDs. The caller is responsible for\nchecking each entry's item ID to determine which item it belongs to."
+        },
+        {
+          "info": {
+            "name": "Get ERP Inventory Item by ID",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/inventory/items/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "ERP Inventory Item ID"
+              },
+              {
+                "name": "business_node_id",
+                "value": "",
+                "type": "query",
+                "description": "Business node ID (leaf) the inventory is scoped to"
+              }
+            ]
+          },
+          "docs": "Retrieves an ERP inventory item by its unique ID"
+        },
+        {
+          "info": {
+            "name": "Get most recent ERP inventory column mapping",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/inventory/mapping/latest",
+            "params": [
+              {
+                "name": "business_node_id",
+                "value": "",
+                "type": "query",
+                "description": "Business node ID (leaf) the inventory is scoped to"
+              }
+            ]
+          },
+          "docs": "Fetches the column mapping from the most recently uploaded ERP inventory file for a business node."
+        },
+        {
+          "info": {
+            "name": "Upload ERP inventory XLSX",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/inventory/upload"
+          },
+          "docs": "Uploads an XLSX file with inventory. Saves file to bucket, logs an import job and erp_inventory_file row."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,111 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Resourcly analytics supplier-portal API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "supplier-portal",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get supplier request details",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/supplier/request/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "Supplier data request ID"
+              }
+            ]
+          },
+          "docs": "Returns the full details of a supplier data request (what was requested)"
+        },
+        {
+          "info": {
+            "name": "Delete supplier response file",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/v1/supplier/request/:id/files/:fileId",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "Supplier data request ID"
+              },
+              {
+                "name": "fileId",
+                "value": "",
+                "type": "path",
+                "description": "File ID to delete"
+              }
+            ]
+          },
+          "docs": "Deletes a file from a supplier response"
+        },
+        {
+          "info": {
+            "name": "Save or submit supplier response",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/supplier/request/:id/respond",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "Supplier data request ID"
+              }
+            ]
+          },
+          "docs": "Saves or submits master data values for a supplier data request"
+        },
+        {
+          "info": {
+            "name": "Upload supplier response file",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/supplier/request/:id/upload",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "Supplier data request ID"
+              }
+            ]
+          },
+          "docs": "Uploads a file for a specific document type in a supplier response"
+        },
+        {
+          "info": {
+            "name": "Verify supplier passcode",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/supplier/verify-passcode"
+          },
+          "docs": "Verifies the 6-digit passcode for a supplier data request and returns a JWT"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

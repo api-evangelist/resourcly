@@ -1,0 +1,203 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Resourcly analytics drive API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "drive",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Browse the data store",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/drive/browse",
+            "params": [
+              {
+                "name": "prefix",
+                "value": "",
+                "type": "query",
+                "description": "Path prefix to browse"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number"
+              },
+              {
+                "name": "page_size",
+                "value": "",
+                "type": "query",
+                "description": "Page size"
+              },
+              {
+                "name": "delimiter",
+                "value": "",
+                "type": "query",
+                "description": "Delimiter for folder grouping"
+              }
+            ]
+          },
+          "docs": "List objects and prefixes (folders) at a given path"
+        },
+        {
+          "info": {
+            "name": "Request download",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/drive/download"
+          },
+          "docs": "Generate signed download URL(s) for one or more objects"
+        },
+        {
+          "info": {
+            "name": "Bulk download as ZIP",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/drive/download/zip"
+          },
+          "docs": "Stream multiple objects as a single ZIP archive"
+        },
+        {
+          "info": {
+            "name": "Get object details",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/drive/objects/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "Object ID"
+              }
+            ]
+          },
+          "docs": "Get metadata for a single object"
+        },
+        {
+          "info": {
+            "name": "Restore object from cold storage",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/drive/objects/:id/restore",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "Object ID"
+              }
+            ]
+          },
+          "docs": "Initiate restoration of an object from Coldline/Archive storage"
+        },
+        {
+          "info": {
+            "name": "Search the data store",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/drive/search"
+          },
+          "docs": "Full-text search across all indexed objects in the data store"
+        },
+        {
+          "info": {
+            "name": "Access shared content",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/drive/shared/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "Share link ID"
+              },
+              {
+                "name": "password",
+                "value": "",
+                "type": "query",
+                "description": "Password for protected links"
+              }
+            ]
+          },
+          "docs": "Access content via a share link (public, no auth required)"
+        },
+        {
+          "info": {
+            "name": "List share links",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/drive/shares"
+          },
+          "docs": "List all share links created by the authenticated user's business"
+        },
+        {
+          "info": {
+            "name": "Create a share link",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/drive/shares"
+          },
+          "docs": "Create a shareable link for files, folders, or search results"
+        },
+        {
+          "info": {
+            "name": "Delete a share link",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/v1/drive/shares/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "Share link ID"
+              }
+            ]
+          },
+          "docs": "Revoke and delete a share link"
+        },
+        {
+          "info": {
+            "name": "Get storage statistics",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/drive/stats"
+          },
+          "docs": "Get aggregate statistics about the data store"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

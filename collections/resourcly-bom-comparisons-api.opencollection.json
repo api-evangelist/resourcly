@@ -1,0 +1,129 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Resourcly analytics bom-comparisons API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "bom-comparisons",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List BOM comparisons",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/bom-comparisons",
+            "params": [
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number"
+              },
+              {
+                "name": "page_size",
+                "value": "",
+                "type": "query",
+                "description": "Items per page"
+              }
+            ]
+          },
+          "docs": "Returns a paginated list of BOM comparisons for the authenticated business"
+        },
+        {
+          "info": {
+            "name": "Create BOM comparison",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/bom-comparisons"
+          },
+          "docs": "Creates and runs a comparison between two BOMs"
+        },
+        {
+          "info": {
+            "name": "Get BOM comparison",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/bom-comparisons/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "Comparison ID"
+              }
+            ]
+          },
+          "docs": "Returns a comparison with all line-level results"
+        },
+        {
+          "info": {
+            "name": "Export BOM comparison as XLSX",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/bom-comparisons/:id/export",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "Comparison ID"
+              }
+            ]
+          },
+          "docs": "Generates and returns an XLSX file with the comparison results"
+        },
+        {
+          "info": {
+            "name": "Get paginated BOM comparison lines",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/bom-comparisons/:id/lines",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "Comparison ID"
+              },
+              {
+                "name": "match_status",
+                "value": "",
+                "type": "query",
+                "description": "Filter by match status (matched, added, removed, modified)"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number"
+              },
+              {
+                "name": "page_size",
+                "value": "",
+                "type": "query",
+                "description": "Items per page"
+              }
+            ]
+          },
+          "docs": "Returns paginated, optionally filtered comparison lines with joined BOM line data"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

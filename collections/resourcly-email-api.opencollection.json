@@ -1,0 +1,29 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Resourcly analytics email API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "email",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Send a supplier data request email",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/email/supplier-data-request"
+          },
+          "docs": "Sends an email to a supplier requesting specific master data and/or documents"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

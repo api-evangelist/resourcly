@@ -1,0 +1,51 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Resourcly analytics health API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "health",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Liveness probe",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/health"
+          },
+          "docs": "Returns OK if the service is alive"
+        },
+        {
+          "info": {
+            "name": "Readiness probe",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/ready"
+          },
+          "docs": "Returns service readiness status including database connectivity"
+        },
+        {
+          "info": {
+            "name": "Detailed readiness probe with pool stats",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/ready/detailed"
+          },
+          "docs": "Returns service readiness status including database pool statistics for observability"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

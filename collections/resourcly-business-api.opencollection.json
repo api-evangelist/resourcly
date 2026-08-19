@@ -1,0 +1,40 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Resourcly analytics business API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "business",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get business feature flags",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/business/dev-features"
+          },
+          "docs": "Returns the feature flags enabled for the authenticated user's business."
+        },
+        {
+          "info": {
+            "name": "Get business features",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/business/features"
+          },
+          "docs": "Returns a map of feature -> enabled for the authenticated user's business."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
