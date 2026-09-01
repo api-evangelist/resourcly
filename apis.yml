@@ -125,7 +125,7 @@ apis:
   humanURL: https://api.resourcly.com/docs/
   baseURL: https://api.resourcly.com/v1
   tags:
-  - business
+  - Business
   tags_raw:
   - business
   properties:
@@ -141,7 +141,7 @@ apis:
   humanURL: https://api.resourcly.com/docs/
   baseURL: https://api.resourcly.com/v1
   tags:
-  - datasources
+  - Data Sources
   tags_raw:
   - datasources
   properties:
@@ -173,7 +173,7 @@ apis:
   humanURL: https://api.resourcly.com/docs/
   baseURL: https://api.resourcly.com/v1
   tags:
-  - drive
+  - Drives
   tags_raw:
   - drive
   properties:
@@ -299,7 +299,7 @@ apis:
   humanURL: https://api.resourcly.com/docs/
   baseURL: https://api.resourcly.com/v1
   tags:
-  - release-notes
+  - Release Notes
   tags_raw:
   - release-notes
   properties:
@@ -362,7 +362,7 @@ apis:
   humanURL: https://api.resourcly.com/docs/
   baseURL: https://api.resourcly.com/v1
   tags:
-  - supplier-portal
+  - Supplier Portal
   tags_raw:
   - supplier-portal
   properties:
