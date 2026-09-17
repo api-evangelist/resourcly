@@ -136,22 +136,6 @@ apis:
     url: https://api.resourcly.com/docs/
   - type: APIReference
     url: https://api.resourcly.com/docs/
-- aid: resourcly:resourcly-datasources-api
-  name: Resourcly datasources API
-  description: The datasources API from Resourcly — 11 operation(s) for datasources.
-  humanURL: https://api.resourcly.com/docs/
-  baseURL: https://api.resourcly.com/v1
-  tags:
-  - Data Sources
-  tags_raw:
-  - datasources
-  properties:
-  - type: OpenAPI
-    url: openapi/resourcly-datasources-api-openapi.yml
-  - type: Documentation
-    url: https://api.resourcly.com/docs/
-  - type: APIReference
-    url: https://api.resourcly.com/docs/
 - aid: resourcly:resourcly-documents-api
   name: Resourcly documents API
   description: The documents API from Resourcly — 4 operation(s) for documents.
@@ -401,6 +385,20 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/resourcly-upload-api-openapi.yml
+  - type: Documentation
+    url: https://api.resourcly.com/docs/
+  - type: APIReference
+    url: https://api.resourcly.com/docs/
+- aid: resourcly:resourcly-data-sources-api
+  name: Resourcly Data Sources API
+  description: The Data Sources API from Resourcly — 11 operation(s) for data sources.
+  humanURL: https://api.resourcly.com/docs/
+  baseURL: https://api.resourcly.com/v1
+  tags:
+  - Data Sources
+  properties:
+  - type: OpenAPI
+    url: openapi/resourcly-data-sources-api-openapi.yml
   - type: Documentation
     url: https://api.resourcly.com/docs/
   - type: APIReference
