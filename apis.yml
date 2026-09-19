@@ -236,7 +236,7 @@ apis:
   humanURL: https://api.resourcly.com/docs/
   baseURL: https://api.resourcly.com/v1
   tags:
-  - Imports
+  - Import
   tags_raw:
   - imports
   properties:
