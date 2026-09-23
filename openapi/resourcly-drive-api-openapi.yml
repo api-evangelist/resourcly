@@ -1,7 +1,7 @@
-swagger: '2.0'
+openapi: 3.2.0
 info:
   description: API for document processing, item similarity search, and analytics.
-  title: Resourcly analytics drive API
+  title: Resourcly Drive API
   termsOfService: https://resourcly.com/terms
   contact:
     name: API Support
@@ -9,513 +9,576 @@ info:
   license:
     name: Proprietary
   version: 1.0.0
-host: api.resourcly.com
-basePath: /v1
+servers:
+- url: https://api.resourcly.com/v1
 tags:
-- name: drive
+- name: Drive
 paths:
   /v1/drive/browse:
     get:
       description: List objects and prefixes (folders) at a given path
-      produces:
-      - application/json
       tags:
-      - drive
+      - Drive
       summary: Browse the data store
       parameters:
-      - type: string
-        description: Path prefix to browse
+      - description: Path prefix to browse
         name: prefix
         in: query
-      - type: integer
-        default: 1
-        description: Page number
+        schema:
+          type: string
+      - description: Page number
         name: page
         in: query
-      - type: integer
-        default: 100
-        description: Page size
+        schema:
+          type: integer
+          default: 1
+      - description: Page size
         name: page_size
         in: query
-      - type: string
-        default: '"/"'
-        description: Delimiter for folder grouping
+        schema:
+          type: integer
+          default: 100
+      - description: Delimiter for folder grouping
         name: delimiter
         in: query
+        schema:
+          type: string
+          default: '"/"'
       responses:
         '200':
           description: OK
-          schema:
-            $ref: '#/definitions/models.DriveBrowseResponse'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/models.DriveBrowseResponse'
         '401':
           description: Unauthorized
-          schema:
-            $ref: '#/definitions/models.ErrorResponse'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/models.ErrorResponse'
+      operationId: getV1DriveBrowse
+      x-operation-id-source: derived
   /v1/drive/download:
     post:
       description: Generate signed download URL(s) for one or more objects
-      consumes:
-      - application/json
-      produces:
-      - application/json
       tags:
-      - drive
+      - Drive
       summary: Request download
-      parameters:
-      - description: Download parameters
-        name: body
-        in: body
-        required: true
-        schema:
-          $ref: '#/definitions/models.DriveDownloadRequest'
       responses:
         '200':
           description: OK
-          schema:
-            $ref: '#/definitions/models.DriveDownloadResponse'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/models.DriveDownloadResponse'
         '400':
           description: Bad Request
-          schema:
-            $ref: '#/definitions/models.ErrorResponse'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/models.ErrorResponse'
         '401':
           description: Unauthorized
-          schema:
-            $ref: '#/definitions/models.ErrorResponse'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/models.ErrorResponse'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/models.DriveDownloadRequest'
+        description: Download parameters
+        required: true
+      operationId: postV1DriveDownload
+      x-operation-id-source: derived
   /v1/drive/download/zip:
     post:
       description: Stream multiple objects as a single ZIP archive
-      consumes:
-      - application/json
-      produces:
-      - application/zip
       tags:
-      - drive
+      - Drive
       summary: Bulk download as ZIP
-      parameters:
-      - description: Download parameters
-        name: body
-        in: body
-        required: true
-        schema:
-          $ref: '#/definitions/models.DriveDownloadRequest'
       responses:
         '200':
           description: OK
-          schema:
-            type: file
+          content:
+            application/zip:
+              schema:
+                type: string
+                format: binary
         '400':
           description: Bad Request
-          schema:
-            $ref: '#/definitions/models.ErrorResponse'
+          content:
+            application/zip:
+              schema:
+                $ref: '#/components/schemas/models.ErrorResponse'
         '401':
           description: Unauthorized
-          schema:
-            $ref: '#/definitions/models.ErrorResponse'
+          content:
+            application/zip:
+              schema:
+                $ref: '#/components/schemas/models.ErrorResponse'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/models.DriveDownloadRequest'
+        description: Download parameters
+        required: true
+      operationId: postV1DriveDownloadZip
+      x-operation-id-source: derived
   /v1/drive/objects/{id}:
     get:
       description: Get metadata for a single object
-      produces:
-      - application/json
       tags:
-      - drive
+      - Drive
       summary: Get object details
       parameters:
-      - type: string
-        description: Object ID
+      - description: Object ID
         name: id
         in: path
         required: true
+        schema:
+          type: string
       responses:
         '200':
           description: OK
-          schema:
-            $ref: '#/definitions/models.DriveObject'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/models.DriveObject'
         '401':
           description: Unauthorized
-          schema:
-            $ref: '#/definitions/models.ErrorResponse'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/models.ErrorResponse'
         '404':
           description: Not Found
-          schema:
-            $ref: '#/definitions/models.ErrorResponse'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/models.ErrorResponse'
+      operationId: getV1DriveObjectsById
+      x-operation-id-source: derived
   /v1/drive/objects/{id}/restore:
     post:
       description: Initiate restoration of an object from Coldline/Archive storage
       tags:
-      - drive
+      - Drive
       summary: Restore object from cold storage
       parameters:
-      - type: string
-        description: Object ID
+      - description: Object ID
         name: id
         in: path
         required: true
+        schema:
+          type: string
       responses:
         '202':
           description: Accepted
         '401':
           description: Unauthorized
-          schema:
-            $ref: '#/definitions/models.ErrorResponse'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/models.ErrorResponse'
         '404':
           description: Not Found
-          schema:
-            $ref: '#/definitions/models.ErrorResponse'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/models.ErrorResponse'
+      operationId: postV1DriveObjectsByIdRestore
+      x-operation-id-source: derived
   /v1/drive/search:
     post:
       description: Full-text search across all indexed objects in the data store
-      consumes:
-      - application/json
-      produces:
-      - application/json
       tags:
-      - drive
+      - Drive
       summary: Search the data store
-      parameters:
-      - description: Search parameters
-        name: body
-        in: body
-        required: true
-        schema:
-          $ref: '#/definitions/models.DriveSearchRequest'
       responses:
         '200':
           description: OK
-          schema:
-            $ref: '#/definitions/models.DriveSearchResponse'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/models.DriveSearchResponse'
         '400':
           description: Bad Request
-          schema:
-            $ref: '#/definitions/models.ErrorResponse'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/models.ErrorResponse'
         '401':
           description: Unauthorized
-          schema:
-            $ref: '#/definitions/models.ErrorResponse'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/models.ErrorResponse'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/models.DriveSearchRequest'
+        description: Search parameters
+        required: true
+      operationId: postV1DriveSearch
+      x-operation-id-source: derived
   /v1/drive/shared/{id}:
     get:
       description: Access content via a share link (public, no auth required)
-      produces:
-      - application/json
       tags:
-      - drive
+      - Drive
       summary: Access shared content
       parameters:
-      - type: string
-        description: Share link ID
+      - description: Share link ID
         name: id
         in: path
         required: true
-      - type: string
-        description: Password for protected links
+        schema:
+          type: string
+      - description: Password for protected links
         name: password
         in: query
+        schema:
+          type: string
       responses:
         '200':
           description: OK
-          schema:
-            $ref: '#/definitions/models.DriveBrowseResponse'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/models.DriveBrowseResponse'
         '401':
           description: Password required
-          schema:
-            $ref: '#/definitions/models.ErrorResponse'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/models.ErrorResponse'
         '404':
           description: Not Found
-          schema:
-            $ref: '#/definitions/models.ErrorResponse'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/models.ErrorResponse'
+      operationId: getV1DriveSharedById
+      x-operation-id-source: derived
   /v1/drive/shares:
     get:
       description: List all share links created by the authenticated user's business
-      produces:
-      - application/json
       tags:
-      - drive
+      - Drive
       summary: List share links
       responses:
         '200':
           description: OK
-          schema:
-            type: array
-            items:
-              $ref: '#/definitions/models.DriveShareLink'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/models.DriveShareLink'
         '401':
           description: Unauthorized
-          schema:
-            $ref: '#/definitions/models.ErrorResponse'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/models.ErrorResponse'
+      operationId: getV1DriveShares
+      x-operation-id-source: derived
     post:
       description: Create a shareable link for files, folders, or search results
-      consumes:
-      - application/json
-      produces:
-      - application/json
       tags:
-      - drive
+      - Drive
       summary: Create a share link
-      parameters:
-      - description: Share parameters
-        name: body
-        in: body
-        required: true
-        schema:
-          $ref: '#/definitions/models.DriveCreateShareRequest'
       responses:
         '201':
           description: Created
-          schema:
-            $ref: '#/definitions/models.DriveShareLink'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/models.DriveShareLink'
         '400':
           description: Bad Request
-          schema:
-            $ref: '#/definitions/models.ErrorResponse'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/models.ErrorResponse'
         '401':
           description: Unauthorized
-          schema:
-            $ref: '#/definitions/models.ErrorResponse'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/models.ErrorResponse'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/models.DriveCreateShareRequest'
+        description: Share parameters
+        required: true
+      operationId: postV1DriveShares
+      x-operation-id-source: derived
   /v1/drive/shares/{id}:
     delete:
       description: Revoke and delete a share link
       tags:
-      - drive
+      - Drive
       summary: Delete a share link
       parameters:
-      - type: string
-        description: Share link ID
+      - description: Share link ID
         name: id
         in: path
         required: true
+        schema:
+          type: string
       responses:
         '204':
           description: No Content
         '401':
           description: Unauthorized
-          schema:
-            $ref: '#/definitions/models.ErrorResponse'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/models.ErrorResponse'
         '404':
           description: Not Found
-          schema:
-            $ref: '#/definitions/models.ErrorResponse'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/models.ErrorResponse'
+      operationId: deleteV1DriveSharesById
+      x-operation-id-source: derived
   /v1/drive/stats:
     get:
       description: Get aggregate statistics about the data store
-      produces:
-      - application/json
       tags:
-      - drive
+      - Drive
       summary: Get storage statistics
       responses:
         '200':
           description: OK
-          schema:
-            $ref: '#/definitions/models.DriveStorageStats'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/models.DriveStorageStats'
         '401':
           description: Unauthorized
-          schema:
-            $ref: '#/definitions/models.ErrorResponse'
-definitions:
-  models.DriveCreateShareRequest:
-    type: object
-    properties:
-      access_level:
-        description: '"view" or "download"'
-        type: string
-      expires_in_hours:
-        type: integer
-      label:
-        type: string
-      password:
-        type: string
-      scope:
-        $ref: '#/definitions/models.DriveShareScope'
-  models.DriveShareLink:
-    type: object
-    properties:
-      access_level:
-        type: string
-      created_at:
-        type: string
-      created_by:
-        type: string
-      expires_at:
-        type: string
-      id:
-        type: string
-      label:
-        type: string
-      password_protected:
-        type: boolean
-      scope:
-        $ref: '#/definitions/models.DriveShareScope'
-      url:
-        type: string
-  models.DriveBrowseResponse:
-    type: object
-    properties:
-      objects:
-        type: array
-        items:
-          $ref: '#/definitions/models.DriveObject'
-      page:
-        type: integer
-      page_size:
-        type: integer
-      prefixes:
-        type: array
-        items:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/models.ErrorResponse'
+      operationId: getV1DriveStats
+      x-operation-id-source: derived
+components:
+  schemas:
+    models.DriveCreateShareRequest:
+      type: object
+      properties:
+        access_level:
+          description: '"view" or "download"'
           type: string
-      total:
-        type: integer
-  models.DriveDownloadItem:
-    type: object
-    properties:
-      download_url:
-        type: string
-      name:
-        type: string
-      object_id:
-        type: string
-      size:
-        type: integer
-  models.DriveShareScope:
-    type: object
-    properties:
-      object_ids:
-        type: array
-        items:
+        expires_in_hours:
+          type: integer
+        label:
           type: string
-      prefix:
-        type: string
-      query:
-        $ref: '#/definitions/models.DriveSearchRequest'
-      type:
-        description: '"prefix", "files", or "search"'
-        type: string
-  models.DriveSearchRequest:
-    type: object
-    properties:
-      content_type:
-        type: string
-      max_size:
-        type: integer
-      min_size:
-        type: integer
-      page:
-        type: integer
-      page_size:
-        type: integer
-      prefix:
-        type: string
-      query:
-        type: string
-      sort_by:
-        type: string
-      sort_order:
-        type: string
-      storage_class:
-        type: string
-  models.DriveStorageStats:
-    type: object
-    properties:
-      by_content_type:
-        type: object
-        additionalProperties:
-          $ref: '#/definitions/models.DriveStorageBucket'
-      by_storage_class:
-        type: object
-        additionalProperties:
-          $ref: '#/definitions/models.DriveStorageBucket'
-      total_objects:
-        type: integer
-      total_size:
-        type: integer
-  models.DriveSearchResponse:
-    type: object
-    properties:
-      highlights:
-        type: object
-        additionalProperties:
+        password:
+          type: string
+        scope:
+          $ref: '#/components/schemas/models.DriveShareScope'
+    models.DriveDownloadRequest:
+      type: object
+      properties:
+        object_ids:
           type: array
           items:
             type: string
-      objects:
-        type: array
-        items:
-          $ref: '#/definitions/models.DriveObject'
-      page:
-        type: integer
-      page_size:
-        type: integer
-      total:
-        type: integer
-  models.ErrorResponse:
-    type: object
-    properties:
-      code:
-        type: string
-      details: {}
-      error:
-        type: string
-  models.DriveObject:
-    type: object
-    properties:
-      bucket:
-        type: string
-      business_id:
-        type: string
-      content_type:
-        type: string
-      created_at:
-        type: string
-      id:
-        type: string
-      last_accessed_at:
-        type: string
-      metadata:
-        type: object
-        additionalProperties:
+    models.DriveStorageStats:
+      type: object
+      properties:
+        by_content_type:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/models.DriveStorageBucket'
+        by_storage_class:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/models.DriveStorageBucket'
+        total_objects:
+          type: integer
+        total_size:
+          type: integer
+    models.DriveShareScope:
+      type: object
+      properties:
+        object_ids:
+          type: array
+          items:
+            type: string
+        prefix:
           type: string
-      name:
-        type: string
-      path:
-        type: string
-      size:
-        type: integer
-      storage_class:
-        type: string
-      tags:
-        type: array
-        items:
+        query:
+          $ref: '#/components/schemas/models.DriveSearchRequest'
+        type:
+          description: '"prefix", "files", or "search"'
           type: string
-      updated_at:
-        type: string
-  models.DriveStorageBucket:
-    type: object
-    properties:
-      count:
-        type: integer
-      size:
-        type: integer
-  models.DriveDownloadResponse:
-    type: object
-    properties:
-      download_url:
-        type: string
-      download_urls:
-        type: array
-        items:
-          $ref: '#/definitions/models.DriveDownloadItem'
-      expires_at:
-        type: string
-      total_size:
-        type: integer
-  models.DriveDownloadRequest:
-    type: object
-    properties:
-      object_ids:
-        type: array
-        items:
+    models.DriveDownloadItem:
+      type: object
+      properties:
+        download_url:
           type: string
-securityDefinitions:
-  BearerAuth:
-    description: 'Firebase JWT token. Format: "Bearer {token}"'
-    type: apiKey
-    name: Authorization
-    in: header
+        name:
+          type: string
+        object_id:
+          type: string
+        size:
+          type: integer
+    models.DriveObject:
+      type: object
+      properties:
+        bucket:
+          type: string
+        business_id:
+          type: string
+        content_type:
+          type: string
+        created_at:
+          type: string
+        id:
+          type: string
+        last_accessed_at:
+          type: string
+        metadata:
+          type: object
+          additionalProperties:
+            type: string
+        name:
+          type: string
+        path:
+          type: string
+        size:
+          type: integer
+        storage_class:
+          type: string
+        tags:
+          type: array
+          items:
+            type: string
+        updated_at:
+          type: string
+    models.DriveStorageBucket:
+      type: object
+      properties:
+        count:
+          type: integer
+        size:
+          type: integer
+    models.DriveSearchRequest:
+      type: object
+      properties:
+        content_type:
+          type: string
+        max_size:
+          type: integer
+        min_size:
+          type: integer
+        page:
+          type: integer
+        page_size:
+          type: integer
+        prefix:
+          type: string
+        query:
+          type: string
+        sort_by:
+          type: string
+        sort_order:
+          type: string
+        storage_class:
+          type: string
+    models.ErrorResponse:
+      type: object
+      properties:
+        code:
+          type: string
+        details: {}
+        error:
+          type: string
+    models.DriveShareLink:
+      type: object
+      properties:
+        access_level:
+          type: string
+        created_at:
+          type: string
+        created_by:
+          type: string
+        expires_at:
+          type: string
+        id:
+          type: string
+        label:
+          type: string
+        password_protected:
+          type: boolean
+        scope:
+          $ref: '#/components/schemas/models.DriveShareScope'
+        url:
+          type: string
+    models.DriveBrowseResponse:
+      type: object
+      properties:
+        objects:
+          type: array
+          items:
+            $ref: '#/components/schemas/models.DriveObject'
+        page:
+          type: integer
+        page_size:
+          type: integer
+        prefixes:
+          type: array
+          items:
+            type: string
+        total:
+          type: integer
+    models.DriveDownloadResponse:
+      type: object
+      properties:
+        download_url:
+          type: string
+        download_urls:
+          type: array
+          items:
+            $ref: '#/components/schemas/models.DriveDownloadItem'
+        expires_at:
+          type: string
+        total_size:
+          type: integer
+    models.DriveSearchResponse:
+      type: object
+      properties:
+        highlights:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: string
+        objects:
+          type: array
+          items:
+            $ref: '#/components/schemas/models.DriveObject'
+        page:
+          type: integer
+        page_size:
+          type: integer
+        total:
+          type: integer
+  securitySchemes:
+    BearerAuth:
+      description: 'Firebase JWT token. Format: "Bearer {token}"'
+      type: apiKey
+      name: Authorization
+      in: header

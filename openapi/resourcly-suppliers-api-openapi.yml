@@ -1,7 +1,7 @@
-swagger: '2.0'
+openapi: 3.2.0
 info:
   description: API for document processing, item similarity search, and analytics.
-  title: Resourcly analytics suppliers API
+  title: Resourcly Suppliers API
   termsOfService: https://resourcly.com/terms
   contact:
     name: API Support
@@ -9,238 +9,273 @@ info:
   license:
     name: Proprietary
   version: 1.0.0
-host: api.resourcly.com
-basePath: /v1
+servers:
+- url: https://api.resourcly.com/v1
 tags:
-- name: suppliers
+- name: Suppliers
 paths:
   /suppliers/import:
     post:
       security:
       - BearerAuth: []
       description: Start an async import of supplier catalog files (ZIP, XML, XLSX) from data sources
-      consumes:
-      - application/json
-      produces:
-      - application/json
       tags:
-      - suppliers
+      - Suppliers
       summary: Import supplier catalog
-      parameters:
-      - description: Import parameters
-        name: body
-        in: body
-        required: true
-        schema:
-          $ref: '#/definitions/handlers.ImportRequest'
       responses:
         '202':
           description: Accepted
-          schema:
-            $ref: '#/definitions/handlers.ImportResponse'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/handlers.ImportResponse'
         '400':
           description: Bad Request
-          schema:
-            $ref: '#/definitions/models.ErrorResponse'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/models.ErrorResponse'
         '401':
           description: Unauthorized
-          schema:
-            $ref: '#/definitions/models.ErrorResponse'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/models.ErrorResponse'
         '500':
           description: Internal Server Error
-          schema:
-            $ref: '#/definitions/models.ErrorResponse'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/models.ErrorResponse'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/handlers.ImportRequest'
+        description: Import parameters
+        required: true
+      operationId: postSuppliersImport
+      x-operation-id-source: derived
   /suppliers/{id}/media/{filename}:
     get:
       security:
       - BearerAuth: []
       description: Streams a media file (image, PDF, CAD) from the supplier's media asset ZIP
-      produces:
-      - application/octet-stream
       tags:
-      - suppliers
+      - Suppliers
       summary: Get supplier media file
       parameters:
-      - type: string
-        description: Supplier UUID
+      - description: Supplier UUID
         name: id
         in: path
         required: true
-      - type: string
-        description: Media filename (e.g., 09990000001.jpg)
+        schema:
+          type: string
+      - description: Media filename (e.g., 09990000001.jpg)
         name: filename
         in: path
         required: true
+        schema:
+          type: string
       responses:
         '200':
           description: OK
-          schema:
-            type: file
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
         '400':
           description: Bad Request
-          schema:
-            $ref: '#/definitions/models.ErrorResponse'
+          content:
+            application/octet-stream:
+              schema:
+                $ref: '#/components/schemas/models.ErrorResponse'
         '401':
           description: Unauthorized
-          schema:
-            $ref: '#/definitions/models.ErrorResponse'
+          content:
+            application/octet-stream:
+              schema:
+                $ref: '#/components/schemas/models.ErrorResponse'
         '404':
           description: Not Found
-          schema:
-            $ref: '#/definitions/models.ErrorResponse'
+          content:
+            application/octet-stream:
+              schema:
+                $ref: '#/components/schemas/models.ErrorResponse'
+      operationId: getSuppliersByIdMediaByFilename
+      x-operation-id-source: derived
   /suppliers/{id}/products:
     get:
       security:
       - BearerAuth: []
       description: Returns paginated list of products for a supplier
-      produces:
-      - application/json
       tags:
-      - suppliers
+      - Suppliers
       summary: List supplier products
       parameters:
-      - type: string
-        description: Supplier UUID
+      - description: Supplier UUID
         name: id
         in: path
         required: true
-      - type: integer
-        description: Max results (default 50, max 500)
+        schema:
+          type: string
+      - description: Max results (default 50, max 500)
         name: limit
         in: query
-      - type: integer
-        description: Pagination offset
+        schema:
+          type: integer
+      - description: Pagination offset
         name: offset
         in: query
-      - type: string
-        description: 'Filter by status: active, orphaned (default active)'
+        schema:
+          type: integer
+      - description: 'Filter by status: active, orphaned (default active)'
         name: status
         in: query
+        schema:
+          type: string
       responses:
         '200':
           description: OK
-          schema:
-            $ref: '#/definitions/handlers.SupplierProductsResponse'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/handlers.SupplierProductsResponse'
         '400':
           description: Bad Request
-          schema:
-            $ref: '#/definitions/models.ErrorResponse'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/models.ErrorResponse'
         '401':
           description: Unauthorized
-          schema:
-            $ref: '#/definitions/models.ErrorResponse'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/models.ErrorResponse'
+      operationId: getSuppliersByIdProducts
+      x-operation-id-source: derived
   /suppliers/{id}/products/count:
     get:
       security:
       - BearerAuth: []
       description: Returns the number of active products for a supplier
-      produces:
-      - application/json
       tags:
-      - suppliers
+      - Suppliers
       summary: Get supplier product count
       parameters:
-      - type: string
-        description: Supplier UUID
+      - description: Supplier UUID
         name: id
         in: path
         required: true
+        schema:
+          type: string
       responses:
         '200':
           description: OK
-          schema:
-            type: object
-            additionalProperties:
-              type: integer
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties:
+                  type: integer
         '400':
           description: Bad Request
-          schema:
-            $ref: '#/definitions/models.ErrorResponse'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/models.ErrorResponse'
         '401':
           description: Unauthorized
-          schema:
-            $ref: '#/definitions/models.ErrorResponse'
-definitions:
-  handlers.SupplierProductsResponse:
-    type: object
-    properties:
-      limit:
-        type: integer
-      offset:
-        type: integer
-      products:
-        type: array
-        items:
-          $ref: '#/definitions/services.SupplierProduct'
-      total:
-        type: integer
-  handlers.ImportRequest:
-    type: object
-    properties:
-      business_node_id:
-        type: string
-      classification_system:
-        description: e.g., "ETIM", "ECLASS"
-        type: string
-      datasource_keys:
-        type: array
-        items:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/models.ErrorResponse'
+      operationId: getSuppliersByIdProductsCount
+      x-operation-id-source: derived
+components:
+  schemas:
+    handlers.SupplierProductsResponse:
+      type: object
+      properties:
+        limit:
+          type: integer
+        offset:
+          type: integer
+        products:
+          type: array
+          items:
+            $ref: '#/components/schemas/services.SupplierProduct'
+        total:
+          type: integer
+    services.SupplierProduct:
+      type: object
+      properties:
+        classification_class_id:
           type: string
-      language:
-        type: string
-      supplier_name:
-        type: string
-  models.ErrorResponse:
-    type: object
-    properties:
-      code:
-        type: string
-      details: {}
-      error:
-        type: string
-  services.SupplierProduct:
-    type: object
-    properties:
-      classification_class_id:
-        type: string
-      classification_class_name:
-        type: string
-      classification_system:
-        type: string
-      description_short:
-        type: string
-      gtin:
-        type: string
-      id:
-        type: string
-      manufacturer_name:
-        type: string
-      manufacturer_pid:
-        type: string
-      media_references: {}
-      specifications: {}
-      status:
-        type: string
-      supplier_alt_pid:
-        type: string
-      supplier_id:
-        type: string
-      supplier_pid:
-        type: string
-      title:
-        type: string
-  handlers.ImportResponse:
-    type: object
-    properties:
-      import_job_id:
-        type: string
-      message:
-        type: string
-      supplier_id:
-        type: string
-securityDefinitions:
-  BearerAuth:
-    description: 'Firebase JWT token. Format: "Bearer {token}"'
-    type: apiKey
-    name: Authorization
-    in: header
+        classification_class_name:
+          type: string
+        classification_system:
+          type: string
+        description_short:
+          type: string
+        gtin:
+          type: string
+        id:
+          type: string
+        manufacturer_name:
+          type: string
+        manufacturer_pid:
+          type: string
+        media_references: {}
+        specifications: {}
+        status:
+          type: string
+        supplier_alt_pid:
+          type: string
+        supplier_id:
+          type: string
+        supplier_pid:
+          type: string
+        title:
+          type: string
+    handlers.ImportResponse:
+      type: object
+      properties:
+        import_job_id:
+          type: string
+        message:
+          type: string
+        supplier_id:
+          type: string
+    models.ErrorResponse:
+      type: object
+      properties:
+        code:
+          type: string
+        details: {}
+        error:
+          type: string
+    handlers.ImportRequest:
+      type: object
+      properties:
+        business_node_id:
+          type: string
+        classification_system:
+          description: e.g., "ETIM", "ECLASS"
+          type: string
+        datasource_keys:
+          type: array
+          items:
+            type: string
+        language:
+          type: string
+        supplier_name:
+          type: string
+  securitySchemes:
+    BearerAuth:
+      description: 'Firebase JWT token. Format: "Bearer {token}"'
+      type: apiKey
+      name: Authorization
+      in: header

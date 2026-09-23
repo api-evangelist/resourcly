@@ -1,7 +1,7 @@
-swagger: '2.0'
+openapi: 3.2.0
 info:
   description: API for document processing, item similarity search, and analytics.
-  title: Resourcly analytics feedback API
+  title: Resourcly Feedback API
   termsOfService: https://resourcly.com/terms
   contact:
     name: API Support
@@ -9,73 +9,81 @@ info:
   license:
     name: Proprietary
   version: 1.0.0
-host: api.resourcly.com
-basePath: /v1
+servers:
+- url: https://api.resourcly.com/v1
 tags:
-- name: feedback
+- name: Feedback
 paths:
   /v1/feedback:
     post:
       description: Accepts a multipart form with title, description, email, and optional images.
-      consumes:
-      - multipart/form-data
-      produces:
-      - application/json
       tags:
-      - feedback
+      - Feedback
       summary: Submit a bug report
-      parameters:
-      - type: string
-        description: Bug report title
-        name: title
-        in: formData
-        required: true
-      - type: string
-        description: Bug report description
-        name: description
-        in: formData
-        required: true
-      - type: string
-        description: Contact email
-        name: email
-        in: formData
-        required: true
-      - type: file
-        description: Screenshot images (multiple allowed)
-        name: images
-        in: formData
       responses:
         '200':
           description: OK
-          schema:
-            $ref: '#/definitions/services.FeedbackResponse'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/services.FeedbackResponse'
         '400':
           description: Bad Request
-          schema:
-            $ref: '#/definitions/models.ErrorResponse'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/models.ErrorResponse'
         '500':
           description: Internal Server Error
-          schema:
-            $ref: '#/definitions/models.ErrorResponse'
-definitions:
-  services.FeedbackResponse:
-    type: object
-    properties:
-      linear_issue_id:
-        type: string
-      linear_issue_url:
-        type: string
-  models.ErrorResponse:
-    type: object
-    properties:
-      code:
-        type: string
-      details: {}
-      error:
-        type: string
-securityDefinitions:
-  BearerAuth:
-    description: 'Firebase JWT token. Format: "Bearer {token}"'
-    type: apiKey
-    name: Authorization
-    in: header
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/models.ErrorResponse'
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                  description: Bug report title
+                description:
+                  type: string
+                  description: Bug report description
+                email:
+                  type: string
+                  description: Contact email
+                images:
+                  type: string
+                  description: Screenshot images (multiple allowed)
+                  format: binary
+              required:
+              - title
+              - description
+              - email
+      operationId: postV1Feedback
+      x-operation-id-source: derived
+components:
+  schemas:
+    models.ErrorResponse:
+      type: object
+      properties:
+        code:
+          type: string
+        details: {}
+        error:
+          type: string
+    services.FeedbackResponse:
+      type: object
+      properties:
+        linear_issue_id:
+          type: string
+        linear_issue_url:
+          type: string
+  securitySchemes:
+    BearerAuth:
+      description: 'Firebase JWT token. Format: "Bearer {token}"'
+      type: apiKey
+      name: Authorization
+      in: header

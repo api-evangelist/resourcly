@@ -1,7 +1,7 @@
-swagger: '2.0'
+openapi: 3.2.0
 info:
   description: API for document processing, item similarity search, and analytics.
-  title: Resourcly analytics API
+  title: Resourcly Analytics API
   termsOfService: https://resourcly.com/terms
   contact:
     name: API Support
@@ -9,10 +9,10 @@ info:
   license:
     name: Proprietary
   version: 1.0.0
-host: api.resourcly.com
-basePath: /v1
+servers:
+- url: https://api.resourcly.com/v1
 tags:
-- name: analytics
+- name: Analytics
 paths:
   /analytics/cost-summary:
     get:
@@ -21,47 +21,60 @@ paths:
       description: 'Returns should-cost metrics: total estimated cost, average cost
 
         per item, and cost breakdown by category.'
-      produces:
-      - application/json
       tags:
-      - analytics
+      - Analytics
       summary: Get should-cost summary
       responses:
         '200':
           description: OK
-          schema:
-            $ref: '#/definitions/models.CostSummary'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/models.CostSummary'
         '401':
           description: Unauthorized
-          schema:
-            $ref: '#/definitions/models.ErrorResponse'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/models.ErrorResponse'
         '500':
           description: Internal Server Error
-          schema:
-            $ref: '#/definitions/models.ErrorResponse'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/models.ErrorResponse'
+      operationId: getAnalyticsCostSummary
+      x-operation-id-source: derived
   /analytics/export/items/csv:
     get:
       security:
       - BearerAuth: []
       description: Generates and returns a CSV file with all items for the business
-      produces:
-      - text/csv
       tags:
-      - analytics
+      - Analytics
       summary: Export items as CSV
       responses:
         '200':
           description: OK
-          schema:
-            type: file
+          content:
+            text/csv:
+              schema:
+                type: string
+                format: binary
         '401':
           description: Unauthorized
-          schema:
-            $ref: '#/definitions/models.ErrorResponse'
+          content:
+            text/csv:
+              schema:
+                $ref: '#/components/schemas/models.ErrorResponse'
         '500':
           description: Internal Server Error
-          schema:
-            $ref: '#/definitions/models.ErrorResponse'
+          content:
+            text/csv:
+              schema:
+                $ref: '#/components/schemas/models.ErrorResponse'
+      operationId: getAnalyticsExportItemsCsv
+      x-operation-id-source: derived
   /analytics/export/procurement/xlsx:
     get:
       security:
@@ -69,24 +82,31 @@ paths:
       description: 'Generates a multi-sheet XLSX with consolidation summary,
 
         duplicate groups with members, and all items.'
-      produces:
-      - application/vnd.openxmlformats-officedocument.spreadsheetml.sheet
       tags:
-      - analytics
+      - Analytics
       summary: Export procurement recommendation report as XLSX
       responses:
         '200':
           description: OK
-          schema:
-            type: file
+          content:
+            application/vnd.openxmlformats-officedocument.spreadsheetml.sheet:
+              schema:
+                type: string
+                format: binary
         '401':
           description: Unauthorized
-          schema:
-            $ref: '#/definitions/models.ErrorResponse'
+          content:
+            application/vnd.openxmlformats-officedocument.spreadsheetml.sheet:
+              schema:
+                $ref: '#/components/schemas/models.ErrorResponse'
         '500':
           description: Internal Server Error
-          schema:
-            $ref: '#/definitions/models.ErrorResponse'
+          content:
+            application/vnd.openxmlformats-officedocument.spreadsheetml.sheet:
+              schema:
+                $ref: '#/components/schemas/models.ErrorResponse'
+      operationId: getAnalyticsExportProcurementXlsx
+      x-operation-id-source: derived
   /analytics/items/merged:
     get:
       security:
@@ -96,33 +116,41 @@ paths:
         more than one source document (merged items), along with the
 
         source document metadata for each item.'
-      produces:
-      - application/json
       tags:
-      - analytics
+      - Analytics
       summary: List items linked to multiple source documents
       parameters:
-      - type: integer
-        description: Page size (default 50, max 100)
+      - description: Page size (default 50, max 100)
         name: limit
         in: query
-      - type: integer
-        description: Offset for pagination (default 0)
+        schema:
+          type: integer
+      - description: Offset for pagination (default 0)
         name: offset
         in: query
+        schema:
+          type: integer
       responses:
         '200':
           description: OK
-          schema:
-            $ref: '#/definitions/models.MergedItemsListResponse'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/models.MergedItemsListResponse'
         '401':
           description: Unauthorized
-          schema:
-            $ref: '#/definitions/models.ErrorResponse'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/models.ErrorResponse'
         '500':
           description: Internal Server Error
-          schema:
-            $ref: '#/definitions/models.ErrorResponse'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/models.ErrorResponse'
+      operationId: getAnalyticsItemsMerged
+      x-operation-id-source: derived
   /analytics/items/price-analysis:
     get:
       security:
@@ -130,33 +158,42 @@ paths:
       description: 'Returns price ranges (min/max) and inventory stock for items
 
         that have similarity relationships above the given threshold, aggregated from ERP data.'
-      produces:
-      - application/json
       tags:
-      - analytics
+      - Analytics
       summary: Get item price analysis with similar items
       parameters:
-      - type: number
-        description: Minimum similarity score (0-1, default 0.8)
+      - description: Minimum similarity score (0-1, default 0.8)
         name: threshold
         in: query
+        schema:
+          type: number
       responses:
         '200':
           description: OK
-          schema:
-            $ref: '#/definitions/models.ItemPriceAnalysisResponse'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/models.ItemPriceAnalysisResponse'
         '401':
           description: Unauthorized
-          schema:
-            $ref: '#/definitions/models.ErrorResponse'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/models.ErrorResponse'
         '500':
           description: Internal Server Error
-          schema:
-            $ref: '#/definitions/models.ErrorResponse'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/models.ErrorResponse'
         '503':
           description: Service Unavailable
-          schema:
-            $ref: '#/definitions/models.ErrorResponse'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/models.ErrorResponse'
+      operationId: getAnalyticsItemsPriceAnalysis
+      x-operation-id-source: derived
   /analytics/items/stats:
     get:
       security:
@@ -166,29 +203,36 @@ paths:
         duplicate %, similarity distribution, new items timeline,
 
         documentation availability, review status timeline, and active/passive breakdown.'
-      produces:
-      - application/json
       tags:
-      - analytics
+      - Analytics
       summary: Get item analytics statistics
       parameters:
-      - type: integer
-        description: Number of days for timelines (default 30, max 90)
+      - description: Number of days for timelines (default 30, max 90)
         name: days
         in: query
+        schema:
+          type: integer
       responses:
         '200':
           description: OK
-          schema:
-            $ref: '#/definitions/models.ItemAnalyticsResponse'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/models.ItemAnalyticsResponse'
         '401':
           description: Unauthorized
-          schema:
-            $ref: '#/definitions/models.ErrorResponse'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/models.ErrorResponse'
         '500':
           description: Internal Server Error
-          schema:
-            $ref: '#/definitions/models.ErrorResponse'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/models.ErrorResponse'
+      operationId: getAnalyticsItemsStats
+      x-operation-id-source: derived
   /analytics/price-regression/stream:
     post:
       security:
@@ -198,229 +242,244 @@ paths:
         actual and predicted prices, and streams a token-by-token analysis
 
         identifying the part with the highest savings potential.'
-      consumes:
-      - multipart/form-data
-      produces:
-      - text/event-stream
       tags:
-      - analytics
+      - Analytics
       summary: Stream AI price regression analysis
-      parameters:
-      - type: file
-        description: XLSX spreadsheet file (max 1 MB)
-        name: file
-        in: formData
-        required: true
       responses:
         '200':
           description: SSE stream of Claude Haiku response
-          schema:
-            type: string
+          content:
+            text/event-stream:
+              schema:
+                type: string
         '400':
           description: Bad Request
-          schema:
-            $ref: '#/definitions/models.ErrorResponse'
+          content:
+            text/event-stream:
+              schema:
+                $ref: '#/components/schemas/models.ErrorResponse'
         '401':
           description: Unauthorized
-          schema:
-            $ref: '#/definitions/models.ErrorResponse'
+          content:
+            text/event-stream:
+              schema:
+                $ref: '#/components/schemas/models.ErrorResponse'
         '413':
           description: Request Entity Too Large
-          schema:
-            $ref: '#/definitions/models.ErrorResponse'
+          content:
+            text/event-stream:
+              schema:
+                $ref: '#/components/schemas/models.ErrorResponse'
         '500':
           description: Internal Server Error
-          schema:
-            $ref: '#/definitions/models.ErrorResponse'
-definitions:
-  models.MergedItemDocument:
-    type: object
-    properties:
-      classification:
-        type: string
-      filename:
-        type: string
-      id:
-        type: string
-      status:
-        type: string
-  models.ItemPriceAnalysisResponse:
-    type: object
-    properties:
-      items:
-        type: array
-        items:
-          $ref: '#/definitions/models.ItemPriceEntry'
-      x_axis_label:
-        type: string
-      y_axis_label:
-        type: string
-  models.MergedItemsListResponse:
-    type: object
-    properties:
-      business_id:
-        type: string
-      items:
-        type: array
-        items:
-          $ref: '#/definitions/models.MergedItemEntry'
-      limit:
-        type: integer
-      offset:
-        type: integer
-      total:
-        type: integer
-  models.ItemAnalyticsResponse:
-    type: object
-    properties:
-      ai_classification_clusters:
-        type: array
-        items:
-          $ref: '#/definitions/models.AIClassificationClusterEntry'
-      duplicate_erp_records:
-        type: integer
-      duplicate_items:
-        type: integer
-      duplicate_percent:
-        description: 'DuplicatePercent: % of ERP records that matched to items (duplicate detection).'
-        type: number
-      merged_documents_count:
-        description: 'MergedDocumentsCount: total source documents contributing to merged items.'
-        type: integer
-      merged_items_count:
-        description: 'MergedItemsCount: number of items linked to more than one source document.'
-        type: integer
-      new_items_timeline:
-        type: array
-        items:
-          $ref: '#/definitions/models.DailyCountEntry'
-      review_status_timeline:
-        type: array
-        items:
-          $ref: '#/definitions/models.ReviewStatusTimelineEntry'
-      similar_items:
-        type: integer
-      similar_threshold:
-        description: 'SimilarThreshold: the minimum similarity score used for counting similar items.
-
-          Defaults to 0.8 but may be overridden per business.'
-        type: number
-      similarity_classes:
-        description: 'SimilarityClasses: per-class item counts for tenants on the classified
-
-          similarity taxonomy (duplicate, interchangeable_variant, superseded,
-
-          product_variant, related_parts, component_of). When present the frontend
-
-          renders one tile per class instead of the legacy duplicate/similar pair.'
-        type: object
-        additionalProperties:
+          content:
+            text/event-stream:
+              schema:
+                $ref: '#/components/schemas/models.ErrorResponse'
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  description: XLSX spreadsheet file (max 1 MB)
+                  format: binary
+              required:
+              - file
+      operationId: postAnalyticsPriceRegressionStream
+      x-operation-id-source: derived
+components:
+  schemas:
+    models.MergedItemDocument:
+      type: object
+      properties:
+        classification:
+          type: string
+        filename:
+          type: string
+        id:
+          type: string
+        status:
+          type: string
+    models.DailyCountEntry:
+      type: object
+      properties:
+        count:
           type: integer
-      total_erp_records:
-        type: integer
-      total_items:
-        type: integer
-  models.DailyCountEntry:
-    type: object
-    properties:
-      count:
-        type: integer
-      date:
-        type: string
-  models.AIClassificationClusterEntry:
-    type: object
-    properties:
-      classification:
-        type: string
-      cluster_count:
-        type: integer
-  models.ReviewStatusTimelineEntry:
-    type: object
-    properties:
-      alternative:
-        type: integer
-      date:
-        type: string
-      duplicate:
-        type: integer
-      not_related:
-        type: integer
-      pending_review:
-        type: integer
-  models.CostSummary:
-    type: object
-    properties:
-      avg_cost_per_item_eur:
-        type: number
-      cost_by_category:
-        type: object
-        additionalProperties:
+        date:
+          type: string
+    models.ItemPriceEntry:
+      type: object
+      properties:
+        main_item:
+          $ref: '#/components/schemas/models.ItemPriceDetail'
+        max_price:
           type: number
-          format: float64
-      items_with_estimates:
-        type: integer
-      total_estimated_cost_eur:
-        type: number
-  models.ItemPriceEntry:
-    type: object
-    properties:
-      main_item:
-        $ref: '#/definitions/models.ItemPriceDetail'
-      max_price:
-        type: number
-      min_price:
-        type: number
-      similar_items:
-        type: array
+        min_price:
+          type: number
+        similar_items:
+          type: array
+          items:
+            $ref: '#/components/schemas/models.ItemPriceDetail'
+        total_stock:
+          type: number
+    models.ReviewStatusTimelineEntry:
+      type: object
+      properties:
+        alternative:
+          type: integer
+        date:
+          type: string
+        duplicate:
+          type: integer
+        not_related:
+          type: integer
+        pending_review:
+          type: integer
+    models.AIClassificationClusterEntry:
+      type: object
+      properties:
+        classification:
+          type: string
+        cluster_count:
+          type: integer
+    models.MergedItemsListResponse:
+      type: object
+      properties:
+        business_id:
+          type: string
         items:
-          $ref: '#/definitions/models.ItemPriceDetail'
-      total_stock:
-        type: number
-  models.ErrorResponse:
-    type: object
-    properties:
-      code:
-        type: string
-      details: {}
-      error:
-        type: string
-  models.MergedItemEntry:
-    type: object
-    properties:
-      category:
-        type: string
-      doc_count:
-        type: integer
-      documents:
-        type: array
+          type: array
+          items:
+            $ref: '#/components/schemas/models.MergedItemEntry'
+        limit:
+          type: integer
+        offset:
+          type: integer
+        total:
+          type: integer
+    models.ItemAnalyticsResponse:
+      type: object
+      properties:
+        ai_classification_clusters:
+          type: array
+          items:
+            $ref: '#/components/schemas/models.AIClassificationClusterEntry'
+        duplicate_erp_records:
+          type: integer
+        duplicate_items:
+          type: integer
+        duplicate_percent:
+          description: 'DuplicatePercent: % of ERP records that matched to items (duplicate detection).'
+          type: number
+        merged_documents_count:
+          description: 'MergedDocumentsCount: total source documents contributing to merged items.'
+          type: integer
+        merged_items_count:
+          description: 'MergedItemsCount: number of items linked to more than one source document.'
+          type: integer
+        new_items_timeline:
+          type: array
+          items:
+            $ref: '#/components/schemas/models.DailyCountEntry'
+        review_status_timeline:
+          type: array
+          items:
+            $ref: '#/components/schemas/models.ReviewStatusTimelineEntry'
+        similar_items:
+          type: integer
+        similar_threshold:
+          description: 'SimilarThreshold: the minimum similarity score used for counting similar items.
+
+            Defaults to 0.8 but may be overridden per business.'
+          type: number
+        similarity_classes:
+          description: 'SimilarityClasses: per-class item counts for tenants on the classified
+
+            similarity taxonomy (duplicate, interchangeable_variant, superseded,
+
+            product_variant, related_parts, component_of). When present the frontend
+
+            renders one tile per class instead of the legacy duplicate/similar pair.'
+          type: object
+          additionalProperties:
+            type: integer
+        total_erp_records:
+          type: integer
+        total_items:
+          type: integer
+    models.ItemPriceAnalysisResponse:
+      type: object
+      properties:
         items:
-          $ref: '#/definitions/models.MergedItemDocument'
-      id:
-        type: string
-      manufacturer:
-        type: string
-      part_number:
-        type: string
-      title:
-        type: string
-  models.ItemPriceDetail:
-    type: object
-    properties:
-      category:
-        type: string
-      id:
-        type: string
-      max_price:
-        type: number
-      min_price:
-        type: number
-      similarity_score:
-        type: number
-      total_stock:
-        type: number
-securityDefinitions:
-  BearerAuth:
-    description: 'Firebase JWT token. Format: "Bearer {token}"'
-    type: apiKey
-    name: Authorization
-    in: header
+          type: array
+          items:
+            $ref: '#/components/schemas/models.ItemPriceEntry'
+        x_axis_label:
+          type: string
+        y_axis_label:
+          type: string
+    models.MergedItemEntry:
+      type: object
+      properties:
+        category:
+          type: string
+        doc_count:
+          type: integer
+        documents:
+          type: array
+          items:
+            $ref: '#/components/schemas/models.MergedItemDocument'
+        id:
+          type: string
+        manufacturer:
+          type: string
+        part_number:
+          type: string
+        title:
+          type: string
+    models.ErrorResponse:
+      type: object
+      properties:
+        code:
+          type: string
+        details: {}
+        error:
+          type: string
+    models.ItemPriceDetail:
+      type: object
+      properties:
+        category:
+          type: string
+        id:
+          type: string
+        max_price:
+          type: number
+        min_price:
+          type: number
+        similarity_score:
+          type: number
+        total_stock:
+          type: number
+    models.CostSummary:
+      type: object
+      properties:
+        avg_cost_per_item_eur:
+          type: number
+        cost_by_category:
+          type: object
+          additionalProperties:
+            type: number
+            format: float64
+        items_with_estimates:
+          type: integer
+        total_estimated_cost_eur:
+          type: number
+  securitySchemes:
+    BearerAuth:
+      description: 'Firebase JWT token. Format: "Bearer {token}"'
+      type: apiKey
+      name: Authorization
+      in: header

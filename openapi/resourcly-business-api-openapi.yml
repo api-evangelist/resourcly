@@ -1,7 +1,7 @@
-swagger: '2.0'
+openapi: 3.2.0
 info:
   description: API for document processing, item similarity search, and analytics.
-  title: Resourcly analytics business API
+  title: Resourcly Business API
   termsOfService: https://resourcly.com/terms
   contact:
     name: API Support
@@ -9,82 +9,91 @@ info:
   license:
     name: Proprietary
   version: 1.0.0
-host: api.resourcly.com
-basePath: /v1
+servers:
+- url: https://api.resourcly.com/v1
 tags:
-- name: business
+- name: Business
 paths:
   /business/dev-features:
     get:
       security:
       - BearerAuth: []
       description: Returns the feature flags enabled for the authenticated user's business.
-      produces:
-      - application/json
       tags:
-      - business
+      - Business
       summary: Get business feature flags
       responses:
         '200':
           description: OK
-          schema:
-            $ref: '#/definitions/handlers.BusinessDevFeatures'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/handlers.BusinessDevFeatures'
         '401':
           description: Unauthorized
-          schema:
-            $ref: '#/definitions/models.ErrorResponse'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/models.ErrorResponse'
+      operationId: getBusinessDevFeatures
+      x-operation-id-source: derived
   /business/features:
     get:
       security:
       - BearerAuth: []
       description: Returns a map of feature -> enabled for the authenticated user's business.
-      produces:
-      - application/json
       tags:
-      - business
+      - Business
       summary: Get business features
       responses:
         '200':
           description: OK
-          schema:
-            type: array
-            items:
-              type: string
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
         '401':
           description: Unauthorized
-          schema:
-            $ref: '#/definitions/models.ErrorResponse'
-definitions:
-  models.ErrorResponse:
-    type: object
-    properties:
-      code:
-        type: string
-      details: {}
-      error:
-        type: string
-  handlers.BusinessDevFeatures:
-    type: object
-    properties:
-      bom_artifacts:
-        description: 'BomArtifacts gates the conversational BOM Artifacts feature (portal
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/models.ErrorResponse'
+      operationId: getBusinessFeatures
+      x-operation-id-source: derived
+components:
+  schemas:
+    handlers.BusinessDevFeatures:
+      type: object
+      properties:
+        bom_artifacts:
+          description: 'BomArtifacts gates the conversational BOM Artifacts feature (portal
 
-          sidebar section + rag-agent endpoints). Enabled per-business via the admin
+            sidebar section + rag-agent endpoints). Enabled per-business via the admin
 
-          dev-features endpoint; consumed by the frontend''s useBusinessDevFeatures.'
-        type: boolean
-      bom_raw_import:
-        description: 'BomRawImport gates the dynamic BOM import (import every column as-is into
+            dev-features endpoint; consumed by the frontend''s useBusinessDevFeatures.'
+          type: boolean
+        bom_raw_import:
+          description: 'BomRawImport gates the dynamic BOM import (import every column as-is into
 
-          a first-class raw structure, no static mapping). Same flag the gateway
+            a first-class raw structure, no static mapping). Same flag the gateway
 
-          import handler checks server-side.'
-        type: boolean
-      model_extraction:
-        type: boolean
-securityDefinitions:
-  BearerAuth:
-    description: 'Firebase JWT token. Format: "Bearer {token}"'
-    type: apiKey
-    name: Authorization
-    in: header
+            import handler checks server-side.'
+          type: boolean
+        model_extraction:
+          type: boolean
+    models.ErrorResponse:
+      type: object
+      properties:
+        code:
+          type: string
+        details: {}
+        error:
+          type: string
+  securitySchemes:
+    BearerAuth:
+      description: 'Firebase JWT token. Format: "Bearer {token}"'
+      type: apiKey
+      name: Authorization
+      in: header

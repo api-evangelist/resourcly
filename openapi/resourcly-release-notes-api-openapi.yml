@@ -1,7 +1,7 @@
-swagger: '2.0'
+openapi: 3.2.0
 info:
   description: API for document processing, item similarity search, and analytics.
-  title: Resourcly analytics release-notes API
+  title: Resourcly Release Notes API
   termsOfService: https://resourcly.com/terms
   contact:
     name: API Support
@@ -9,46 +9,49 @@ info:
   license:
     name: Proprietary
   version: 1.0.0
-host: api.resourcly.com
-basePath: /v1
+servers:
+- url: https://api.resourcly.com/v1
 tags:
-- name: release-notes
+- name: Release Notes
 paths:
   /v1/release-notes:
     get:
       security:
       - BearerAuth: []
       description: Returns sent release notes visible to the caller's business.
-      produces:
-      - application/json
       tags:
-      - release-notes
+      - Release Notes
       summary: List release notes (what's new)
       responses:
         '200':
           description: OK
-          schema:
-            $ref: '#/definitions/models.CustomerChangelogResponse'
-definitions:
-  models.CustomerChangelogResponse:
-    type: object
-    properties:
-      items:
-        type: array
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/models.CustomerChangelogResponse'
+      operationId: getV1ReleaseNotes
+      x-operation-id-source: derived
+components:
+  schemas:
+    models.CustomerChangelogItem:
+      type: object
+      properties:
+        category:
+          type: string
+        customer_text:
+          type: string
+        released_at:
+          type: string
+    models.CustomerChangelogResponse:
+      type: object
+      properties:
         items:
-          $ref: '#/definitions/models.CustomerChangelogItem'
-  models.CustomerChangelogItem:
-    type: object
-    properties:
-      category:
-        type: string
-      customer_text:
-        type: string
-      released_at:
-        type: string
-securityDefinitions:
-  BearerAuth:
-    description: 'Firebase JWT token. Format: "Bearer {token}"'
-    type: apiKey
-    name: Authorization
-    in: header
+          type: array
+          items:
+            $ref: '#/components/schemas/models.CustomerChangelogItem'
+  securitySchemes:
+    BearerAuth:
+      description: 'Firebase JWT token. Format: "Bearer {token}"'
+      type: apiKey
+      name: Authorization
+      in: header

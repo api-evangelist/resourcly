@@ -1,7 +1,7 @@
-swagger: '2.0'
+openapi: 3.2.0
 info:
   description: API for document processing, item similarity search, and analytics.
-  title: Resourcly analytics auth API
+  title: Resourcly Auth API
   termsOfService: https://resourcly.com/terms
   contact:
     name: API Support
@@ -9,68 +9,75 @@ info:
   license:
     name: Proprietary
   version: 1.0.0
-host: api.resourcly.com
-basePath: /v1
+servers:
+- url: https://api.resourcly.com/v1
 tags:
-- name: auth
+- name: Auth
 paths:
   /v1/auth/switch-environment:
     post:
       description: Switches the user's environment between LIVE and SANDBOX and returns a new custom token with the environment claim
-      consumes:
-      - application/json
-      produces:
-      - application/json
       tags:
-      - auth
+      - Auth
       summary: Switch environment
-      parameters:
-      - description: Environment switch request
-        name: request
-        in: body
-        required: true
-        schema:
-          $ref: '#/definitions/handlers.SwitchEnvironmentRequest'
       responses:
         '200':
           description: OK
-          schema:
-            $ref: '#/definitions/handlers.SwitchEnvironmentResponse'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/handlers.SwitchEnvironmentResponse'
         '400':
           description: Bad Request
-          schema:
-            type: object
-            additionalProperties:
-              type: string
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties:
+                  type: string
         '401':
           description: Unauthorized
-          schema:
-            type: object
-            additionalProperties:
-              type: string
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties:
+                  type: string
         '500':
           description: Internal Server Error
-          schema:
-            type: object
-            additionalProperties:
-              type: string
-definitions:
-  handlers.SwitchEnvironmentRequest:
-    type: object
-    properties:
-      environment:
-        description: '"LIVE" or "SANDBOX"'
-        type: string
-  handlers.SwitchEnvironmentResponse:
-    type: object
-    properties:
-      customToken:
-        type: string
-      environment:
-        type: string
-securityDefinitions:
-  BearerAuth:
-    description: 'Firebase JWT token. Format: "Bearer {token}"'
-    type: apiKey
-    name: Authorization
-    in: header
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties:
+                  type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/handlers.SwitchEnvironmentRequest'
+        description: Environment switch request
+        required: true
+      operationId: postV1AuthSwitchEnvironment
+      x-operation-id-source: derived
+components:
+  schemas:
+    handlers.SwitchEnvironmentResponse:
+      type: object
+      properties:
+        customToken:
+          type: string
+        environment:
+          type: string
+    handlers.SwitchEnvironmentRequest:
+      type: object
+      properties:
+        environment:
+          description: '"LIVE" or "SANDBOX"'
+          type: string
+  securitySchemes:
+    BearerAuth:
+      description: 'Firebase JWT token. Format: "Bearer {token}"'
+      type: apiKey
+      name: Authorization
+      in: header

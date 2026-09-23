@@ -1,7 +1,7 @@
-swagger: '2.0'
+openapi: 3.2.0
 info:
   description: API for document processing, item similarity search, and analytics.
-  title: Resourcly analytics boms API
+  title: Resourcly Boms API
   termsOfService: https://resourcly.com/terms
   contact:
     name: API Support
@@ -9,8 +9,8 @@ info:
   license:
     name: Proprietary
   version: 1.0.0
-host: api.resourcly.com
-basePath: /v1
+servers:
+- url: https://api.resourcly.com/v1
 tags:
 - name: boms
 paths:
@@ -19,391 +19,468 @@ paths:
       security:
       - BearerAuth: []
       description: Returns a paginated list of BOMs for the authenticated business
-      consumes:
-      - application/json
-      produces:
-      - application/json
       tags:
       - boms
       summary: List BOMs
       parameters:
-      - type: integer
-        default: 1
-        description: Page number
+      - description: Page number
         name: page
         in: query
-      - maximum: 100
-        type: integer
-        default: 20
-        description: Items per page
+        schema:
+          type: integer
+          default: 1
+      - description: Items per page
         name: page_size
         in: query
-      - type: string
-        description: Filter by business node
+        schema:
+          type: integer
+          default: 20
+          maximum: 100
+      - description: Filter by business node
         name: business_node_id
         in: query
-      - type: string
-        description: Filter by BOM name (substring) or BOM id
+        schema:
+          type: string
+      - description: Filter by BOM name (substring) or BOM id
         name: search
         in: query
-      - type: string
-        description: Filter by status. Omit for active BOMs (excludes archived); pass 'archived' for archived BOMs
+        schema:
+          type: string
+      - description: Filter by status. Omit for active BOMs (excludes archived); pass 'archived' for archived BOMs
         name: status
         in: query
+        schema:
+          type: string
       responses:
         '200':
           description: OK
-          schema:
-            type: object
-            additionalProperties: true
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
         '401':
           description: Unauthorized
-          schema:
-            $ref: '#/definitions/models.ErrorResponse'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/models.ErrorResponse'
         '500':
           description: Internal Server Error
-          schema:
-            $ref: '#/definitions/models.ErrorResponse'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/models.ErrorResponse'
+      operationId: getBoms
+      x-operation-id-source: derived
   /boms/import:
     post:
       security:
       - BearerAuth: []
       description: Uploads a spreadsheet file and creates a BOM with parsed lines
-      consumes:
-      - multipart/form-data
-      produces:
-      - application/json
       tags:
       - boms
       summary: Import BOM from CSV/XLSX
-      parameters:
-      - type: file
-        description: BOM spreadsheet (XLSX or CSV)
-        name: file
-        in: formData
-        required: true
-      - type: string
-        description: BOM name
-        name: name
-        in: formData
-        required: true
-      - type: string
-        default: '"1.0"'
-        description: BOM version
-        name: version
-        in: formData
-      - type: string
-        description: Business node ID (leaf organizational unit) the BOM belongs to
-        name: business_node_id
-        in: formData
-        required: true
-      - type: string
-        description: Column mapping JSON
-        name: mapping
-        in: formData
       responses:
         '201':
           description: Created
-          schema:
-            type: object
-            additionalProperties: true
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
         '400':
           description: Bad Request
-          schema:
-            $ref: '#/definitions/models.ErrorResponse'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/models.ErrorResponse'
         '401':
           description: Unauthorized
-          schema:
-            $ref: '#/definitions/models.ErrorResponse'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/models.ErrorResponse'
         '500':
           description: Internal Server Error
-          schema:
-            $ref: '#/definitions/models.ErrorResponse'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/models.ErrorResponse'
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  description: BOM spreadsheet (XLSX or CSV)
+                  format: binary
+                name:
+                  type: string
+                  description: BOM name
+                version:
+                  type: string
+                  default: '"1.0"'
+                  description: BOM version
+                business_node_id:
+                  type: string
+                  description: Business node ID (leaf organizational unit) the BOM belongs to
+                mapping:
+                  type: string
+                  description: Column mapping JSON
+              required:
+              - file
+              - name
+              - business_node_id
+      operationId: postBomsImport
+      x-operation-id-source: derived
   /boms/preview:
     post:
       security:
       - BearerAuth: []
       description: Parses a spreadsheet and returns preview rows with a default empty column mapping
-      consumes:
-      - multipart/form-data
-      produces:
-      - application/json
       tags:
       - boms
       summary: Preview BOM file
-      parameters:
-      - type: file
-        description: BOM spreadsheet (XLSX or CSV)
-        name: file
-        in: formData
-        required: true
-      - type: integer
-        default: 10
-        description: Maximum preview rows
-        name: max_rows
-        in: formData
       responses:
         '200':
           description: OK
-          schema:
-            type: object
-            additionalProperties: true
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
         '400':
           description: Bad Request
-          schema:
-            $ref: '#/definitions/models.ErrorResponse'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/models.ErrorResponse'
         '401':
           description: Unauthorized
-          schema:
-            $ref: '#/definitions/models.ErrorResponse'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/models.ErrorResponse'
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  description: BOM spreadsheet (XLSX or CSV)
+                  format: binary
+                max_rows:
+                  type: integer
+                  default: 10
+                  description: Maximum preview rows
+              required:
+              - file
+      operationId: postBomsPreview
+      x-operation-id-source: derived
   /boms/{id}:
     get:
       security:
       - BearerAuth: []
       description: Returns BOM metadata (without lines). Use GET /boms/{id}/lines to fetch lines lazily.
-      consumes:
-      - application/json
-      produces:
-      - application/json
       tags:
       - boms
       summary: Get BOM
       parameters:
-      - type: string
-        description: BOM ID
+      - description: BOM ID
         name: id
         in: path
         required: true
+        schema:
+          type: string
       responses:
         '200':
           description: OK
-          schema:
-            type: object
-            additionalProperties: true
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
         '401':
           description: Unauthorized
-          schema:
-            $ref: '#/definitions/models.ErrorResponse'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/models.ErrorResponse'
         '404':
           description: Not Found
-          schema:
-            $ref: '#/definitions/models.ErrorResponse'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/models.ErrorResponse'
         '500':
           description: Internal Server Error
-          schema:
-            $ref: '#/definitions/models.ErrorResponse'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/models.ErrorResponse'
+      operationId: getBomsById
+      x-operation-id-source: derived
     delete:
       security:
       - BearerAuth: []
       description: Soft-deletes a BOM by setting status to archived
-      consumes:
-      - application/json
-      produces:
-      - application/json
       tags:
       - boms
       summary: Delete BOM
       parameters:
-      - type: string
-        description: BOM ID
+      - description: BOM ID
         name: id
         in: path
         required: true
+        schema:
+          type: string
       responses:
         '200':
           description: OK
-          schema:
-            type: object
-            additionalProperties: true
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
         '401':
           description: Unauthorized
-          schema:
-            $ref: '#/definitions/models.ErrorResponse'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/models.ErrorResponse'
         '404':
           description: Not Found
-          schema:
-            $ref: '#/definitions/models.ErrorResponse'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/models.ErrorResponse'
         '500':
           description: Internal Server Error
-          schema:
-            $ref: '#/definitions/models.ErrorResponse'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/models.ErrorResponse'
+      operationId: deleteBomsById
+      x-operation-id-source: derived
   /boms/{id}/deletion-preview:
     get:
       security:
       - BearerAuth: []
       description: 'Returns the impact of permanently deleting an archived BOM: line count and how many of the items it created are safe to delete (no documents, not ERP-linked, not used by another active BOM). The BOM must be archived.'
-      consumes:
-      - application/json
-      produces:
-      - application/json
       tags:
       - boms
       summary: Preview permanent BOM deletion
       parameters:
-      - type: string
-        description: BOM ID
+      - description: BOM ID
         name: id
         in: path
         required: true
+        schema:
+          type: string
       responses:
         '200':
           description: OK
-          schema:
-            type: object
-            additionalProperties: true
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
         '400':
           description: Bad Request
-          schema:
-            $ref: '#/definitions/models.ErrorResponse'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/models.ErrorResponse'
         '401':
           description: Unauthorized
-          schema:
-            $ref: '#/definitions/models.ErrorResponse'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/models.ErrorResponse'
         '404':
           description: Not Found
-          schema:
-            $ref: '#/definitions/models.ErrorResponse'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/models.ErrorResponse'
         '500':
           description: Internal Server Error
-          schema:
-            $ref: '#/definitions/models.ErrorResponse'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/models.ErrorResponse'
+      operationId: getBomsByIdDeletionPreview
+      x-operation-id-source: derived
   /boms/{id}/lines:
     get:
       security:
       - BearerAuth: []
       description: Returns direct children of a parent line, or root-level lines when parent_id is omitted. Supports pagination.
-      consumes:
-      - application/json
-      produces:
-      - application/json
       tags:
       - boms
       summary: Get BOM lines (lazy tree loading)
       parameters:
-      - type: string
-        description: BOM ID
+      - description: BOM ID
         name: id
         in: path
         required: true
-      - type: string
-        description: Parent line ID (omit for root lines)
+        schema:
+          type: string
+      - description: Parent line ID (omit for root lines)
         name: parent_id
         in: query
-      - type: integer
-        default: 1
-        description: Page number
+        schema:
+          type: string
+      - description: Page number
         name: page
         in: query
-      - maximum: 500
-        type: integer
-        default: 100
-        description: Items per page
+        schema:
+          type: integer
+          default: 1
+      - description: Items per page
         name: page_size
         in: query
-      - type: string
-        description: Substring match on part number or description across all tree levels (returns a flat list, ignores parent_id)
+        schema:
+          type: integer
+          default: 100
+          maximum: 500
+      - description: Substring match on part number or description across all tree levels (returns a flat list, ignores parent_id)
         name: search
         in: query
+        schema:
+          type: string
       responses:
         '200':
           description: OK
-          schema:
-            type: object
-            additionalProperties: true
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
         '401':
           description: Unauthorized
-          schema:
-            $ref: '#/definitions/models.ErrorResponse'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/models.ErrorResponse'
         '404':
           description: Not Found
-          schema:
-            $ref: '#/definitions/models.ErrorResponse'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/models.ErrorResponse'
         '500':
           description: Internal Server Error
-          schema:
-            $ref: '#/definitions/models.ErrorResponse'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/models.ErrorResponse'
+      operationId: getBomsByIdLines
+      x-operation-id-source: derived
   /boms/{id}/permanent:
     delete:
       security:
       - BearerAuth: []
       description: Starts an asynchronous permanent delete of an archived BOM. The BOM is moved to status 'deleting' immediately and returns 202; a background worker then removes its lines, comparisons, and the BOM row, and deletes the items it created that are safe to remove (no documents attached, not ERP-linked, not referenced by another active BOM). This cannot be undone. The BOM must be 'archived'; a BOM already 'deleting' returns 409.
-      consumes:
-      - application/json
-      produces:
-      - application/json
       tags:
       - boms
       summary: Permanently delete an archived BOM
       parameters:
-      - type: string
-        description: BOM ID
+      - description: BOM ID
         name: id
         in: path
         required: true
+        schema:
+          type: string
       responses:
         '202':
           description: Accepted
-          schema:
-            type: object
-            additionalProperties: true
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
         '400':
           description: Bad Request
-          schema:
-            $ref: '#/definitions/models.ErrorResponse'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/models.ErrorResponse'
         '401':
           description: Unauthorized
-          schema:
-            $ref: '#/definitions/models.ErrorResponse'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/models.ErrorResponse'
         '409':
           description: Conflict
-          schema:
-            $ref: '#/definitions/models.ErrorResponse'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/models.ErrorResponse'
         '500':
           description: Internal Server Error
-          schema:
-            $ref: '#/definitions/models.ErrorResponse'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/models.ErrorResponse'
+      operationId: deleteBomsByIdPermanent
+      x-operation-id-source: derived
   /boms/{id}/raw-rows:
     get:
       security:
       - BearerAuth: []
       description: Returns a page of a dynamic (raw_import) BOM's original rows with all columns.
-      produces:
-      - application/json
       tags:
       - boms
       summary: Get dynamic BOM raw rows
       parameters:
-      - type: string
-        description: BOM ID
+      - description: BOM ID
         name: id
         in: path
         required: true
+        schema:
+          type: string
       responses:
         '200':
           description: OK
-          schema:
-            type: object
-            additionalProperties: true
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
         '401':
           description: Unauthorized
-          schema:
-            $ref: '#/definitions/models.ErrorResponse'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/models.ErrorResponse'
         '404':
           description: Not Found
-          schema:
-            $ref: '#/definitions/models.ErrorResponse'
-definitions:
-  models.ErrorResponse:
-    type: object
-    properties:
-      code:
-        type: string
-      details: {}
-      error:
-        type: string
-securityDefinitions:
-  BearerAuth:
-    description: 'Firebase JWT token. Format: "Bearer {token}"'
-    type: apiKey
-    name: Authorization
-    in: header
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/models.ErrorResponse'
+      operationId: getBomsByIdRawRows
+      x-operation-id-source: derived
+components:
+  schemas:
+    models.ErrorResponse:
+      type: object
+      properties:
+        code:
+          type: string
+        details: {}
+        error:
+          type: string
+  securitySchemes:
+    BearerAuth:
+      description: 'Firebase JWT token. Format: "Bearer {token}"'
+      type: apiKey
+      name: Authorization
+      in: header

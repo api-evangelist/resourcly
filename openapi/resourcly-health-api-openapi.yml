@@ -1,7 +1,7 @@
-swagger: '2.0'
+openapi: 3.2.0
 info:
   description: API for document processing, item similarity search, and analytics.
-  title: Resourcly analytics health API
+  title: Resourcly Health API
   termsOfService: https://resourcly.com/terms
   contact:
     name: API Support
@@ -9,111 +9,116 @@ info:
   license:
     name: Proprietary
   version: 1.0.0
-host: api.resourcly.com
-basePath: /v1
+servers:
+- url: https://api.resourcly.com/v1
 tags:
-- name: health
+- name: Health
 paths:
   /health:
     get:
       description: Returns OK if the service is alive
-      consumes:
-      - application/json
-      produces:
-      - application/json
       tags:
-      - health
+      - Health
       summary: Liveness probe
       responses:
         '200':
           description: OK
-          schema:
-            $ref: '#/definitions/handlers.HealthResponse'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/handlers.HealthResponse'
+      operationId: getHealth
+      x-operation-id-source: derived
   /ready:
     get:
       description: Returns service readiness status including database connectivity
-      consumes:
-      - application/json
-      produces:
-      - application/json
       tags:
-      - health
+      - Health
       summary: Readiness probe
       responses:
         '200':
           description: OK
-          schema:
-            $ref: '#/definitions/handlers.ReadyResponse'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/handlers.ReadyResponse'
         '503':
           description: Service Unavailable
-          schema:
-            $ref: '#/definitions/handlers.ReadyResponse'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/handlers.ReadyResponse'
+      operationId: getReady
+      x-operation-id-source: derived
   /ready/detailed:
     get:
       description: Returns service readiness status including database pool statistics for observability
-      consumes:
-      - application/json
-      produces:
-      - application/json
       tags:
-      - health
+      - Health
       summary: Detailed readiness probe with pool stats
       responses:
         '200':
           description: OK
-          schema:
-            $ref: '#/definitions/handlers.DetailedReadyResponse'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/handlers.DetailedReadyResponse'
         '503':
           description: Service Unavailable
-          schema:
-            $ref: '#/definitions/handlers.DetailedReadyResponse'
-definitions:
-  handlers.DetailedReadyResponse:
-    type: object
-    properties:
-      pool_stats:
-        $ref: '#/definitions/handlers.PoolStats'
-      services:
-        type: object
-        additionalProperties:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/handlers.DetailedReadyResponse'
+      operationId: getReadyDetailed
+      x-operation-id-source: derived
+components:
+  schemas:
+    handlers.ReadyResponse:
+      type: object
+      properties:
+        services:
+          type: object
+          additionalProperties:
+            type: string
+        status:
           type: string
-      status:
-        type: string
-  handlers.HealthResponse:
-    type: object
-    properties:
-      status:
-        type: string
-      version:
-        type: string
-  handlers.ReadyResponse:
-    type: object
-    properties:
-      services:
-        type: object
-        additionalProperties:
+    handlers.HealthResponse:
+      type: object
+      properties:
+        status:
           type: string
-      status:
-        type: string
-  handlers.PoolStats:
-    type: object
-    properties:
-      acquired_conns:
-        type: integer
-      backpressure:
-        description: '"normal", "warning", "active"'
-        type: string
-      idle_conns:
-        type: integer
-      max_conns:
-        type: integer
-      total_conns:
-        type: integer
-      usage_percent:
-        type: number
-securityDefinitions:
-  BearerAuth:
-    description: 'Firebase JWT token. Format: "Bearer {token}"'
-    type: apiKey
-    name: Authorization
-    in: header
+        version:
+          type: string
+    handlers.PoolStats:
+      type: object
+      properties:
+        acquired_conns:
+          type: integer
+        backpressure:
+          description: '"normal", "warning", "active"'
+          type: string
+        idle_conns:
+          type: integer
+        max_conns:
+          type: integer
+        total_conns:
+          type: integer
+        usage_percent:
+          type: number
+    handlers.DetailedReadyResponse:
+      type: object
+      properties:
+        pool_stats:
+          $ref: '#/components/schemas/handlers.PoolStats'
+        services:
+          type: object
+          additionalProperties:
+            type: string
+        status:
+          type: string
+  securitySchemes:
+    BearerAuth:
+      description: 'Firebase JWT token. Format: "Bearer {token}"'
+      type: apiKey
+      name: Authorization
+      in: header
