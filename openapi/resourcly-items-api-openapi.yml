@@ -799,6 +799,13 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    models.HSCodeVerifyRequest:
+      type: object
+      properties:
+        note:
+          type: string
+        suggestion_id:
+          type: string
     models.ErrorResponse:
       type: object
       properties:
@@ -806,22 +813,6 @@ components:
           type: string
         details: {}
         error:
-          type: string
-    models.HSCodeOverrideRequest:
-      type: object
-      properties:
-        description:
-          type: string
-        hs_code:
-          type: string
-        note:
-          type: string
-    models.HSCodeVerifyRequest:
-      type: object
-      properties:
-        note:
-          type: string
-        suggestion_id:
           type: string
     models.ItemHSCode:
       type: object
@@ -869,209 +860,35 @@ components:
           type: string
         updated_at:
           type: string
-    models.SourceDocumentInfo:
+    models.HSCodeOverrideRequest:
+      type: object
+      properties:
+        description:
+          type: string
+        hs_code:
+          type: string
+        note:
+          type: string
+    models.VisualSimilarItem:
       type: object
       properties:
         classification:
-          description: Document classification (e.g. datasheet, technical_drawing)
+          description: exact_duplicate, duplicate, alternative, different
           type: string
-        filename:
-          description: Display filename (path prefix stripped)
+        image_signed_url:
+          description: Time-limited signed HTTPS URL
           type: string
-        id:
-          description: Document ID
+        item_id:
           type: string
-        mesh_url:
-          description: Signed URL for GLB 3D mesh (JT or STEP medium LOD)
-          type: string
-        mesh_url_high:
-          description: STEP high-detail LOD (only set for STEP)
-          type: string
-        mesh_url_low:
-          description: STEP low-detail LOD (only set for STEP)
-          type: string
-        mesh_url_med:
-          description: STEP medium-detail LOD (only set for STEP)
-          type: string
-        mime_type:
-          description: MIME type (e.g. application/pdf, model/jt)
-          type: string
-        status:
-          description: Document processing status
-          type: string
-        tables:
-          description: Extracted content from document
-          type: array
-          items:
-            $ref: '#/components/schemas/models.DocumentTable'
-        url:
-          description: Signed URL for document access
-          type: string
-    handlers.ItemListResponse:
-      type: object
-      properties:
-        business_id:
-          type: string
-        items:
-          type: array
-          items:
-            $ref: '#/components/schemas/services.ItemListEntry'
-        limit:
-          type: integer
-        offset:
-          type: integer
-        total:
-          type: integer
-    services.ItemCluster:
-      type: object
-      properties:
-        ai_classification:
-          type: string
-        cluster_id:
-          description: 'ClusterID is the lexicographically smallest item ID in the cluster,
-
-            giving a stable, deterministic identifier.'
-          type: string
-        items:
-          type: array
-          items:
-            $ref: '#/components/schemas/services.ClusterItem'
-    models.ItemValidationConfig:
-      type: object
-      properties:
-        conditions:
-          type: array
-          items:
-            $ref: '#/components/schemas/models.DataGovernanceConditionSpec'
-        statements:
-          type: array
-          items:
-            $ref: '#/components/schemas/models.DataGovernanceStatementSpec'
-    models.AIAnalysisResult:
-      type: object
-      properties:
-        analysed_at:
-          type: string
-        catalog_actions:
-          $ref: '#/components/schemas/models.AIAnalysisCatalogActions'
-        comparison_id:
-          type: string
-        engineering_verdict:
-          $ref: '#/components/schemas/models.AIAnalysisVerdict'
-        items:
-          type: object
-          properties:
-            item1:
-              $ref: '#/components/schemas/models.AIAnalysisItemSummary'
-            item2:
-              $ref: '#/components/schemas/models.AIAnalysisItemSummary'
-        model:
-          type: string
-        side_by_side:
-          type: array
-          items:
-            $ref: '#/components/schemas/models.AIAnalysisSideBySideRow'
-        similarity_scores:
-          $ref: '#/components/schemas/models.AIAnalysisSimilarityScores'
-    models.SuggestedCatalogAttribute:
-      type: object
-      properties:
-        aliases:
-          description: Alternative names / aliases for this property
-          type: array
-          items:
-            type: string
-        property_description:
-          description: Human-readable description of the property
-          type: string
-        property_name:
-          description: Suggested canonical property name
-          type: string
-        unit:
-          description: Suggested unit for the property
-          type: string
-        value_examples:
-          description: Example values for this property
-          type: array
-          items:
-            type: string
-        value_type:
-          description: Expected value type (scalar, range, etc.)
-          type: string
-    models.PairClassComparisonRow:
-      type: object
-      properties:
-        group:
-          description: Dimensions | Attributes | Specifications | Relationship
-          type: string
-        key:
-          type: string
-        status:
-          description: match (identity-grade) | close (variant band) | diff | only_a | only_b | info
-          type: string
-        value_a:
-          type: string
-        value_b:
-          type: string
-    models.ItemComparisonSide:
-      type: object
-      properties:
-        category:
-          type: string
-        created_at:
-          type: string
-        id:
-          type: string
-        internal_code:
-          description: drawing internal code (Kacher-test); small identifier line
-          type: string
-        is_preferred:
-          type: boolean
         manufacturer:
           type: string
         part_number:
           type: string
-        references:
-          type: array
-          items:
-            type: string
-        source_documents:
-          type: array
-          items:
-            $ref: '#/components/schemas/models.SourceDocumentInfo'
-        specifications:
-          type: array
-          items:
-            $ref: '#/components/schemas/models.MatchedSpec'
+        similarity_score:
+          type: number
+        source_filename:
+          type: string
         title:
-          type: string
-        updated_at:
-          type: string
-    models.AIAnalysisSimilarityScores:
-      type: object
-      properties:
-        manufacturer_score:
-          type: number
-        part_number_score:
-          type: number
-        specifications_score:
-          type: number
-        system_classification:
-          type: string
-        system_weighted_total:
-          type: number
-        title_score:
-          type: number
-    models.AIAnalysisCatalogActions:
-      type: object
-      properties:
-        notes_for_buyer:
-          type: string
-        primary_part:
-          type: string
-        secondary_part:
-          type: string
-        suggested_relationship_tag:
           type: string
     models.DataGovernanceConditionSpec:
       type: object
@@ -1088,29 +905,42 @@ components:
           type: string
         pattern:
           type: string
-    handlers.SimilarityItemsResponse:
+    models.ItemValidationConfig:
       type: object
       properties:
-        business_id:
-          type: string
-        items:
+        conditions:
           type: array
           items:
-            $ref: '#/components/schemas/services.SimilarityListItem'
-        limit:
-          type: integer
-        offset:
-          type: integer
-        total:
-          type: integer
-    models.HSCodeAlternative:
+            $ref: '#/components/schemas/models.DataGovernanceConditionSpec'
+        statements:
+          type: array
+          items:
+            $ref: '#/components/schemas/models.DataGovernanceStatementSpec'
+    models.AIAnalysisSideBySideRow:
       type: object
       properties:
-        code:
+        attribute:
           type: string
-        description:
+        engineering_significance:
+          description: '"critical", "minor", "cosmetic", "none"'
           type: string
-        reason_rejected:
+        item1_value:
+          type: string
+        item2_value:
+          type: string
+        note:
+          type: string
+        status:
+          description: '"identical", "equivalent", "different", "missing"'
+          type: string
+    models.DataGovernanceStatementSpec:
+      type: object
+      properties:
+        errorMessage:
+          type: string
+        expression:
+          type: string
+        severity:
           type: string
     models.SimilarityScores:
       type: object
@@ -1154,274 +984,21 @@ components:
         weighted_total:
           description: Weighted total score (0-1)
           type: number
-    models.VisualSimilarItem:
-      type: object
-      properties:
-        classification:
-          description: exact_duplicate, duplicate, alternative, different
-          type: string
-        image_signed_url:
-          description: Time-limited signed HTTPS URL
-          type: string
-        item_id:
-          type: string
-        manufacturer:
-          type: string
-        part_number:
-          type: string
-        similarity_score:
-          type: number
-        source_filename:
-          type: string
-        title:
-          type: string
-    models.AIAnalysisVerdict:
-      type: object
-      properties:
-        classification:
-          description: '"duplicate", "interchangeable_variant", "superseded", "same_series", "mated_pair", "component_of", "distinct"'
-          type: string
-        confidence:
-          description: '"high", "medium", "low"'
-          type: string
-        confidence_score:
-          type: number
-        critical_differences:
-          type: array
-          items:
-            type: string
-        interchangeable:
-          type: boolean
-        override_reason:
-          type: string
-        override_system_classification:
-          type: boolean
-        recommendation:
-          type: string
-        summary:
-          type: string
-        superseded_by:
-          description: ID of the newer (superseding) item; only set when classification is "superseded"
-          type: string
-    models.UpdateItemPreferredRequest:
-      type: object
-      properties:
-        is_preferred:
-          type: boolean
-    models.ComparisonStatusBatchResponse:
-      type: object
-      properties:
-        statuses:
-          type: array
-          items:
-            $ref: '#/components/schemas/models.ComparisonStatusResponse'
-    models.DocumentTable:
-      type: object
-      properties:
-        headers:
-          description: Table column headers
-          type: array
-          items:
-            type: string
-        id:
-          description: Table UUID
-          type: string
-        page_number:
-          description: Page number where table was found
-          type: integer
-        rows:
-          description: Table data rows
-          type: array
-          items:
-            type: array
-            items:
-              type: string
-        table_index:
-          description: Index of table on the page (0-based)
-          type: integer
-    models.ComparisonStatusBatchRequest:
-      type: object
-      properties:
-        pairs:
-          description: List of item pairs to look up
-          type: array
-          items:
-            $ref: '#/components/schemas/models.ItemPair'
-    services.SimilarityListItem:
+    handlers.ItemListResponse:
       type: object
       properties:
         business_id:
           type: string
-        internal_code:
-          description: drawing internal code (Kacher-test); shown as the small identifier line
-          type: string
-        item_id:
-          type: string
-        manufacturer:
-          type: string
-        max_score:
-          description: highest SIMILARITY score
-          type: number
-        part_number:
-          type: string
-        reviewed_count:
-          description: human-validated matches for this item (model_extraction; 0 otherwise)
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/services.ItemListEntry'
+        limit:
           type: integer
-        similar_count:
-          description: number of items above threshold
+        offset:
           type: integer
-        title:
-          type: string
-    models.SpecDiff:
-      type: object
-      properties:
-        canonical_name:
-          description: Canonical spec name (e.g., "input_voltage_max")
-          type: string
-        display_name:
-          description: Human-readable name (e.g., "Input Voltage Max")
-          type: string
-        is_numeric:
-          description: True if values are numeric
-          type: boolean
-        item1_original_keys:
-          description: Original spec titles in item 1
-          type: array
-          items:
-            type: string
-        item1_units:
-          description: Units in item 1
-          type: array
-          items:
-            type: string
-        item1_values:
-          description: Values in item 1 (nil if missing)
-          type: array
-          items:
-            type: string
-        item2_original_keys:
-          description: Original spec titles in item 2
-          type: array
-          items:
-            type: string
-        item2_units:
-          description: Units in item 2
-          type: array
-          items:
-            type: string
-        item2_values:
-          description: Values in item 2 (nil if missing)
-          type: array
-          items:
-            type: string
-        percent_diff:
-          description: Percent difference for numeric values
-          type: number
-        status:
-          description: '"match", "mismatch", "only_item1", "only_item2"'
-          type: string
-    models.PairClassFactor:
-      type: object
-      properties:
-        label:
-          type: string
-        score:
-          type: number
-    models.DataGovernanceStatementSpec:
-      type: object
-      properties:
-        errorMessage:
-          type: string
-        expression:
-          type: string
-        severity:
-          type: string
-    services.ClusterItem:
-      type: object
-      properties:
-        item_id:
-          type: string
-        manufacturer:
-          type: string
-        part_number:
-          type: string
-        title:
-          type: string
-    models.ItemDetailsResponse:
-      type: object
-      properties:
-        additional_data:
-          description: Additional structured data (dynamic categories like assembly details, tolerances, etc.)
-        business_id:
-          description: Business this item belongs to
-          type: string
-        category:
-          description: Product category
-          type: string
-        created_at:
-          description: Timestamps
-          type: string
-        hs_code:
-          description: 'HSCode is the durable, authoritative human decision for this item''s HS
-
-            code (a verified AI suggestion or a manual override), when one exists.
-
-            It survives AI re-classification and takes display precedence over the
-
-            suggestions above.'
-          allOf:
-          - $ref: '#/components/schemas/models.ItemHSCode'
-        hs_code_suggestions:
-          description: 'HS code suggestions (customs classification)
-
-            IMPORTANT: These are AI-generated SUGGESTIONS only. We do not provide binding tariff rulings.
-
-            Final classification responsibility remains with the importer of record or their licensed customs broker.'
-          type: array
-          items:
-            $ref: '#/components/schemas/models.HSCodeSuggestion'
-        id:
-          description: Item identification
-          type: string
-        is_preferred:
-          description: Whether this item is flagged as a preferred part
-          type: boolean
-        item_validation:
-          description: 'Item Validation config (conditions + statements) for this item''s business,
-
-            present only when the item_governance feature is enabled. The portal
-
-            evaluates it client-side and renders the failing statements; omitted when
-
-            the feature is disabled or unconfigured.'
-          allOf:
-          - $ref: '#/components/schemas/models.ItemValidationConfig'
-        manufacturer:
-          description: Manufacturer name
-          type: string
-        part_number:
-          description: Part number / MPN
-          type: string
-        references:
-          description: Reference identifiers (standards, cross-referenced part numbers, etc.)
-          type: array
-          items:
-            type: string
-        source_documents:
-          description: All linked source documents (from item_documents junction table)
-          type: array
-          items:
-            $ref: '#/components/schemas/models.SourceDocumentInfo'
-        specifications:
-          description: Technical specifications
-          type: array
-          items:
-            $ref: '#/components/schemas/models.MatchedSpec'
-        title:
-          description: Item title/description
-          type: string
-        updated_at:
-          type: string
+        total:
+          type: integer
     models.ItemComparisonResponse:
       type: object
       properties:
@@ -1466,74 +1043,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/models.SpecDiff'
-    models.ItemPair:
-      type: object
-      properties:
-        item_id_1:
-          type: string
-        item_id_2:
-          type: string
-    models.VisualSimilarResponse:
-      type: object
-      properties:
-        item_id:
-          type: string
-        items:
-          type: array
-          items:
-            $ref: '#/components/schemas/models.VisualSimilarItem'
-        total:
-          type: integer
-    services.ItemListEntry:
-      type: object
-      properties:
-        business_id:
-          type: string
-        business_node_id:
-          type: string
-        category:
-          type: string
-        created_at:
-          type: string
-        has_erp_data:
-          type: boolean
-        id:
-          type: string
-        internal_code:
-          description: 'InternalCode is the drawing internal code (Kacher-test only), derived from
-
-            additional_data; shown as the small identifier line in the UI. db:"-" so pgx
-
-            never tries to scan a non-existent column.'
-          type: string
-        is_preferred:
-          type: boolean
-        manufacturer:
-          type: string
-        part_number:
-          type: string
-        specifications: {}
-        title:
-          type: string
-        updated_at:
-          type: string
-    models.AIAnalysisSideBySideRow:
-      type: object
-      properties:
-        attribute:
-          type: string
-        engineering_significance:
-          description: '"critical", "minor", "cosmetic", "none"'
-          type: string
-        item1_value:
-          type: string
-        item2_value:
-          type: string
-        note:
-          type: string
-        status:
-          description: '"identical", "equivalent", "different", "missing"'
-          type: string
     models.AIItemComparisonResponse:
       type: object
       properties:
@@ -1551,6 +1060,78 @@ components:
           type: integer
         status:
           description: '"ready", "unavailable"'
+          type: string
+    models.ItemComparisonSide:
+      type: object
+      properties:
+        category:
+          type: string
+        created_at:
+          type: string
+        id:
+          type: string
+        internal_code:
+          description: drawing internal code (Kacher-test); small identifier line
+          type: string
+        is_preferred:
+          type: boolean
+        manufacturer:
+          type: string
+        part_number:
+          type: string
+        references:
+          type: array
+          items:
+            type: string
+        source_documents:
+          type: array
+          items:
+            $ref: '#/components/schemas/models.SourceDocumentInfo'
+        specifications:
+          type: array
+          items:
+            $ref: '#/components/schemas/models.MatchedSpec'
+        title:
+          type: string
+        updated_at:
+          type: string
+    services.ItemCluster:
+      type: object
+      properties:
+        ai_classification:
+          type: string
+        cluster_id:
+          description: 'ClusterID is the lexicographically smallest item ID in the cluster,
+
+            giving a stable, deterministic identifier.'
+          type: string
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/services.ClusterItem'
+    models.ComparisonStatusResponse:
+      type: object
+      properties:
+        business_id:
+          type: string
+        created_at:
+          type: string
+        id:
+          type: string
+        item_id_1:
+          type: string
+        item_id_2:
+          type: string
+        reviewed_at:
+          description: When the review was performed
+          type: string
+        reviewed_by:
+          description: Business user ID who reviewed
+          type: string
+        status:
+          description: '"pending", "duplicate", "alternative", "rejected"; with model_extraction also "interchangeable_variant", "superseded", "product_variant", "related_parts", "component_of"'
+          type: string
+        updated_at:
           type: string
     models.MatchedSpec:
       type: object
@@ -1638,6 +1219,349 @@ components:
         value_type:
           description: 'Value type: scalar, range, vector, categorical, text'
           type: string
+    models.DocumentTable:
+      type: object
+      properties:
+        headers:
+          description: Table column headers
+          type: array
+          items:
+            type: string
+        id:
+          description: Table UUID
+          type: string
+        page_number:
+          description: Page number where table was found
+          type: integer
+        rows:
+          description: Table data rows
+          type: array
+          items:
+            type: array
+            items:
+              type: string
+        table_index:
+          description: Index of table on the page (0-based)
+          type: integer
+    models.ItemPair:
+      type: object
+      properties:
+        item_id_1:
+          type: string
+        item_id_2:
+          type: string
+    services.SimilarityListItem:
+      type: object
+      properties:
+        business_id:
+          type: string
+        internal_code:
+          description: drawing internal code (Kacher-test); shown as the small identifier line
+          type: string
+        item_id:
+          type: string
+        manufacturer:
+          type: string
+        max_score:
+          description: highest SIMILARITY score
+          type: number
+        part_number:
+          type: string
+        reviewed_count:
+          description: human-validated matches for this item (model_extraction; 0 otherwise)
+          type: integer
+        similar_count:
+          description: number of items above threshold
+          type: integer
+        title:
+          type: string
+    models.AIAnalysisVerdict:
+      type: object
+      properties:
+        classification:
+          description: '"duplicate", "interchangeable_variant", "superseded", "same_series", "mated_pair", "component_of", "distinct"'
+          type: string
+        confidence:
+          description: '"high", "medium", "low"'
+          type: string
+        confidence_score:
+          type: number
+        critical_differences:
+          type: array
+          items:
+            type: string
+        interchangeable:
+          type: boolean
+        override_reason:
+          type: string
+        override_system_classification:
+          type: boolean
+        recommendation:
+          type: string
+        summary:
+          type: string
+        superseded_by:
+          description: ID of the newer (superseding) item; only set when classification is "superseded"
+          type: string
+    models.SuggestedCatalogAttribute:
+      type: object
+      properties:
+        aliases:
+          description: Alternative names / aliases for this property
+          type: array
+          items:
+            type: string
+        property_description:
+          description: Human-readable description of the property
+          type: string
+        property_name:
+          description: Suggested canonical property name
+          type: string
+        unit:
+          description: Suggested unit for the property
+          type: string
+        value_examples:
+          description: Example values for this property
+          type: array
+          items:
+            type: string
+        value_type:
+          description: Expected value type (scalar, range, etc.)
+          type: string
+    models.SourceDocumentInfo:
+      type: object
+      properties:
+        classification:
+          description: Document classification (e.g. datasheet, technical_drawing)
+          type: string
+        filename:
+          description: Display filename (path prefix stripped)
+          type: string
+        id:
+          description: Document ID
+          type: string
+        mesh_url:
+          description: Signed URL for GLB 3D mesh (JT or STEP medium LOD)
+          type: string
+        mesh_url_high:
+          description: STEP high-detail LOD (only set for STEP)
+          type: string
+        mesh_url_low:
+          description: STEP low-detail LOD (only set for STEP)
+          type: string
+        mesh_url_med:
+          description: STEP medium-detail LOD (only set for STEP)
+          type: string
+        mime_type:
+          description: MIME type (e.g. application/pdf, model/jt)
+          type: string
+        status:
+          description: Document processing status
+          type: string
+        tables:
+          description: Extracted content from document
+          type: array
+          items:
+            $ref: '#/components/schemas/models.DocumentTable'
+        url:
+          description: Signed URL for document access
+          type: string
+    models.ComparisonStatusBatchRequest:
+      type: object
+      properties:
+        pairs:
+          description: List of item pairs to look up
+          type: array
+          items:
+            $ref: '#/components/schemas/models.ItemPair'
+    models.AIAnalysisItemSummary:
+      type: object
+      properties:
+        category:
+          type: string
+        manufacturer:
+          type: string
+        part_number:
+          type: string
+        title:
+          type: string
+    models.ItemDetailsResponse:
+      type: object
+      properties:
+        additional_data:
+          description: Additional structured data (dynamic categories like assembly details, tolerances, etc.)
+        business_id:
+          description: Business this item belongs to
+          type: string
+        category:
+          description: Product category
+          type: string
+        created_at:
+          description: Timestamps
+          type: string
+        hs_code:
+          description: 'HSCode is the durable, authoritative human decision for this item''s HS
+
+            code (a verified AI suggestion or a manual override), when one exists.
+
+            It survives AI re-classification and takes display precedence over the
+
+            suggestions above.'
+          allOf:
+          - $ref: '#/components/schemas/models.ItemHSCode'
+        hs_code_suggestions:
+          description: 'HS code suggestions (customs classification)
+
+            IMPORTANT: These are AI-generated SUGGESTIONS only. We do not provide binding tariff rulings.
+
+            Final classification responsibility remains with the importer of record or their licensed customs broker.'
+          type: array
+          items:
+            $ref: '#/components/schemas/models.HSCodeSuggestion'
+        id:
+          description: Item identification
+          type: string
+        is_preferred:
+          description: Whether this item is flagged as a preferred part
+          type: boolean
+        item_validation:
+          description: 'Item Validation config (conditions + statements) for this item''s business,
+
+            present only when the item_governance feature is enabled. The portal
+
+            evaluates it client-side and renders the failing statements; omitted when
+
+            the feature is disabled or unconfigured.'
+          allOf:
+          - $ref: '#/components/schemas/models.ItemValidationConfig'
+        manufacturer:
+          description: Manufacturer name
+          type: string
+        part_number:
+          description: Part number / MPN
+          type: string
+        references:
+          description: Reference identifiers (standards, cross-referenced part numbers, etc.)
+          type: array
+          items:
+            type: string
+        source_documents:
+          description: All linked source documents (from item_documents junction table)
+          type: array
+          items:
+            $ref: '#/components/schemas/models.SourceDocumentInfo'
+        specifications:
+          description: Technical specifications
+          type: array
+          items:
+            $ref: '#/components/schemas/models.MatchedSpec'
+        title:
+          description: Item title/description
+          type: string
+        updated_at:
+          type: string
+    models.ComparisonStatusBatchResponse:
+      type: object
+      properties:
+        statuses:
+          type: array
+          items:
+            $ref: '#/components/schemas/models.ComparisonStatusResponse'
+    models.AIAnalysisResult:
+      type: object
+      properties:
+        analysed_at:
+          type: string
+        catalog_actions:
+          $ref: '#/components/schemas/models.AIAnalysisCatalogActions'
+        comparison_id:
+          type: string
+        engineering_verdict:
+          $ref: '#/components/schemas/models.AIAnalysisVerdict'
+        items:
+          type: object
+          properties:
+            item1:
+              $ref: '#/components/schemas/models.AIAnalysisItemSummary'
+            item2:
+              $ref: '#/components/schemas/models.AIAnalysisItemSummary'
+        model:
+          type: string
+        side_by_side:
+          type: array
+          items:
+            $ref: '#/components/schemas/models.AIAnalysisSideBySideRow'
+        similarity_scores:
+          $ref: '#/components/schemas/models.AIAnalysisSimilarityScores'
+    models.UpdateComparisonStatusRequest:
+      type: object
+      properties:
+        status:
+          description: '"duplicate", "alternative", "rejected", or "pending" (resets to null in DB); with model_extraction also "interchangeable_variant", "superseded", "product_variant", "related_parts", "component_of"'
+          type: string
+    models.PairClassComparisonRow:
+      type: object
+      properties:
+        group:
+          description: Dimensions | Attributes | Specifications | Relationship
+          type: string
+        key:
+          type: string
+        status:
+          description: match (identity-grade) | close (variant band) | diff | only_a | only_b | info
+          type: string
+        value_a:
+          type: string
+        value_b:
+          type: string
+    services.ItemListEntry:
+      type: object
+      properties:
+        business_id:
+          type: string
+        business_node_id:
+          type: string
+        category:
+          type: string
+        created_at:
+          type: string
+        has_erp_data:
+          type: boolean
+        id:
+          type: string
+        internal_code:
+          description: 'InternalCode is the drawing internal code (Kacher-test only), derived from
+
+            additional_data; shown as the small identifier line in the UI. db:"-" so pgx
+
+            never tries to scan a non-existent column.'
+          type: string
+        is_preferred:
+          type: boolean
+        manufacturer:
+          type: string
+        part_number:
+          type: string
+        specifications: {}
+        title:
+          type: string
+        updated_at:
+          type: string
+    models.AIAnalysisSimilarityScores:
+      type: object
+      properties:
+        manufacturer_score:
+          type: number
+        part_number_score:
+          type: number
+        specifications_score:
+          type: number
+        system_classification:
+          type: string
+        system_weighted_total:
+          type: number
+        title_score:
+          type: number
     models.HSCodeSuggestion:
       type: object
       properties:
@@ -1698,47 +1622,87 @@ components:
           type: string
         updated_at:
           type: string
-    models.ComparisonStatusResponse:
+    services.ClusterItem:
       type: object
       properties:
-        business_id:
+        item_id:
           type: string
-        created_at:
+        manufacturer:
           type: string
-        id:
+        part_number:
           type: string
-        item_id_1:
+        title:
           type: string
-        item_id_2:
-          type: string
-        reviewed_at:
-          description: When the review was performed
-          type: string
-        reviewed_by:
-          description: Business user ID who reviewed
-          type: string
-        status:
-          description: '"pending", "duplicate", "alternative", "rejected"; with model_extraction also "interchangeable_variant", "superseded", "product_variant", "related_parts", "component_of"'
-          type: string
-        updated_at:
-          type: string
-    handlers.SimilarityClustersResponse:
+    models.AIAnalysisCatalogActions:
       type: object
       properties:
-        ai_classification:
+        notes_for_buyer:
           type: string
-        business_id:
+        primary_part:
           type: string
-        clusters:
+        secondary_part:
+          type: string
+        suggested_relationship_tag:
+          type: string
+    models.SpecDiff:
+      type: object
+      properties:
+        canonical_name:
+          description: Canonical spec name (e.g., "input_voltage_max")
+          type: string
+        display_name:
+          description: Human-readable name (e.g., "Input Voltage Max")
+          type: string
+        is_numeric:
+          description: True if values are numeric
+          type: boolean
+        item1_original_keys:
+          description: Original spec titles in item 1
           type: array
           items:
-            $ref: '#/components/schemas/services.ItemCluster'
-    models.UpdateComparisonStatusRequest:
+            type: string
+        item1_units:
+          description: Units in item 1
+          type: array
+          items:
+            type: string
+        item1_values:
+          description: Values in item 1 (nil if missing)
+          type: array
+          items:
+            type: string
+        item2_original_keys:
+          description: Original spec titles in item 2
+          type: array
+          items:
+            type: string
+        item2_units:
+          description: Units in item 2
+          type: array
+          items:
+            type: string
+        item2_values:
+          description: Values in item 2 (nil if missing)
+          type: array
+          items:
+            type: string
+        percent_diff:
+          description: Percent difference for numeric values
+          type: number
+        status:
+          description: '"match", "mismatch", "only_item1", "only_item2"'
+          type: string
+    models.VisualSimilarResponse:
       type: object
       properties:
-        status:
-          description: '"duplicate", "alternative", "rejected", or "pending" (resets to null in DB); with model_extraction also "interchangeable_variant", "superseded", "product_variant", "related_parts", "component_of"'
+        item_id:
           type: string
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/models.VisualSimilarItem'
+        total:
+          type: integer
     models.PairClassComparison:
       type: object
       properties:
@@ -1769,17 +1733,53 @@ components:
 
             percentage on the compare page for classified tenants.'
           type: number
-    models.AIAnalysisItemSummary:
+    models.HSCodeAlternative:
       type: object
       properties:
-        category:
+        code:
           type: string
-        manufacturer:
+        description:
           type: string
-        part_number:
+        reason_rejected:
           type: string
-        title:
+    handlers.SimilarityClustersResponse:
+      type: object
+      properties:
+        ai_classification:
           type: string
+        business_id:
+          type: string
+        clusters:
+          type: array
+          items:
+            $ref: '#/components/schemas/services.ItemCluster'
+    models.UpdateItemPreferredRequest:
+      type: object
+      properties:
+        is_preferred:
+          type: boolean
+    handlers.SimilarityItemsResponse:
+      type: object
+      properties:
+        business_id:
+          type: string
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/services.SimilarityListItem'
+        limit:
+          type: integer
+        offset:
+          type: integer
+        total:
+          type: integer
+    models.PairClassFactor:
+      type: object
+      properties:
+        label:
+          type: string
+        score:
+          type: number
   securitySchemes:
     BearerAuth:
       description: 'Firebase JWT token. Format: "Bearer {token}"'

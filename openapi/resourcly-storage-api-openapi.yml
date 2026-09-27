@@ -451,16 +451,6 @@ components:
             type: string
         upload_url:
           type: string
-    models.StorageDeleteResponse:
-      type: object
-      properties:
-        deleted:
-          type: integer
-    models.StorageDownloadURLResponse:
-      type: object
-      properties:
-        url:
-          type: string
     models.StoragePasteItem:
       type: object
       properties:
@@ -468,33 +458,22 @@ components:
           type: string
         type:
           type: string
-    models.StoragePrepareUploadRequest:
+    models.StorageRenameResponse:
       type: object
       properties:
-        business_node_id:
-          type: string
-        key:
-          type: string
-        path:
-          type: string
-    models.StorageRenameRequest:
+        moved:
+          type: integer
+    models.StoragePasteResponse:
       type: object
       properties:
-        business_node_id:
-          type: string
-        destination_key:
-          type: string
-        source_key:
-          type: string
-        type:
-          type: string
-    models.StoragePasteError:
-      type: object
-      properties:
-        key:
-          type: string
-        message:
-          type: string
+        failed:
+          type: array
+          items:
+            $ref: '#/components/schemas/models.StoragePasteError'
+        objects:
+          type: integer
+        pasted:
+          type: integer
     models.StoragePasteRequest:
       type: object
       properties:
@@ -510,25 +489,11 @@ components:
           type: string
         source_business_node_id:
           type: string
-    models.ErrorResponse:
+    models.StorageCreateFolderResponse:
       type: object
       properties:
-        code:
+        key:
           type: string
-        details: {}
-        error:
-          type: string
-    models.StoragePasteResponse:
-      type: object
-      properties:
-        failed:
-          type: array
-          items:
-            $ref: '#/components/schemas/models.StoragePasteError'
-        objects:
-          type: integer
-        pasted:
-          type: integer
     models.StorageListResponse:
       type: object
       properties:
@@ -545,22 +510,48 @@ components:
           type: boolean
         path_synced:
           type: boolean
-    models.StorageRenameResponse:
-      type: object
-      properties:
-        moved:
-          type: integer
-    models.StorageCreateFolderResponse:
-      type: object
-      properties:
-        key:
-          type: string
-    models.StorageCreateFolderRequest:
+    models.StorageRenameRequest:
       type: object
       properties:
         business_node_id:
           type: string
-        name:
+        destination_key:
+          type: string
+        source_key:
+          type: string
+        type:
+          type: string
+    models.StorageDownloadURLResponse:
+      type: object
+      properties:
+        url:
+          type: string
+    models.ErrorResponse:
+      type: object
+      properties:
+        code:
+          type: string
+        details: {}
+        error:
+          type: string
+    models.StorageDeleteResponse:
+      type: object
+      properties:
+        deleted:
+          type: integer
+    models.StoragePasteError:
+      type: object
+      properties:
+        key:
+          type: string
+        message:
+          type: string
+    models.StoragePrepareUploadRequest:
+      type: object
+      properties:
+        business_node_id:
+          type: string
+        key:
           type: string
         path:
           type: string
@@ -591,6 +582,15 @@ components:
           type: boolean
         type:
           description: '"file" or "folder"'
+          type: string
+    models.StorageCreateFolderRequest:
+      type: object
+      properties:
+        business_node_id:
+          type: string
+        name:
+          type: string
+        path:
           type: string
   securitySchemes:
     BearerAuth:

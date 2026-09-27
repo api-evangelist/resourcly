@@ -73,22 +73,6 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    handlers.ReadyResponse:
-      type: object
-      properties:
-        services:
-          type: object
-          additionalProperties:
-            type: string
-        status:
-          type: string
-    handlers.HealthResponse:
-      type: object
-      properties:
-        status:
-          type: string
-        version:
-          type: string
     handlers.PoolStats:
       type: object
       properties:
@@ -110,6 +94,22 @@ components:
       properties:
         pool_stats:
           $ref: '#/components/schemas/handlers.PoolStats'
+        services:
+          type: object
+          additionalProperties:
+            type: string
+        status:
+          type: string
+    handlers.HealthResponse:
+      type: object
+      properties:
+        status:
+          type: string
+        version:
+          type: string
+    handlers.ReadyResponse:
+      type: object
+      properties:
         services:
           type: object
           additionalProperties:

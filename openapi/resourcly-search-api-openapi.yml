@@ -238,12 +238,16 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    models.UnifiedSearchRequest:
+    models.SearchImageResponse:
       type: object
       properties:
-        limit:
-          type: integer
-        query:
+        content_type:
+          type: string
+        file_name:
+          type: string
+        id:
+          type: string
+        url:
           type: string
     models.ItemResult:
       type: object
@@ -279,29 +283,6 @@ components:
           type: string
         title:
           type: string
-    models.BomResult:
-      type: object
-      properties:
-        bom_id:
-          type: string
-        business_node_id:
-          type: string
-        matched_part_numbers:
-          type: array
-          items:
-            type: string
-        name:
-          type: string
-        similarity_score:
-          type: number
-        status:
-          type: string
-        text_snippet:
-          type: string
-        total_lines:
-          type: integer
-        version:
-          type: string
     models.ErpFileResult:
       type: object
       properties:
@@ -330,6 +311,36 @@ components:
           type: string
         type:
           description: '"part_number", "title", "manufacturer", "specification", "additional_data", "document", or "recent"'
+          type: string
+    models.BomResult:
+      type: object
+      properties:
+        bom_id:
+          type: string
+        business_node_id:
+          type: string
+        matched_part_numbers:
+          type: array
+          items:
+            type: string
+        name:
+          type: string
+        similarity_score:
+          type: number
+        status:
+          type: string
+        text_snippet:
+          type: string
+        total_lines:
+          type: integer
+        version:
+          type: string
+    models.UnifiedSearchRequest:
+      type: object
+      properties:
+        limit:
+          type: integer
+        query:
           type: string
     models.ErrorResponse:
       type: object
@@ -372,17 +383,6 @@ components:
         results_count:
           type: integer
         search_mode:
-          type: string
-    models.SearchImageResponse:
-      type: object
-      properties:
-        content_type:
-          type: string
-        file_name:
-          type: string
-        id:
-          type: string
-        url:
           type: string
     models.AutocompleteResponse:
       type: object

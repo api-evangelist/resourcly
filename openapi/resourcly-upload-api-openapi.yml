@@ -58,18 +58,6 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    models.ERPAttributeMapping:
-      type: object
-      properties:
-        label:
-          description: human-friendly display name (AI-suggested, user-editable)
-          type: string
-        source_column:
-          description: exact header text in the uploaded file == metadata key
-          type: string
-        type:
-          description: '"string" | "number" (display/format hint)'
-          type: string
     services.UploadAnalysisResult:
       type: object
       properties:
@@ -93,34 +81,6 @@ components:
           type: array
           items:
             type: integer
-    models.ErrorResponse:
-      type: object
-      properties:
-        code:
-          type: string
-        details: {}
-        error:
-          type: string
-    handlers.AnalyzeColumnsRequest:
-      type: object
-      properties:
-        force_file_type:
-          description: 'ForceFileType optionally overrides AI auto-detection ("erp" or "bom").
-
-            When set, the file is classified as that type and only that type''s
-
-            column mappings are populated. Empty means auto-detect.'
-          type: string
-        headers:
-          type: array
-          items:
-            type: string
-        sample_rows:
-          type: array
-          items:
-            type: array
-            items:
-              type: string
     services.UploadColumnMapping:
       type: object
       properties:
@@ -183,6 +143,46 @@ components:
           type: string
         unit_column:
           type: string
+    models.ERPAttributeMapping:
+      type: object
+      properties:
+        label:
+          description: human-friendly display name (AI-suggested, user-editable)
+          type: string
+        source_column:
+          description: exact header text in the uploaded file == metadata key
+          type: string
+        type:
+          description: '"string" | "number" (display/format hint)'
+          type: string
+    models.ErrorResponse:
+      type: object
+      properties:
+        code:
+          type: string
+        details: {}
+        error:
+          type: string
+    handlers.AnalyzeColumnsRequest:
+      type: object
+      properties:
+        force_file_type:
+          description: 'ForceFileType optionally overrides AI auto-detection ("erp" or "bom").
+
+            When set, the file is classified as that type and only that type''s
+
+            column mappings are populated. Empty means auto-detect.'
+          type: string
+        headers:
+          type: array
+          items:
+            type: string
+        sample_rows:
+          type: array
+          items:
+            type: array
+            items:
+              type: string
   securitySchemes:
     BearerAuth:
       description: 'Firebase JWT token. Format: "Bearer {token}"'

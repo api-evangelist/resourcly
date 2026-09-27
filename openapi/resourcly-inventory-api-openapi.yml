@@ -570,134 +570,6 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    services.Item:
-      type: object
-      properties:
-        additionalData: {}
-        businessID:
-          type: string
-        businessNodeID:
-          type: string
-        category:
-          type: string
-        createdAt:
-          type: string
-        duplicateConfidence:
-          type: number
-        duplicateGroupID:
-          type: string
-        duplicateStatus:
-          type: string
-        hasERPData:
-          type: boolean
-        id:
-          type: string
-        isPreferred:
-          type: boolean
-        manufacturer:
-          type: string
-        partNumber:
-          type: string
-        references:
-          type: array
-          items:
-            type: string
-        specifications: {}
-        title:
-          type: string
-        updatedAt:
-          type: string
-    models.ERPInventoryFileListResponse:
-      type: object
-      properties:
-        files:
-          type: array
-          items:
-            $ref: '#/components/schemas/models.ERPInventoryFile'
-        total_count:
-          type: integer
-    models.ERPInventoryAggregatesResponse:
-      type: object
-      properties:
-        duplicate_primary_identifier_count:
-          type: integer
-        matched_primary_identifiers:
-          type: integer
-        total_records:
-          type: integer
-        total_unique_primary_identifiers:
-          type: integer
-        unconsolidated_count:
-          description: 'UnconsolidatedCount is the number of ERP records whose primary identifier
-
-            appears exactly once in the node (not shared with any other record). It is
-
-            the inverse of the "duplicates" set and is computed with the same
-
-            NOT-EXISTS predicate as the `unconsolidated` list filter so the count
-
-            matches the filtered row set.'
-          type: integer
-        unmatched_primary_identifiers:
-          type: integer
-    models.ERPAttributeMapping:
-      type: object
-      properties:
-        label:
-          description: human-friendly display name (AI-suggested, user-editable)
-          type: string
-        source_column:
-          description: exact header text in the uploaded file == metadata key
-          type: string
-        type:
-          description: '"string" | "number" (display/format hint)'
-          type: string
-    models.InventoryUploadResponse:
-      type: object
-      properties:
-        bucket_url:
-          type: string
-        column_mapping:
-          $ref: '#/components/schemas/models.InventoryUploadMapping'
-        created_at:
-          type: string
-        id:
-          type: string
-        import_id:
-          type: string
-        ingested_count:
-          type: integer
-        item_count:
-          type: integer
-    models.ERPInventoryItem:
-      type: object
-      properties:
-        created_at:
-          type: string
-        description_name:
-          type: string
-        erp_inventory_file_id:
-          type: string
-        erp_primary_identifier:
-          type: string
-        erp_secondary_identifier:
-          type: string
-        id:
-          type: string
-        is_preferred:
-          description: From the linked item (items.is_preferred), false when unmatched
-          type: boolean
-        item_id:
-          type: string
-        metadata: {}
-        purchase_price:
-          type: number
-        quantity:
-          type: number
-        supplier_name:
-          type: string
-        supplier_number:
-          type: string
     models.InventoryUploadMapping:
       type: object
       properties:
@@ -739,6 +611,44 @@ components:
           type: string
         supplier_number_name:
           type: string
+    models.ERPInventoryItemListResponse:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/models.ERPInventoryItem'
+        total_count:
+          type: integer
+    models.InventoryUploadResponse:
+      type: object
+      properties:
+        bucket_url:
+          type: string
+        column_mapping:
+          $ref: '#/components/schemas/models.InventoryUploadMapping'
+        created_at:
+          type: string
+        id:
+          type: string
+        import_id:
+          type: string
+        ingested_count:
+          type: integer
+        item_count:
+          type: integer
+    models.ERPAttributeMapping:
+      type: object
+      properties:
+        label:
+          description: human-friendly display name (AI-suggested, user-editable)
+          type: string
+        source_column:
+          description: exact header text in the uploaded file == metadata key
+          type: string
+        type:
+          description: '"string" | "number" (display/format hint)'
+          type: string
     models.ErrorResponse:
       type: object
       properties:
@@ -747,6 +657,105 @@ components:
         details: {}
         error:
           type: string
+    models.ERPInventoryFileListResponse:
+      type: object
+      properties:
+        files:
+          type: array
+          items:
+            $ref: '#/components/schemas/models.ERPInventoryFile'
+        total_count:
+          type: integer
+    models.ERPInventoryItem:
+      type: object
+      properties:
+        created_at:
+          type: string
+        description_name:
+          type: string
+        erp_inventory_file_id:
+          type: string
+        erp_primary_identifier:
+          type: string
+        erp_secondary_identifier:
+          type: string
+        id:
+          type: string
+        is_preferred:
+          description: From the linked item (items.is_preferred), false when unmatched
+          type: boolean
+        item_id:
+          type: string
+        metadata: {}
+        purchase_price:
+          type: number
+        quantity:
+          type: number
+        supplier_name:
+          type: string
+        supplier_number:
+          type: string
+    services.Item:
+      type: object
+      properties:
+        additionalData: {}
+        businessID:
+          type: string
+        businessNodeID:
+          type: string
+        category:
+          type: string
+        createdAt:
+          type: string
+        duplicateConfidence:
+          type: number
+        duplicateGroupID:
+          type: string
+        duplicateStatus:
+          type: string
+        hasERPData:
+          type: boolean
+        id:
+          type: string
+        isPreferred:
+          type: boolean
+        manufacturer:
+          type: string
+        partNumber:
+          type: string
+        references:
+          type: array
+          items:
+            type: string
+        specifications: {}
+        title:
+          type: string
+        updatedAt:
+          type: string
+    models.ERPInventoryAggregatesResponse:
+      type: object
+      properties:
+        duplicate_primary_identifier_count:
+          type: integer
+        matched_primary_identifiers:
+          type: integer
+        total_records:
+          type: integer
+        total_unique_primary_identifiers:
+          type: integer
+        unconsolidated_count:
+          description: 'UnconsolidatedCount is the number of ERP records whose primary identifier
+
+            appears exactly once in the node (not shared with any other record). It is
+
+            the inverse of the "duplicates" set and is computed with the same
+
+            NOT-EXISTS predicate as the `unconsolidated` list filter so the count
+
+            matches the filtered row set.'
+          type: integer
+        unmatched_primary_identifiers:
+          type: integer
     models.ERPInventoryFile:
       type: object
       properties:
@@ -774,15 +783,6 @@ components:
           type: integer
         status:
           type: string
-    models.ERPInventoryItemListResponse:
-      type: object
-      properties:
-        items:
-          type: array
-          items:
-            $ref: '#/components/schemas/models.ERPInventoryItem'
-        total_count:
-          type: integer
   securitySchemes:
     BearerAuth:
       description: 'Firebase JWT token. Format: "Bearer {token}"'

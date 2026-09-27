@@ -85,25 +85,6 @@ components:
           type: string
         total:
           type: integer
-    services.SharedSpecDetail:
-      type: object
-      properties:
-        display_value:
-          type: string
-        key:
-          type: string
-        original_keys:
-          type: array
-          items:
-            type: string
-    models.ErrorResponse:
-      type: object
-      properties:
-        code:
-          type: string
-        details: {}
-        error:
-          type: string
     services.SimilarItemResult:
       type: object
       properties:
@@ -133,6 +114,25 @@ components:
           type: string
         title:
           type: string
+    models.ErrorResponse:
+      type: object
+      properties:
+        code:
+          type: string
+        details: {}
+        error:
+          type: string
+    services.SharedSpecDetail:
+      type: object
+      properties:
+        display_value:
+          type: string
+        key:
+          type: string
+        original_keys:
+          type: array
+          items:
+            type: string
   securitySchemes:
     BearerAuth:
       description: 'Firebase JWT token. Format: "Bearer {token}"'

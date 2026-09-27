@@ -303,12 +303,16 @@ components:
           type: string
         status:
           type: string
-    models.DailyCountEntry:
+    models.ItemPriceAnalysisResponse:
       type: object
       properties:
-        count:
-          type: integer
-        date:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/models.ItemPriceEntry'
+        x_axis_label:
+          type: string
+        y_axis_label:
           type: string
     models.ItemPriceEntry:
       type: object
@@ -325,19 +329,27 @@ components:
             $ref: '#/components/schemas/models.ItemPriceDetail'
         total_stock:
           type: number
-    models.ReviewStatusTimelineEntry:
+    models.CostSummary:
       type: object
       properties:
-        alternative:
+        avg_cost_per_item_eur:
+          type: number
+        cost_by_category:
+          type: object
+          additionalProperties:
+            type: number
+            format: float64
+        items_with_estimates:
+          type: integer
+        total_estimated_cost_eur:
+          type: number
+    models.DailyCountEntry:
+      type: object
+      properties:
+        count:
           type: integer
         date:
           type: string
-        duplicate:
-          type: integer
-        not_related:
-          type: integer
-        pending_review:
-          type: integer
     models.AIClassificationClusterEntry:
       type: object
       properties:
@@ -345,6 +357,40 @@ components:
           type: string
         cluster_count:
           type: integer
+    models.ItemPriceDetail:
+      type: object
+      properties:
+        category:
+          type: string
+        id:
+          type: string
+        max_price:
+          type: number
+        min_price:
+          type: number
+        similarity_score:
+          type: number
+        total_stock:
+          type: number
+    models.MergedItemEntry:
+      type: object
+      properties:
+        category:
+          type: string
+        doc_count:
+          type: integer
+        documents:
+          type: array
+          items:
+            $ref: '#/components/schemas/models.MergedItemDocument'
+        id:
+          type: string
+        manufacturer:
+          type: string
+        part_number:
+          type: string
+        title:
+          type: string
     models.MergedItemsListResponse:
       type: object
       properties:
@@ -359,6 +405,19 @@ components:
         offset:
           type: integer
         total:
+          type: integer
+    models.ReviewStatusTimelineEntry:
+      type: object
+      properties:
+        alternative:
+          type: integer
+        date:
+          type: string
+        duplicate:
+          type: integer
+        not_related:
+          type: integer
+        pending_review:
           type: integer
     models.ItemAnalyticsResponse:
       type: object
@@ -410,36 +469,6 @@ components:
           type: integer
         total_items:
           type: integer
-    models.ItemPriceAnalysisResponse:
-      type: object
-      properties:
-        items:
-          type: array
-          items:
-            $ref: '#/components/schemas/models.ItemPriceEntry'
-        x_axis_label:
-          type: string
-        y_axis_label:
-          type: string
-    models.MergedItemEntry:
-      type: object
-      properties:
-        category:
-          type: string
-        doc_count:
-          type: integer
-        documents:
-          type: array
-          items:
-            $ref: '#/components/schemas/models.MergedItemDocument'
-        id:
-          type: string
-        manufacturer:
-          type: string
-        part_number:
-          type: string
-        title:
-          type: string
     models.ErrorResponse:
       type: object
       properties:
@@ -448,35 +477,6 @@ components:
         details: {}
         error:
           type: string
-    models.ItemPriceDetail:
-      type: object
-      properties:
-        category:
-          type: string
-        id:
-          type: string
-        max_price:
-          type: number
-        min_price:
-          type: number
-        similarity_score:
-          type: number
-        total_stock:
-          type: number
-    models.CostSummary:
-      type: object
-      properties:
-        avg_cost_per_item_eur:
-          type: number
-        cost_by_category:
-          type: object
-          additionalProperties:
-            type: number
-            format: float64
-        items_with_estimates:
-          type: integer
-        total_estimated_cost_eur:
-          type: number
   securitySchemes:
     BearerAuth:
       description: 'Firebase JWT token. Format: "Bearer {token}"'

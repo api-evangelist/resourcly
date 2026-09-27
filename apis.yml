@@ -61,7 +61,7 @@ tags:
 - BOM
 apis:
 - aid: resourcly:resourcly-analytics-api
-  name: Resourcly analytics API
+  name: Resourcly Analytics API
   description: The analytics API from Resourcly — 7 operation(s) for analytics.
   humanURL: https://api.resourcly.com/docs/
   baseURL: https://api.resourcly.com/v1
@@ -77,7 +77,7 @@ apis:
   - type: APIReference
     url: https://api.resourcly.com/docs/
 - aid: resourcly:resourcly-auth-api
-  name: Resourcly auth API
+  name: Resourcly Auth API
   description: The auth API from Resourcly — 1 operation(s) for auth.
   humanURL: https://api.resourcly.com/docs/
   baseURL: https://api.resourcly.com/v1
@@ -93,7 +93,7 @@ apis:
   - type: APIReference
     url: https://api.resourcly.com/docs/
 - aid: resourcly:resourcly-bom-comparisons-api
-  name: Resourcly bom-comparisons API
+  name: Resourcly Bom Comparisons API
   description: The bom-comparisons API from Resourcly — 4 operation(s) for bom-comparisons.
   humanURL: https://api.resourcly.com/docs/
   baseURL: https://api.resourcly.com/v1
@@ -107,7 +107,7 @@ apis:
   - type: APIReference
     url: https://api.resourcly.com/docs/
 - aid: resourcly:resourcly-boms-api
-  name: Resourcly boms API
+  name: Resourcly Boms API
   description: The boms API from Resourcly — 8 operation(s) for boms.
   humanURL: https://api.resourcly.com/docs/
   baseURL: https://api.resourcly.com/v1
@@ -121,7 +121,7 @@ apis:
   - type: APIReference
     url: https://api.resourcly.com/docs/
 - aid: resourcly:resourcly-business-api
-  name: Resourcly business API
+  name: Resourcly Business API
   description: The business API from Resourcly — 2 operation(s) for business.
   humanURL: https://api.resourcly.com/docs/
   baseURL: https://api.resourcly.com/v1
@@ -137,7 +137,7 @@ apis:
   - type: APIReference
     url: https://api.resourcly.com/docs/
 - aid: resourcly:resourcly-documents-api
-  name: Resourcly documents API
+  name: Resourcly Documents API
   description: The documents API from Resourcly — 4 operation(s) for documents.
   humanURL: https://api.resourcly.com/docs/
   baseURL: https://api.resourcly.com/v1
@@ -153,7 +153,7 @@ apis:
   - type: APIReference
     url: https://api.resourcly.com/docs/
 - aid: resourcly:resourcly-drive-api
-  name: Resourcly drive API
+  name: Resourcly Drive API
   description: The drive API from Resourcly — 10 operation(s) for drive.
   humanURL: https://api.resourcly.com/docs/
   baseURL: https://api.resourcly.com/v1
@@ -169,7 +169,7 @@ apis:
   - type: APIReference
     url: https://api.resourcly.com/docs/
 - aid: resourcly:resourcly-duplicates-api
-  name: Resourcly duplicates API
+  name: Resourcly Duplicates API
   description: The duplicates API from Resourcly — 1 operation(s) for duplicates.
   humanURL: https://api.resourcly.com/docs/
   baseURL: https://api.resourcly.com/v1
@@ -183,7 +183,7 @@ apis:
   - type: APIReference
     url: https://api.resourcly.com/docs/
 - aid: resourcly:resourcly-email-api
-  name: Resourcly email API
+  name: Resourcly Email API
   description: The email API from Resourcly — 1 operation(s) for email.
   humanURL: https://api.resourcly.com/docs/
   baseURL: https://api.resourcly.com/v1
@@ -199,7 +199,7 @@ apis:
   - type: APIReference
     url: https://api.resourcly.com/docs/
 - aid: resourcly:resourcly-feedback-api
-  name: Resourcly feedback API
+  name: Resourcly Feedback API
   description: The feedback API from Resourcly — 1 operation(s) for feedback.
   humanURL: https://api.resourcly.com/docs/
   baseURL: https://api.resourcly.com/v1
@@ -215,7 +215,7 @@ apis:
   - type: APIReference
     url: https://api.resourcly.com/docs/
 - aid: resourcly:resourcly-health-api
-  name: Resourcly health API
+  name: Resourcly Health API
   description: The health API from Resourcly — 3 operation(s) for health.
   humanURL: https://api.resourcly.com/docs/
   baseURL: https://api.resourcly.com/v1
@@ -231,7 +231,7 @@ apis:
   - type: APIReference
     url: https://api.resourcly.com/docs/
 - aid: resourcly:resourcly-imports-api
-  name: Resourcly imports API
+  name: Resourcly Imports API
   description: The imports API from Resourcly — 6 operation(s) for imports.
   humanURL: https://api.resourcly.com/docs/
   baseURL: https://api.resourcly.com/v1
@@ -247,7 +247,7 @@ apis:
   - type: APIReference
     url: https://api.resourcly.com/docs/
 - aid: resourcly:resourcly-inventory-api
-  name: Resourcly inventory API
+  name: Resourcly Inventory API
   description: The inventory API from Resourcly — 10 operation(s) for inventory.
   humanURL: https://api.resourcly.com/docs/
   baseURL: https://api.resourcly.com/v1
@@ -279,7 +279,7 @@ apis:
   - type: APIReference
     url: https://api.resourcly.com/docs/
 - aid: resourcly:resourcly-release-notes-api
-  name: Resourcly release-notes API
+  name: Resourcly Release Notes API
   description: The release-notes API from Resourcly — 1 operation(s) for release-notes.
   humanURL: https://api.resourcly.com/docs/
   baseURL: https://api.resourcly.com/v1
@@ -295,7 +295,7 @@ apis:
   - type: APIReference
     url: https://api.resourcly.com/docs/
 - aid: resourcly:resourcly-search-api
-  name: Resourcly search API
+  name: Resourcly Search API
   description: The search API from Resourcly — 5 operation(s) for search.
   humanURL: https://api.resourcly.com/docs/
   baseURL: https://api.resourcly.com/v1
@@ -311,7 +311,7 @@ apis:
   - type: APIReference
     url: https://api.resourcly.com/docs/
 - aid: resourcly:resourcly-storage-api
-  name: Resourcly storage API
+  name: Resourcly Storage API
   description: The storage API from Resourcly — 7 operation(s) for storage.
   humanURL: https://api.resourcly.com/docs/
   baseURL: https://api.resourcly.com/v1
@@ -327,7 +327,7 @@ apis:
   - type: APIReference
     url: https://api.resourcly.com/docs/
 - aid: resourcly:resourcly-supplier-data-requests-api
-  name: Resourcly supplier-data-requests API
+  name: Resourcly Supplier Data Requests API
   description: >-
     The supplier-data-requests API from Resourcly — 5 operation(s) for supplier-data-requests.
   humanURL: https://api.resourcly.com/docs/
@@ -342,7 +342,7 @@ apis:
   - type: APIReference
     url: https://api.resourcly.com/docs/
 - aid: resourcly:resourcly-supplier-portal-api
-  name: Resourcly supplier-portal API
+  name: Resourcly Supplier Portal API
   description: The supplier-portal API from Resourcly — 5 operation(s) for supplier-portal.
   humanURL: https://api.resourcly.com/docs/
   baseURL: https://api.resourcly.com/v1
@@ -358,7 +358,7 @@ apis:
   - type: APIReference
     url: https://api.resourcly.com/docs/
 - aid: resourcly:resourcly-suppliers-api
-  name: Resourcly suppliers API
+  name: Resourcly Suppliers API
   description: The suppliers API from Resourcly — 4 operation(s) for suppliers.
   humanURL: https://api.resourcly.com/docs/
   baseURL: https://api.resourcly.com/v1
@@ -374,7 +374,7 @@ apis:
   - type: APIReference
     url: https://api.resourcly.com/docs/
 - aid: resourcly:resourcly-upload-api
-  name: Resourcly upload API
+  name: Resourcly Upload API
   description: The upload API from Resourcly — 1 operation(s) for upload.
   humanURL: https://api.resourcly.com/docs/
   baseURL: https://api.resourcly.com/v1
