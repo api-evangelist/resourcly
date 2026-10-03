@@ -209,6 +209,31 @@ components:
             $ref: '#/components/schemas/services.SupplierProduct'
         total:
           type: integer
+    handlers.ImportRequest:
+      type: object
+      properties:
+        business_node_id:
+          type: string
+        classification_system:
+          description: e.g., "ETIM", "ECLASS"
+          type: string
+        datasource_keys:
+          type: array
+          items:
+            type: string
+        language:
+          type: string
+        supplier_name:
+          type: string
+    handlers.ImportResponse:
+      type: object
+      properties:
+        import_job_id:
+          type: string
+        message:
+          type: string
+        supplier_id:
+          type: string
     services.SupplierProduct:
       type: object
       properties:
@@ -240,15 +265,6 @@ components:
           type: string
         title:
           type: string
-    handlers.ImportResponse:
-      type: object
-      properties:
-        import_job_id:
-          type: string
-        message:
-          type: string
-        supplier_id:
-          type: string
     models.ErrorResponse:
       type: object
       properties:
@@ -256,22 +272,6 @@ components:
           type: string
         details: {}
         error:
-          type: string
-    handlers.ImportRequest:
-      type: object
-      properties:
-        business_node_id:
-          type: string
-        classification_system:
-          description: e.g., "ETIM", "ECLASS"
-          type: string
-        datasource_keys:
-          type: array
-          items:
-            type: string
-        language:
-          type: string
-        supplier_name:
           type: string
   securitySchemes:
     BearerAuth:

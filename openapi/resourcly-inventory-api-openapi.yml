@@ -570,6 +570,74 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    models.ERPInventoryFile:
+      type: object
+      properties:
+        bucket_url:
+          type: string
+        business_id:
+          type: string
+        column_mapping:
+          $ref: '#/components/schemas/models.InventoryUploadMapping'
+        created_at:
+          type: string
+        extraction_error:
+          type: string
+        extraction_status:
+          type: string
+        filename:
+          type: string
+        id:
+          type: string
+        import_id:
+          type: string
+        ingested_count:
+          type: integer
+        item_count:
+          type: integer
+        status:
+          type: string
+    models.ERPInventoryAggregatesResponse:
+      type: object
+      properties:
+        duplicate_primary_identifier_count:
+          type: integer
+        matched_primary_identifiers:
+          type: integer
+        total_records:
+          type: integer
+        total_unique_primary_identifiers:
+          type: integer
+        unconsolidated_count:
+          description: 'UnconsolidatedCount is the number of ERP records whose primary identifier
+
+            appears exactly once in the node (not shared with any other record). It is
+
+            the inverse of the "duplicates" set and is computed with the same
+
+            NOT-EXISTS predicate as the `unconsolidated` list filter so the count
+
+            matches the filtered row set.'
+          type: integer
+        unmatched_primary_identifiers:
+          type: integer
+    models.ErrorResponse:
+      type: object
+      properties:
+        code:
+          type: string
+        details: {}
+        error:
+          type: string
+    models.ERPInventoryFileListResponse:
+      type: object
+      properties:
+        files:
+          type: array
+          items:
+            $ref: '#/components/schemas/models.ERPInventoryFile'
+        total_count:
+          type: integer
     models.InventoryUploadMapping:
       type: object
       properties:
@@ -611,61 +679,6 @@ components:
           type: string
         supplier_number_name:
           type: string
-    models.ERPInventoryItemListResponse:
-      type: object
-      properties:
-        items:
-          type: array
-          items:
-            $ref: '#/components/schemas/models.ERPInventoryItem'
-        total_count:
-          type: integer
-    models.InventoryUploadResponse:
-      type: object
-      properties:
-        bucket_url:
-          type: string
-        column_mapping:
-          $ref: '#/components/schemas/models.InventoryUploadMapping'
-        created_at:
-          type: string
-        id:
-          type: string
-        import_id:
-          type: string
-        ingested_count:
-          type: integer
-        item_count:
-          type: integer
-    models.ERPAttributeMapping:
-      type: object
-      properties:
-        label:
-          description: human-friendly display name (AI-suggested, user-editable)
-          type: string
-        source_column:
-          description: exact header text in the uploaded file == metadata key
-          type: string
-        type:
-          description: '"string" | "number" (display/format hint)'
-          type: string
-    models.ErrorResponse:
-      type: object
-      properties:
-        code:
-          type: string
-        details: {}
-        error:
-          type: string
-    models.ERPInventoryFileListResponse:
-      type: object
-      properties:
-        files:
-          type: array
-          items:
-            $ref: '#/components/schemas/models.ERPInventoryFile'
-        total_count:
-          type: integer
     models.ERPInventoryItem:
       type: object
       properties:
@@ -732,46 +745,23 @@ components:
           type: string
         updatedAt:
           type: string
-    models.ERPInventoryAggregatesResponse:
+    models.ERPInventoryItemListResponse:
       type: object
       properties:
-        duplicate_primary_identifier_count:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/models.ERPInventoryItem'
+        total_count:
           type: integer
-        matched_primary_identifiers:
-          type: integer
-        total_records:
-          type: integer
-        total_unique_primary_identifiers:
-          type: integer
-        unconsolidated_count:
-          description: 'UnconsolidatedCount is the number of ERP records whose primary identifier
-
-            appears exactly once in the node (not shared with any other record). It is
-
-            the inverse of the "duplicates" set and is computed with the same
-
-            NOT-EXISTS predicate as the `unconsolidated` list filter so the count
-
-            matches the filtered row set.'
-          type: integer
-        unmatched_primary_identifiers:
-          type: integer
-    models.ERPInventoryFile:
+    models.InventoryUploadResponse:
       type: object
       properties:
         bucket_url:
           type: string
-        business_id:
-          type: string
         column_mapping:
           $ref: '#/components/schemas/models.InventoryUploadMapping'
         created_at:
-          type: string
-        extraction_error:
-          type: string
-        extraction_status:
-          type: string
-        filename:
           type: string
         id:
           type: string
@@ -781,7 +771,17 @@ components:
           type: integer
         item_count:
           type: integer
-        status:
+    models.ERPAttributeMapping:
+      type: object
+      properties:
+        label:
+          description: human-friendly display name (AI-suggested, user-editable)
+          type: string
+        source_column:
+          description: exact header text in the uploaded file == metadata key
+          type: string
+        type:
+          description: '"string" | "number" (display/format hint)'
           type: string
   securitySchemes:
     BearerAuth:

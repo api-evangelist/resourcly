@@ -374,43 +374,35 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    models.DriveStorageBucket:
+    models.DriveStorageStats:
       type: object
       properties:
-        count:
+        by_content_type:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/models.DriveStorageBucket'
+        by_storage_class:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/models.DriveStorageBucket'
+        total_objects:
           type: integer
-        size:
-          type: integer
-    models.DriveDownloadResponse:
-      type: object
-      properties:
-        download_url:
-          type: string
-        download_urls:
-          type: array
-          items:
-            $ref: '#/components/schemas/models.DriveDownloadItem'
-        expires_at:
-          type: string
         total_size:
           type: integer
-    models.DriveBrowseResponse:
+    models.DriveShareScope:
       type: object
       properties:
-        objects:
-          type: array
-          items:
-            $ref: '#/components/schemas/models.DriveObject'
-        page:
-          type: integer
-        page_size:
-          type: integer
-        prefixes:
+        object_ids:
           type: array
           items:
             type: string
-        total:
-          type: integer
+        prefix:
+          type: string
+        query:
+          $ref: '#/components/schemas/models.DriveSearchRequest'
+        type:
+          description: '"prefix", "files", or "search"'
+          type: string
     models.DriveDownloadRequest:
       type: object
       properties:
@@ -432,6 +424,125 @@ components:
           type: string
         scope:
           $ref: '#/components/schemas/models.DriveShareScope'
+    models.DriveSearchRequest:
+      type: object
+      properties:
+        content_type:
+          type: string
+        max_size:
+          type: integer
+        min_size:
+          type: integer
+        page:
+          type: integer
+        page_size:
+          type: integer
+        prefix:
+          type: string
+        query:
+          type: string
+        sort_by:
+          type: string
+        sort_order:
+          type: string
+        storage_class:
+          type: string
+    models.DriveStorageBucket:
+      type: object
+      properties:
+        count:
+          type: integer
+        size:
+          type: integer
+    models.DriveBrowseResponse:
+      type: object
+      properties:
+        objects:
+          type: array
+          items:
+            $ref: '#/components/schemas/models.DriveObject'
+        page:
+          type: integer
+        page_size:
+          type: integer
+        prefixes:
+          type: array
+          items:
+            type: string
+        total:
+          type: integer
+    models.DriveDownloadItem:
+      type: object
+      properties:
+        download_url:
+          type: string
+        name:
+          type: string
+        object_id:
+          type: string
+        size:
+          type: integer
+    models.DriveDownloadResponse:
+      type: object
+      properties:
+        download_url:
+          type: string
+        download_urls:
+          type: array
+          items:
+            $ref: '#/components/schemas/models.DriveDownloadItem'
+        expires_at:
+          type: string
+        total_size:
+          type: integer
+    models.DriveShareLink:
+      type: object
+      properties:
+        access_level:
+          type: string
+        created_at:
+          type: string
+        created_by:
+          type: string
+        expires_at:
+          type: string
+        id:
+          type: string
+        label:
+          type: string
+        password_protected:
+          type: boolean
+        scope:
+          $ref: '#/components/schemas/models.DriveShareScope'
+        url:
+          type: string
+    models.ErrorResponse:
+      type: object
+      properties:
+        code:
+          type: string
+        details: {}
+        error:
+          type: string
+    models.DriveSearchResponse:
+      type: object
+      properties:
+        highlights:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: string
+        objects:
+          type: array
+          items:
+            $ref: '#/components/schemas/models.DriveObject'
+        page:
+          type: integer
+        page_size:
+          type: integer
+        total:
+          type: integer
     models.DriveObject:
       type: object
       properties:
@@ -465,117 +576,6 @@ components:
             type: string
         updated_at:
           type: string
-    models.DriveStorageStats:
-      type: object
-      properties:
-        by_content_type:
-          type: object
-          additionalProperties:
-            $ref: '#/components/schemas/models.DriveStorageBucket'
-        by_storage_class:
-          type: object
-          additionalProperties:
-            $ref: '#/components/schemas/models.DriveStorageBucket'
-        total_objects:
-          type: integer
-        total_size:
-          type: integer
-    models.DriveShareLink:
-      type: object
-      properties:
-        access_level:
-          type: string
-        created_at:
-          type: string
-        created_by:
-          type: string
-        expires_at:
-          type: string
-        id:
-          type: string
-        label:
-          type: string
-        password_protected:
-          type: boolean
-        scope:
-          $ref: '#/components/schemas/models.DriveShareScope'
-        url:
-          type: string
-    models.DriveDownloadItem:
-      type: object
-      properties:
-        download_url:
-          type: string
-        name:
-          type: string
-        object_id:
-          type: string
-        size:
-          type: integer
-    models.ErrorResponse:
-      type: object
-      properties:
-        code:
-          type: string
-        details: {}
-        error:
-          type: string
-    models.DriveSearchRequest:
-      type: object
-      properties:
-        content_type:
-          type: string
-        max_size:
-          type: integer
-        min_size:
-          type: integer
-        page:
-          type: integer
-        page_size:
-          type: integer
-        prefix:
-          type: string
-        query:
-          type: string
-        sort_by:
-          type: string
-        sort_order:
-          type: string
-        storage_class:
-          type: string
-    models.DriveShareScope:
-      type: object
-      properties:
-        object_ids:
-          type: array
-          items:
-            type: string
-        prefix:
-          type: string
-        query:
-          $ref: '#/components/schemas/models.DriveSearchRequest'
-        type:
-          description: '"prefix", "files", or "search"'
-          type: string
-    models.DriveSearchResponse:
-      type: object
-      properties:
-        highlights:
-          type: object
-          additionalProperties:
-            type: array
-            items:
-              type: string
-        objects:
-          type: array
-          items:
-            $ref: '#/components/schemas/models.DriveObject'
-        page:
-          type: integer
-        page_size:
-          type: integer
-        total:
-          type: integer
   securitySchemes:
     BearerAuth:
       description: 'Firebase JWT token. Format: "Bearer {token}"'

@@ -292,17 +292,6 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    models.MergedItemDocument:
-      type: object
-      properties:
-        classification:
-          type: string
-        filename:
-          type: string
-        id:
-          type: string
-        status:
-          type: string
     models.ItemPriceAnalysisResponse:
       type: object
       properties:
@@ -314,98 +303,6 @@ components:
           type: string
         y_axis_label:
           type: string
-    models.ItemPriceEntry:
-      type: object
-      properties:
-        main_item:
-          $ref: '#/components/schemas/models.ItemPriceDetail'
-        max_price:
-          type: number
-        min_price:
-          type: number
-        similar_items:
-          type: array
-          items:
-            $ref: '#/components/schemas/models.ItemPriceDetail'
-        total_stock:
-          type: number
-    models.CostSummary:
-      type: object
-      properties:
-        avg_cost_per_item_eur:
-          type: number
-        cost_by_category:
-          type: object
-          additionalProperties:
-            type: number
-            format: float64
-        items_with_estimates:
-          type: integer
-        total_estimated_cost_eur:
-          type: number
-    models.DailyCountEntry:
-      type: object
-      properties:
-        count:
-          type: integer
-        date:
-          type: string
-    models.AIClassificationClusterEntry:
-      type: object
-      properties:
-        classification:
-          type: string
-        cluster_count:
-          type: integer
-    models.ItemPriceDetail:
-      type: object
-      properties:
-        category:
-          type: string
-        id:
-          type: string
-        max_price:
-          type: number
-        min_price:
-          type: number
-        similarity_score:
-          type: number
-        total_stock:
-          type: number
-    models.MergedItemEntry:
-      type: object
-      properties:
-        category:
-          type: string
-        doc_count:
-          type: integer
-        documents:
-          type: array
-          items:
-            $ref: '#/components/schemas/models.MergedItemDocument'
-        id:
-          type: string
-        manufacturer:
-          type: string
-        part_number:
-          type: string
-        title:
-          type: string
-    models.MergedItemsListResponse:
-      type: object
-      properties:
-        business_id:
-          type: string
-        items:
-          type: array
-          items:
-            $ref: '#/components/schemas/models.MergedItemEntry'
-        limit:
-          type: integer
-        offset:
-          type: integer
-        total:
-          type: integer
     models.ReviewStatusTimelineEntry:
       type: object
       properties:
@@ -469,6 +366,98 @@ components:
           type: integer
         total_items:
           type: integer
+    models.AIClassificationClusterEntry:
+      type: object
+      properties:
+        classification:
+          type: string
+        cluster_count:
+          type: integer
+    models.DailyCountEntry:
+      type: object
+      properties:
+        count:
+          type: integer
+        date:
+          type: string
+    models.MergedItemEntry:
+      type: object
+      properties:
+        category:
+          type: string
+        doc_count:
+          type: integer
+        documents:
+          type: array
+          items:
+            $ref: '#/components/schemas/models.MergedItemDocument'
+        id:
+          type: string
+        manufacturer:
+          type: string
+        part_number:
+          type: string
+        title:
+          type: string
+    models.CostSummary:
+      type: object
+      properties:
+        avg_cost_per_item_eur:
+          type: number
+        cost_by_category:
+          type: object
+          additionalProperties:
+            type: number
+            format: float64
+        items_with_estimates:
+          type: integer
+        total_estimated_cost_eur:
+          type: number
+    models.ItemPriceEntry:
+      type: object
+      properties:
+        main_item:
+          $ref: '#/components/schemas/models.ItemPriceDetail'
+        max_price:
+          type: number
+        min_price:
+          type: number
+        similar_items:
+          type: array
+          items:
+            $ref: '#/components/schemas/models.ItemPriceDetail'
+        total_stock:
+          type: number
+    models.ItemPriceDetail:
+      type: object
+      properties:
+        category:
+          type: string
+        id:
+          type: string
+        max_price:
+          type: number
+        min_price:
+          type: number
+        similarity_score:
+          type: number
+        total_stock:
+          type: number
+    models.MergedItemsListResponse:
+      type: object
+      properties:
+        business_id:
+          type: string
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/models.MergedItemEntry'
+        limit:
+          type: integer
+        offset:
+          type: integer
+        total:
+          type: integer
     models.ErrorResponse:
       type: object
       properties:
@@ -476,6 +465,17 @@ components:
           type: string
         details: {}
         error:
+          type: string
+    models.MergedItemDocument:
+      type: object
+      properties:
+        classification:
+          type: string
+        filename:
+          type: string
+        id:
+          type: string
+        status:
           type: string
   securitySchemes:
     BearerAuth:

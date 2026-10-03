@@ -438,42 +438,11 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    models.StoragePrepareUploadResponse:
+    models.StorageCreateFolderResponse:
       type: object
       properties:
         key:
           type: string
-        max_size_bytes:
-          type: integer
-        upload_headers:
-          type: object
-          additionalProperties:
-            type: string
-        upload_url:
-          type: string
-    models.StoragePasteItem:
-      type: object
-      properties:
-        key:
-          type: string
-        type:
-          type: string
-    models.StorageRenameResponse:
-      type: object
-      properties:
-        moved:
-          type: integer
-    models.StoragePasteResponse:
-      type: object
-      properties:
-        failed:
-          type: array
-          items:
-            $ref: '#/components/schemas/models.StoragePasteError'
-        objects:
-          type: integer
-        pasted:
-          type: integer
     models.StoragePasteRequest:
       type: object
       properties:
@@ -489,11 +458,32 @@ components:
           type: string
         source_business_node_id:
           type: string
-    models.StorageCreateFolderResponse:
+    models.StorageDeleteResponse:
+      type: object
+      properties:
+        deleted:
+          type: integer
+    models.StoragePasteError:
       type: object
       properties:
         key:
           type: string
+        message:
+          type: string
+    models.StorageCreateFolderRequest:
+      type: object
+      properties:
+        business_node_id:
+          type: string
+        name:
+          type: string
+        path:
+          type: string
+    models.StorageRenameResponse:
+      type: object
+      properties:
+        moved:
+          type: integer
     models.StorageListResponse:
       type: object
       properties:
@@ -521,40 +511,24 @@ components:
           type: string
         type:
           type: string
-    models.StorageDownloadURLResponse:
+    models.StoragePasteItem:
       type: object
       properties:
-        url:
+        key:
           type: string
-    models.ErrorResponse:
+        type:
+          type: string
+    models.StoragePasteResponse:
       type: object
       properties:
-        code:
-          type: string
-        details: {}
-        error:
-          type: string
-    models.StorageDeleteResponse:
-      type: object
-      properties:
-        deleted:
+        failed:
+          type: array
+          items:
+            $ref: '#/components/schemas/models.StoragePasteError'
+        objects:
           type: integer
-    models.StoragePasteError:
-      type: object
-      properties:
-        key:
-          type: string
-        message:
-          type: string
-    models.StoragePrepareUploadRequest:
-      type: object
-      properties:
-        business_node_id:
-          type: string
-        key:
-          type: string
-        path:
-          type: string
+        pasted:
+          type: integer
     models.StorageItem:
       type: object
       properties:
@@ -583,12 +557,38 @@ components:
         type:
           description: '"file" or "folder"'
           type: string
-    models.StorageCreateFolderRequest:
+    models.StoragePrepareUploadResponse:
+      type: object
+      properties:
+        key:
+          type: string
+        max_size_bytes:
+          type: integer
+        upload_headers:
+          type: object
+          additionalProperties:
+            type: string
+        upload_url:
+          type: string
+    models.ErrorResponse:
+      type: object
+      properties:
+        code:
+          type: string
+        details: {}
+        error:
+          type: string
+    models.StorageDownloadURLResponse:
+      type: object
+      properties:
+        url:
+          type: string
+    models.StoragePrepareUploadRequest:
       type: object
       properties:
         business_node_id:
           type: string
-        name:
+        key:
           type: string
         path:
           type: string

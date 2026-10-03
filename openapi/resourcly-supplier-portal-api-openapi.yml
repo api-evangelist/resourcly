@@ -306,26 +306,6 @@ components:
           - $ref: '#/components/schemas/models.SupplierGetResponseResponse'
         status:
           type: string
-    models.SupplierVerifyPasscodeRequest:
-      type: object
-      properties:
-        passcode:
-          description: 6-digit passcode from the email
-          type: string
-        request_id:
-          description: UUID of the supplier data request
-          type: string
-    models.SupplierUploadFileResponse:
-      type: object
-      properties:
-        document_type:
-          type: string
-        file_id:
-          type: string
-        filename:
-          type: string
-        message:
-          type: string
     models.SupplierVerifyPasscodeResponse:
       type: object
       properties:
@@ -335,33 +315,22 @@ components:
         token:
           description: Short-lived JWT for accessing the request
           type: string
-    models.SupplierSubmitResponseResponse:
+    models.SupplierResponseFileInfo:
       type: object
       properties:
-        message:
+        content_type:
           type: string
-        response_id:
+        created_at:
           type: string
-        status:
+        document_type:
           type: string
-    models.SupplierSubmitResponseRequest:
-      type: object
-      properties:
-        master_data_values:
-          description: field key -> value
-          type: object
-          additionalProperties:
-            type: string
-        status:
-          description: '"draft" or "submitted"'
+        file_size_bytes:
+          type: integer
+        filename:
           type: string
-    models.ErrorResponse:
-      type: object
-      properties:
-        code:
+        id:
           type: string
-        details: {}
-        error:
+        url:
           type: string
     models.SupplierGetResponseResponse:
       type: object
@@ -383,22 +352,53 @@ components:
           type: string
         updated_at:
           type: string
-    models.SupplierResponseFileInfo:
+    models.SupplierVerifyPasscodeRequest:
       type: object
       properties:
-        content_type:
+        passcode:
+          description: 6-digit passcode from the email
           type: string
-        created_at:
+        request_id:
+          description: UUID of the supplier data request
           type: string
+    models.SupplierUploadFileResponse:
+      type: object
+      properties:
         document_type:
           type: string
-        file_size_bytes:
-          type: integer
+        file_id:
+          type: string
         filename:
           type: string
-        id:
+        message:
           type: string
-        url:
+    models.SupplierSubmitResponseResponse:
+      type: object
+      properties:
+        message:
+          type: string
+        response_id:
+          type: string
+        status:
+          type: string
+    models.ErrorResponse:
+      type: object
+      properties:
+        code:
+          type: string
+        details: {}
+        error:
+          type: string
+    models.SupplierSubmitResponseRequest:
+      type: object
+      properties:
+        master_data_values:
+          description: field key -> value
+          type: object
+          additionalProperties:
+            type: string
+        status:
+          description: '"draft" or "submitted"'
           type: string
   securitySchemes:
     BearerAuth:

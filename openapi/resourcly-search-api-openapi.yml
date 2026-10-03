@@ -238,17 +238,6 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    models.SearchImageResponse:
-      type: object
-      properties:
-        content_type:
-          type: string
-        file_name:
-          type: string
-        id:
-          type: string
-        url:
-          type: string
     models.ItemResult:
       type: object
       properties:
@@ -283,35 +272,6 @@ components:
           type: string
         title:
           type: string
-    models.ErpFileResult:
-      type: object
-      properties:
-        business_node_id:
-          type: string
-        erp_file_id:
-          type: string
-        filename:
-          type: string
-        matched_identifiers:
-          type: array
-          items:
-            type: string
-        row_count:
-          type: integer
-        similarity_score:
-          type: number
-        source_erp:
-          type: string
-        text_snippet:
-          type: string
-    models.AutocompleteSuggestion:
-      type: object
-      properties:
-        text:
-          type: string
-        type:
-          description: '"part_number", "title", "manufacturer", "specification", "additional_data", "document", or "recent"'
-          type: string
     models.BomResult:
       type: object
       properties:
@@ -334,21 +294,6 @@ components:
         total_lines:
           type: integer
         version:
-          type: string
-    models.UnifiedSearchRequest:
-      type: object
-      properties:
-        limit:
-          type: integer
-        query:
-          type: string
-    models.ErrorResponse:
-      type: object
-      properties:
-        code:
-          type: string
-        details: {}
-        error:
           type: string
     models.SearchResponse:
       type: object
@@ -391,6 +336,61 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/models.AutocompleteSuggestion'
+    models.SearchImageResponse:
+      type: object
+      properties:
+        content_type:
+          type: string
+        file_name:
+          type: string
+        id:
+          type: string
+        url:
+          type: string
+    models.AutocompleteSuggestion:
+      type: object
+      properties:
+        text:
+          type: string
+        type:
+          description: '"part_number", "title", "manufacturer", "specification", "additional_data", "document", or "recent"'
+          type: string
+    models.UnifiedSearchRequest:
+      type: object
+      properties:
+        limit:
+          type: integer
+        query:
+          type: string
+    models.ErrorResponse:
+      type: object
+      properties:
+        code:
+          type: string
+        details: {}
+        error:
+          type: string
+    models.ErpFileResult:
+      type: object
+      properties:
+        business_node_id:
+          type: string
+        erp_file_id:
+          type: string
+        filename:
+          type: string
+        matched_identifiers:
+          type: array
+          items:
+            type: string
+        row_count:
+          type: integer
+        similarity_score:
+          type: number
+        source_erp:
+          type: string
+        text_snippet:
+          type: string
   securitySchemes:
     BearerAuth:
       description: 'Firebase JWT token. Format: "Bearer {token}"'

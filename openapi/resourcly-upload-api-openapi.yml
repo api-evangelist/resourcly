@@ -58,29 +58,6 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    services.UploadAnalysisResult:
-      type: object
-      properties:
-        columns:
-          description: Columns contains the suggested column mapping.
-          allOf:
-          - $ref: '#/components/schemas/services.UploadColumnMapping'
-        confidence:
-          description: Confidence is a value between 0 and 1 indicating how confident the AI is.
-          type: number
-        file_type:
-          description: FileType is "erp", "bom", or "unknown".
-          type: string
-        reasoning:
-          description: Reasoning explains why the AI chose this classification.
-          type: string
-        suggested_levels:
-          description: 'SuggestedLevels contains the computed hierarchy levels for sample rows
-
-            when hierarchy_type is "teamcenter_traversal". Index aligns with sample_rows.'
-          type: array
-          items:
-            type: integer
     services.UploadColumnMapping:
       type: object
       properties:
@@ -143,26 +120,29 @@ components:
           type: string
         unit_column:
           type: string
-    models.ERPAttributeMapping:
+    services.UploadAnalysisResult:
       type: object
       properties:
-        label:
-          description: human-friendly display name (AI-suggested, user-editable)
+        columns:
+          description: Columns contains the suggested column mapping.
+          allOf:
+          - $ref: '#/components/schemas/services.UploadColumnMapping'
+        confidence:
+          description: Confidence is a value between 0 and 1 indicating how confident the AI is.
+          type: number
+        file_type:
+          description: FileType is "erp", "bom", or "unknown".
           type: string
-        source_column:
-          description: exact header text in the uploaded file == metadata key
+        reasoning:
+          description: Reasoning explains why the AI chose this classification.
           type: string
-        type:
-          description: '"string" | "number" (display/format hint)'
-          type: string
-    models.ErrorResponse:
-      type: object
-      properties:
-        code:
-          type: string
-        details: {}
-        error:
-          type: string
+        suggested_levels:
+          description: 'SuggestedLevels contains the computed hierarchy levels for sample rows
+
+            when hierarchy_type is "teamcenter_traversal". Index aligns with sample_rows.'
+          type: array
+          items:
+            type: integer
     handlers.AnalyzeColumnsRequest:
       type: object
       properties:
@@ -183,6 +163,26 @@ components:
             type: array
             items:
               type: string
+    models.ErrorResponse:
+      type: object
+      properties:
+        code:
+          type: string
+        details: {}
+        error:
+          type: string
+    models.ERPAttributeMapping:
+      type: object
+      properties:
+        label:
+          description: human-friendly display name (AI-suggested, user-editable)
+          type: string
+        source_column:
+          description: exact header text in the uploaded file == metadata key
+          type: string
+        type:
+          description: '"string" | "number" (display/format hint)'
+          type: string
   securitySchemes:
     BearerAuth:
       description: 'Firebase JWT token. Format: "Bearer {token}"'
