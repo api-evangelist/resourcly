@@ -306,14 +306,14 @@ components:
           - $ref: '#/components/schemas/models.SupplierGetResponseResponse'
         status:
           type: string
-    models.SupplierVerifyPasscodeResponse:
+    models.SupplierSubmitResponseResponse:
       type: object
       properties:
-        expires_at:
-          description: ISO 8601 expiry timestamp
+        message:
           type: string
-        token:
-          description: Short-lived JWT for accessing the request
+        response_id:
+          type: string
+        status:
           type: string
     models.SupplierResponseFileInfo:
       type: object
@@ -331,6 +331,54 @@ components:
         id:
           type: string
         url:
+          type: string
+    models.SupplierUploadFileResponse:
+      type: object
+      properties:
+        document_type:
+          type: string
+        file_id:
+          type: string
+        filename:
+          type: string
+        message:
+          type: string
+    models.SupplierVerifyPasscodeResponse:
+      type: object
+      properties:
+        expires_at:
+          description: ISO 8601 expiry timestamp
+          type: string
+        token:
+          description: Short-lived JWT for accessing the request
+          type: string
+    models.ErrorResponse:
+      type: object
+      properties:
+        code:
+          type: string
+        details: {}
+        error:
+          type: string
+    models.SupplierSubmitResponseRequest:
+      type: object
+      properties:
+        master_data_values:
+          description: field key -> value
+          type: object
+          additionalProperties:
+            type: string
+        status:
+          description: '"draft" or "submitted"'
+          type: string
+    models.SupplierVerifyPasscodeRequest:
+      type: object
+      properties:
+        passcode:
+          description: 6-digit passcode from the email
+          type: string
+        request_id:
+          description: UUID of the supplier data request
           type: string
     models.SupplierGetResponseResponse:
       type: object
@@ -351,54 +399,6 @@ components:
         submitted_at:
           type: string
         updated_at:
-          type: string
-    models.SupplierVerifyPasscodeRequest:
-      type: object
-      properties:
-        passcode:
-          description: 6-digit passcode from the email
-          type: string
-        request_id:
-          description: UUID of the supplier data request
-          type: string
-    models.SupplierUploadFileResponse:
-      type: object
-      properties:
-        document_type:
-          type: string
-        file_id:
-          type: string
-        filename:
-          type: string
-        message:
-          type: string
-    models.SupplierSubmitResponseResponse:
-      type: object
-      properties:
-        message:
-          type: string
-        response_id:
-          type: string
-        status:
-          type: string
-    models.ErrorResponse:
-      type: object
-      properties:
-        code:
-          type: string
-        details: {}
-        error:
-          type: string
-    models.SupplierSubmitResponseRequest:
-      type: object
-      properties:
-        master_data_values:
-          description: field key -> value
-          type: object
-          additionalProperties:
-            type: string
-        status:
-          description: '"draft" or "submitted"'
           type: string
   securitySchemes:
     BearerAuth:

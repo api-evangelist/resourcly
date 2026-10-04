@@ -438,38 +438,6 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    models.StorageCreateFolderResponse:
-      type: object
-      properties:
-        key:
-          type: string
-    models.StoragePasteRequest:
-      type: object
-      properties:
-        destination_business_node_id:
-          type: string
-        destination_path:
-          type: string
-        items:
-          type: array
-          items:
-            $ref: '#/components/schemas/models.StoragePasteItem'
-        mode:
-          type: string
-        source_business_node_id:
-          type: string
-    models.StorageDeleteResponse:
-      type: object
-      properties:
-        deleted:
-          type: integer
-    models.StoragePasteError:
-      type: object
-      properties:
-        key:
-          type: string
-        message:
-          type: string
     models.StorageCreateFolderRequest:
       type: object
       properties:
@@ -479,56 +447,15 @@ components:
           type: string
         path:
           type: string
-    models.StorageRenameResponse:
-      type: object
-      properties:
-        moved:
-          type: integer
-    models.StorageListResponse:
-      type: object
-      properties:
-        items:
-          type: array
-          items:
-            $ref: '#/components/schemas/models.StorageItem'
-        next_page_token:
-          type: string
-        path:
-          type: string
-        path_shared:
-          description: dir is a shared folder or inside one (owner badge)
-          type: boolean
-        path_synced:
-          type: boolean
-    models.StorageRenameRequest:
+    models.StoragePrepareUploadRequest:
       type: object
       properties:
         business_node_id:
           type: string
-        destination_key:
-          type: string
-        source_key:
-          type: string
-        type:
-          type: string
-    models.StoragePasteItem:
-      type: object
-      properties:
         key:
           type: string
-        type:
+        path:
           type: string
-    models.StoragePasteResponse:
-      type: object
-      properties:
-        failed:
-          type: array
-          items:
-            $ref: '#/components/schemas/models.StoragePasteError'
-        objects:
-          type: integer
-        pasted:
-          type: integer
     models.StorageItem:
       type: object
       properties:
@@ -557,6 +484,34 @@ components:
         type:
           description: '"file" or "folder"'
           type: string
+    models.StorageCreateFolderResponse:
+      type: object
+      properties:
+        key:
+          type: string
+    models.StoragePasteItem:
+      type: object
+      properties:
+        key:
+          type: string
+        type:
+          type: string
+    models.StorageDeleteResponse:
+      type: object
+      properties:
+        deleted:
+          type: integer
+    models.StorageRenameRequest:
+      type: object
+      properties:
+        business_node_id:
+          type: string
+        destination_key:
+          type: string
+        source_key:
+          type: string
+        type:
+          type: string
     models.StoragePrepareUploadResponse:
       type: object
       properties:
@@ -570,6 +525,17 @@ components:
             type: string
         upload_url:
           type: string
+    models.StoragePasteResponse:
+      type: object
+      properties:
+        failed:
+          type: array
+          items:
+            $ref: '#/components/schemas/models.StoragePasteError'
+        objects:
+          type: integer
+        pasted:
+          type: integer
     models.ErrorResponse:
       type: object
       properties:
@@ -578,19 +544,53 @@ components:
         details: {}
         error:
           type: string
+    models.StoragePasteRequest:
+      type: object
+      properties:
+        destination_business_node_id:
+          type: string
+        destination_path:
+          type: string
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/models.StoragePasteItem'
+        mode:
+          type: string
+        source_business_node_id:
+          type: string
+    models.StorageListResponse:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/models.StorageItem'
+        next_page_token:
+          type: string
+        path:
+          type: string
+        path_shared:
+          description: dir is a shared folder or inside one (owner badge)
+          type: boolean
+        path_synced:
+          type: boolean
+    models.StorageRenameResponse:
+      type: object
+      properties:
+        moved:
+          type: integer
+    models.StoragePasteError:
+      type: object
+      properties:
+        key:
+          type: string
+        message:
+          type: string
     models.StorageDownloadURLResponse:
       type: object
       properties:
         url:
-          type: string
-    models.StoragePrepareUploadRequest:
-      type: object
-      properties:
-        business_node_id:
-          type: string
-        key:
-          type: string
-        path:
           type: string
   securitySchemes:
     BearerAuth:

@@ -549,6 +549,76 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    models.DataSourceImportErpRequest:
+      type: object
+      properties:
+        business_node_id:
+          type: string
+        key:
+          type: string
+        mapping:
+          $ref: '#/components/schemas/models.ErpColumnMapping'
+    handlers.AnalyzeFileResponse:
+      type: object
+      properties:
+        analysis:
+          $ref: '#/components/schemas/services.UploadAnalysisResult'
+        headers:
+          type: array
+          items:
+            type: string
+    models.DataSourceImportItemsRequest:
+      type: object
+      properties:
+        business_node_id:
+          type: string
+        keys:
+          type: array
+          items:
+            type: string
+        name:
+          type: string
+        pipeline_version:
+          description: 'PipelineVersion selects the item-handling flow. Empty (the default) is v1;
+
+            v2 callers send "v2" to opt into folder-mapping filtering + folder part
+
+            number + enrich-or-create. The backend requires a configured import folder
+
+            mapping for v2 and rejects the import otherwise.'
+          type: string
+        replace_existing:
+          type: boolean
+    models.DataSourcesImportStatusRequest:
+      type: object
+      properties:
+        filenames:
+          description: 'Filenames to check import status for (full key paths relative to business root,
+
+            e.g. "datasource-uuid/subfolder/file.pdf"). These must match documents.filename in the DB.'
+          type: array
+          items:
+            type: string
+    models.PreviewTreeResponse:
+      type: object
+      properties:
+        files:
+          type: array
+          items:
+            $ref: '#/components/schemas/models.PreviewTreeFile'
+        folders:
+          type: array
+          items:
+            $ref: '#/components/schemas/models.PreviewTreeFolder'
+        next_page_token:
+          type: string
+    models.PreviewTreeFolder:
+      type: object
+      properties:
+        name:
+          type: string
+        path:
+          type: string
     models.DataSourceItem:
       type: object
       properties:
@@ -565,6 +635,71 @@ components:
         type:
           description: '"file" or "folder"'
           type: string
+    models.DataSourceImportBomResponse:
+      type: object
+      properties:
+        files_queued:
+          type: integer
+        import_id:
+          type: string
+        message:
+          type: string
+    models.DataSourceImportBomRequest:
+      type: object
+      properties:
+        business_node_id:
+          type: string
+        files:
+          type: array
+          items:
+            $ref: '#/components/schemas/models.DataSourceImportBomFile'
+        name:
+          type: string
+    handlers.UnzipRequest:
+      type: object
+      properties:
+        key:
+          type: string
+    models.ErpColumnMapping:
+      type: object
+      properties:
+        attributes:
+          type: array
+          items:
+            $ref: '#/components/schemas/models.ERPAttributeMapping'
+        description_columns:
+          type: array
+          items:
+            type: string
+        primary_identifier_column:
+          type: string
+        purchase_price_column:
+          type: string
+        purchase_quantity_column:
+          type: string
+        secondary_identifier_column:
+          type: string
+        supplier_name_column:
+          type: string
+        supplier_number_column:
+          type: string
+    models.InventoryUploadResponse:
+      type: object
+      properties:
+        bucket_url:
+          type: string
+        column_mapping:
+          $ref: '#/components/schemas/models.InventoryUploadMapping'
+        created_at:
+          type: string
+        id:
+          type: string
+        import_id:
+          type: string
+        ingested_count:
+          type: integer
+        item_count:
+          type: integer
     models.BomColumnMapping:
       type: object
       properties:
@@ -590,92 +725,6 @@ components:
           type: string
         unit_column:
           type: string
-    models.ErpColumnMapping:
-      type: object
-      properties:
-        attributes:
-          type: array
-          items:
-            $ref: '#/components/schemas/models.ERPAttributeMapping'
-        description_columns:
-          type: array
-          items:
-            type: string
-        primary_identifier_column:
-          type: string
-        purchase_price_column:
-          type: string
-        purchase_quantity_column:
-          type: string
-        secondary_identifier_column:
-          type: string
-        supplier_name_column:
-          type: string
-        supplier_number_column:
-          type: string
-    models.ReviewFileEntry:
-      type: object
-      properties:
-        key:
-          type: string
-        name:
-          type: string
-    models.DataSourceImportBomRequest:
-      type: object
-      properties:
-        business_node_id:
-          type: string
-        files:
-          type: array
-          items:
-            $ref: '#/components/schemas/models.DataSourceImportBomFile'
-        name:
-          type: string
-    services.UploadAnalysisResult:
-      type: object
-      properties:
-        columns:
-          description: Columns contains the suggested column mapping.
-          allOf:
-          - $ref: '#/components/schemas/services.UploadColumnMapping'
-        confidence:
-          description: Confidence is a value between 0 and 1 indicating how confident the AI is.
-          type: number
-        file_type:
-          description: FileType is "erp", "bom", or "unknown".
-          type: string
-        reasoning:
-          description: Reasoning explains why the AI chose this classification.
-          type: string
-        suggested_levels:
-          description: 'SuggestedLevels contains the computed hierarchy levels for sample rows
-
-            when hierarchy_type is "teamcenter_traversal". Index aligns with sample_rows.'
-          type: array
-          items:
-            type: integer
-    models.DataSourceImportItemsRequest:
-      type: object
-      properties:
-        business_node_id:
-          type: string
-        keys:
-          type: array
-          items:
-            type: string
-        name:
-          type: string
-        pipeline_version:
-          description: 'PipelineVersion selects the item-handling flow. Empty (the default) is v1;
-
-            v2 callers send "v2" to opt into folder-mapping filtering + folder part
-
-            number + enrich-or-create. The backend requires a configured import folder
-
-            mapping for v2 and rejects the import otherwise.'
-          type: string
-        replace_existing:
-          type: boolean
     models.DataSourcesImportResponse:
       type: object
       properties:
@@ -699,104 +748,20 @@ components:
             type: string
         unsupported_files:
           type: integer
-    models.SupplierImportInfo:
-      type: object
-      properties:
-        classification_system:
-          type: string
-        files_detected:
-          type: integer
-        media_files_detected:
-          type: integer
-        supplier_name:
-          type: string
-    handlers.AnalyzeFileResponse:
-      type: object
-      properties:
-        analysis:
-          $ref: '#/components/schemas/services.UploadAnalysisResult'
-        headers:
-          type: array
-          items:
-            type: string
-    models.DataSourcesSignedURLResponse:
-      type: object
-      properties:
-        expires_at:
-          type: string
-        key:
-          type: string
-        url:
-          type: string
-    models.DataSourcesImportStatusRequest:
-      type: object
-      properties:
-        filenames:
-          description: 'Filenames to check import status for (full key paths relative to business root,
-
-            e.g. "datasource-uuid/subfolder/file.pdf"). These must match documents.filename in the DB.'
-          type: array
-          items:
-            type: string
-    models.DataSourceImportErpRequest:
-      type: object
-      properties:
-        business_node_id:
-          type: string
-        key:
-          type: string
-        mapping:
-          $ref: '#/components/schemas/models.ErpColumnMapping'
-    models.DataSourcesImportStatusResponse:
-      type: object
-      properties:
-        statuses:
-          description: Statuses maps filename → import status. Only files that have been imported are included.
-          type: object
-          additionalProperties:
-            $ref: '#/components/schemas/models.DataSourceFileImportStatus'
-    models.DataSourceImportBomResponse:
-      type: object
-      properties:
-        files_queued:
-          type: integer
-        import_id:
-          type: string
-        message:
-          type: string
-    handlers.UnzipRequest:
+    models.ReviewFileEntry:
       type: object
       properties:
         key:
           type: string
-    models.ImportPreviewRequest:
+        name:
+          type: string
+    models.ErrorResponse:
       type: object
       properties:
-        business_node_id:
+        code:
           type: string
-        keys:
-          type: array
-          items:
-            type: string
-    models.PreviewTreeResponse:
-      type: object
-      properties:
-        files:
-          type: array
-          items:
-            $ref: '#/components/schemas/models.PreviewTreeFile'
-        folders:
-          type: array
-          items:
-            $ref: '#/components/schemas/models.PreviewTreeFolder'
-        next_page_token:
-          type: string
-    models.AnalyzeFileRequest:
-      type: object
-      properties:
-        force_file_type:
-          type: string
-        key:
+        details: {}
+        error:
           type: string
     models.InventoryUploadMapping:
       type: object
@@ -839,6 +804,28 @@ components:
           type: string
         supplier_number_name:
           type: string
+    models.DataSourcesSignedURLResponse:
+      type: object
+      properties:
+        expires_at:
+          type: string
+        key:
+          type: string
+        url:
+          type: string
+    models.PreviewTreeFile:
+      type: object
+      properties:
+        key:
+          type: string
+        name:
+          type: string
+        part_number:
+          type: string
+        reason:
+          type: string
+        status:
+          type: string
     models.DataSourcesListResponse:
       type: object
       properties:
@@ -856,42 +843,22 @@ components:
             $ref: '#/components/schemas/models.DataSourceItem'
         prefix:
           type: string
-    models.ErrorResponse:
+    models.DataSourceFileImportStatus:
       type: object
       properties:
-        code:
+        document_id:
           type: string
-        details: {}
-        error:
-          type: string
-    models.InventoryUploadResponse:
-      type: object
-      properties:
-        bucket_url:
-          type: string
-        column_mapping:
-          $ref: '#/components/schemas/models.InventoryUploadMapping'
-        created_at:
-          type: string
-        id:
-          type: string
-        import_id:
-          type: string
-        ingested_count:
-          type: integer
         item_count:
           type: integer
-    models.ImportPreviewResponse:
+        status:
+          type: string
+    models.AnalyzeFileRequest:
       type: object
       properties:
-        counts:
-          $ref: '#/components/schemas/models.ImportPreviewCounts'
-        preview_id:
+        force_file_type:
           type: string
-        review:
-          type: array
-          items:
-            $ref: '#/components/schemas/models.ReviewFileEntry'
+        key:
+          type: string
     services.UploadColumnMapping:
       type: object
       properties:
@@ -973,31 +940,6 @@ components:
         replace_existing:
           description: ReplaceExisting if true will re-process documents with the same filename.
           type: boolean
-    models.PreviewTreeFolder:
-      type: object
-      properties:
-        name:
-          type: string
-        path:
-          type: string
-    models.DataSourceFileImportStatus:
-      type: object
-      properties:
-        document_id:
-          type: string
-        item_count:
-          type: integer
-        status:
-          type: string
-    models.ImportPreviewCounts:
-      type: object
-      properties:
-        invalid:
-          type: integer
-        review:
-          type: integer
-        valid:
-          type: integer
     models.DataSourceImportBomFile:
       type: object
       properties:
@@ -1009,19 +951,15 @@ components:
           type: string
         version:
           type: string
-    models.PreviewTreeFile:
+    models.ImportPreviewRequest:
       type: object
       properties:
-        key:
+        business_node_id:
           type: string
-        name:
-          type: string
-        part_number:
-          type: string
-        reason:
-          type: string
-        status:
-          type: string
+        keys:
+          type: array
+          items:
+            type: string
     models.ERPAttributeMapping:
       type: object
       properties:
@@ -1034,6 +972,68 @@ components:
         type:
           description: '"string" | "number" (display/format hint)'
           type: string
+    models.ImportPreviewCounts:
+      type: object
+      properties:
+        invalid:
+          type: integer
+        review:
+          type: integer
+        valid:
+          type: integer
+    models.SupplierImportInfo:
+      type: object
+      properties:
+        classification_system:
+          type: string
+        files_detected:
+          type: integer
+        media_files_detected:
+          type: integer
+        supplier_name:
+          type: string
+    services.UploadAnalysisResult:
+      type: object
+      properties:
+        columns:
+          description: Columns contains the suggested column mapping.
+          allOf:
+          - $ref: '#/components/schemas/services.UploadColumnMapping'
+        confidence:
+          description: Confidence is a value between 0 and 1 indicating how confident the AI is.
+          type: number
+        file_type:
+          description: FileType is "erp", "bom", or "unknown".
+          type: string
+        reasoning:
+          description: Reasoning explains why the AI chose this classification.
+          type: string
+        suggested_levels:
+          description: 'SuggestedLevels contains the computed hierarchy levels for sample rows
+
+            when hierarchy_type is "teamcenter_traversal". Index aligns with sample_rows.'
+          type: array
+          items:
+            type: integer
+    models.ImportPreviewResponse:
+      type: object
+      properties:
+        counts:
+          $ref: '#/components/schemas/models.ImportPreviewCounts'
+        preview_id:
+          type: string
+        review:
+          type: array
+          items:
+            $ref: '#/components/schemas/models.ReviewFileEntry'
+    models.DataSourcesImportStatusResponse:
+      type: object
+      properties:
+        statuses:
+          description: Statuses maps filename → import status. Only files that have been imported are included.
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/models.DataSourceFileImportStatus'
   securitySchemes:
     BearerAuth:
       description: 'Firebase JWT token. Format: "Bearer {token}"'

@@ -33,6 +33,13 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    models.CustomerChangelogResponse:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/models.CustomerChangelogItem'
     models.CustomerChangelogItem:
       type: object
       properties:
@@ -42,13 +49,6 @@ components:
           type: string
         released_at:
           type: string
-    models.CustomerChangelogResponse:
-      type: object
-      properties:
-        items:
-          type: array
-          items:
-            $ref: '#/components/schemas/models.CustomerChangelogItem'
   securitySchemes:
     BearerAuth:
       description: 'Firebase JWT token. Format: "Bearer {token}"'

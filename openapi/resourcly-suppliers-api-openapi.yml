@@ -196,35 +196,6 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    handlers.SupplierProductsResponse:
-      type: object
-      properties:
-        limit:
-          type: integer
-        offset:
-          type: integer
-        products:
-          type: array
-          items:
-            $ref: '#/components/schemas/services.SupplierProduct'
-        total:
-          type: integer
-    handlers.ImportRequest:
-      type: object
-      properties:
-        business_node_id:
-          type: string
-        classification_system:
-          description: e.g., "ETIM", "ECLASS"
-          type: string
-        datasource_keys:
-          type: array
-          items:
-            type: string
-        language:
-          type: string
-        supplier_name:
-          type: string
     handlers.ImportResponse:
       type: object
       properties:
@@ -265,6 +236,22 @@ components:
           type: string
         title:
           type: string
+    handlers.ImportRequest:
+      type: object
+      properties:
+        business_node_id:
+          type: string
+        classification_system:
+          description: e.g., "ETIM", "ECLASS"
+          type: string
+        datasource_keys:
+          type: array
+          items:
+            type: string
+        language:
+          type: string
+        supplier_name:
+          type: string
     models.ErrorResponse:
       type: object
       properties:
@@ -273,6 +260,19 @@ components:
         details: {}
         error:
           type: string
+    handlers.SupplierProductsResponse:
+      type: object
+      properties:
+        limit:
+          type: integer
+        offset:
+          type: integer
+        products:
+          type: array
+          items:
+            $ref: '#/components/schemas/services.SupplierProduct'
+        total:
+          type: integer
   securitySchemes:
     BearerAuth:
       description: 'Firebase JWT token. Format: "Bearer {token}"'

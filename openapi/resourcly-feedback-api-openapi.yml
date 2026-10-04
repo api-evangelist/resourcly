@@ -66,6 +66,13 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    services.FeedbackResponse:
+      type: object
+      properties:
+        linear_issue_id:
+          type: string
+        linear_issue_url:
+          type: string
     models.ErrorResponse:
       type: object
       properties:
@@ -73,13 +80,6 @@ components:
           type: string
         details: {}
         error:
-          type: string
-    services.FeedbackResponse:
-      type: object
-      properties:
-        linear_issue_id:
-          type: string
-        linear_issue_url:
           type: string
   securitySchemes:
     BearerAuth:

@@ -799,15 +799,6 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    models.HSCodeOverrideRequest:
-      type: object
-      properties:
-        description:
-          type: string
-        hs_code:
-          type: string
-        note:
-          type: string
     models.ErrorResponse:
       type: object
       properties:
@@ -822,6 +813,15 @@ components:
         note:
           type: string
         suggestion_id:
+          type: string
+    models.HSCodeOverrideRequest:
+      type: object
+      properties:
+        description:
+          type: string
+        hs_code:
+          type: string
+        note:
           type: string
     models.ItemHSCode:
       type: object
@@ -869,133 +869,6 @@ components:
           type: string
         updated_at:
           type: string
-    models.ItemValidationConfig:
-      type: object
-      properties:
-        conditions:
-          type: array
-          items:
-            $ref: '#/components/schemas/models.DataGovernanceConditionSpec'
-        statements:
-          type: array
-          items:
-            $ref: '#/components/schemas/models.DataGovernanceStatementSpec'
-    models.VisualSimilarResponse:
-      type: object
-      properties:
-        item_id:
-          type: string
-        items:
-          type: array
-          items:
-            $ref: '#/components/schemas/models.VisualSimilarItem'
-        total:
-          type: integer
-    handlers.SimilarityClustersResponse:
-      type: object
-      properties:
-        ai_classification:
-          type: string
-        business_id:
-          type: string
-        clusters:
-          type: array
-          items:
-            $ref: '#/components/schemas/services.ItemCluster'
-    models.PairClassComparison:
-      type: object
-      properties:
-        breakdown:
-          description: 'Breakdown lists the factors THIS class judges by (decisive first) —
-
-            different per category, replacing the legacy composite breakdown.'
-          type: array
-          items:
-            $ref: '#/components/schemas/models.PairClassFactor'
-        class:
-          type: string
-        reason:
-          description: 'Reason is the class-specific explanation generated from the same
-
-            evidence as the verdict — it can never contradict the class chip.'
-          type: string
-        rows:
-          type: array
-          items:
-            $ref: '#/components/schemas/models.PairClassComparisonRow'
-        score:
-          description: 'Score is the rule-derived similarity in [0,1]: the class fixes the band
-
-            (a product variant can never score like a duplicate) and the evidence
-
-            rows position the pair within it. Replaces the embedding/composite
-
-            percentage on the compare page for classified tenants.'
-          type: number
-    models.ItemComparisonResponse:
-      type: object
-      properties:
-        class_comparison:
-          description: 'Classified-taxonomy tenants: the pair classifier''s verdict plus every
-
-            signal it compared (dimensions, attributes, specs, relationship). When
-
-            present the compare page renders this table instead of the (empty for
-
-            these tenants) legacy spec comparison.'
-          allOf:
-          - $ref: '#/components/schemas/models.PairClassComparison'
-        classification:
-          description: '"exact_duplicate", "duplicate", "alternative", "different"'
-          type: string
-        confidence:
-          type: number
-        different_specs:
-          type: integer
-        item1:
-          description: The two items being compared
-          allOf:
-          - $ref: '#/components/schemas/models.ItemComparisonSide'
-        item2:
-          $ref: '#/components/schemas/models.ItemComparisonSide'
-        matching_specs:
-          description: Summary statistics
-          type: integer
-        only_in_item1:
-          type: integer
-        only_in_item2:
-          type: integer
-        reason:
-          type: string
-        similarity:
-          description: Similarity analysis
-          allOf:
-          - $ref: '#/components/schemas/models.SimilarityScores'
-        spec_diffs:
-          description: Spec differences (for easy UI rendering)
-          type: array
-          items:
-            $ref: '#/components/schemas/models.SpecDiff'
-    models.AIAnalysisCatalogActions:
-      type: object
-      properties:
-        notes_for_buyer:
-          type: string
-        primary_part:
-          type: string
-        secondary_part:
-          type: string
-        suggested_relationship_tag:
-          type: string
-    models.HSCodeAlternative:
-      type: object
-      properties:
-        code:
-          type: string
-        description:
-          type: string
-        reason_rejected:
-          type: string
     models.DataGovernanceConditionSpec:
       type: object
       properties:
@@ -1011,102 +884,53 @@ components:
           type: string
         pattern:
           type: string
-    models.PairClassComparisonRow:
+    models.DataGovernanceStatementSpec:
       type: object
       properties:
-        group:
-          description: Dimensions | Attributes | Specifications | Relationship
+        errorMessage:
           type: string
-        key:
+        expression:
           type: string
-        status:
-          description: match (identity-grade) | close (variant band) | diff | only_a | only_b | info
+        severity:
           type: string
-        value_a:
-          type: string
-        value_b:
-          type: string
-    models.VisualSimilarItem:
+    models.SourceDocumentInfo:
       type: object
       properties:
         classification:
-          description: exact_duplicate, duplicate, alternative, different
+          description: Document classification (e.g. datasheet, technical_drawing)
           type: string
-        image_signed_url:
-          description: Time-limited signed HTTPS URL
+        filename:
+          description: Display filename (path prefix stripped)
           type: string
-        item_id:
+        id:
+          description: Document ID
           type: string
-        manufacturer:
+        mesh_url:
+          description: Signed URL for GLB 3D mesh (JT or STEP medium LOD)
           type: string
-        part_number:
+        mesh_url_high:
+          description: STEP high-detail LOD (only set for STEP)
           type: string
-        similarity_score:
-          type: number
-        source_filename:
+        mesh_url_low:
+          description: STEP low-detail LOD (only set for STEP)
           type: string
-        title:
+        mesh_url_med:
+          description: STEP medium-detail LOD (only set for STEP)
           type: string
-    models.PairClassFactor:
-      type: object
-      properties:
-        label:
+        mime_type:
+          description: MIME type (e.g. application/pdf, model/jt)
           type: string
-        score:
-          type: number
-    services.ClusterItem:
-      type: object
-      properties:
-        item_id:
+        status:
+          description: Document processing status
           type: string
-        manufacturer:
+        tables:
+          description: Extracted content from document
+          type: array
+          items:
+            $ref: '#/components/schemas/models.DocumentTable'
+        url:
+          description: Signed URL for document access
           type: string
-        part_number:
-          type: string
-        title:
-          type: string
-    models.SimilarityScores:
-      type: object
-      properties:
-        additional_score:
-          description: similarity over the other measurements (0-1)
-          type: number
-        exact_manufacturer_match:
-          description: True if manufacturers match exactly
-          type: boolean
-        exact_part_number_match:
-          description: Flags for exact/tolerance matches
-          type: boolean
-        fit:
-          description: 'Two-stage compare (model_extraction tenant only): a SEPARATE additional score over the
-
-            other part measurements (surface roughness, material, weight, bending radius), computed
-
-            only when the important specs "fit". Deliberately NOT folded into WeightedTotal, so the
-
-            primary score/classification is identical for every tenant.'
-          type: boolean
-        has_additional:
-          description: an additional (other-measurements) score was computed
-          type: boolean
-        manufacturer_score:
-          description: Manufacturer similarity (0-1)
-          type: number
-        part_number_score:
-          description: Part number similarity (0-1)
-          type: number
-        specifications_score:
-          description: Specifications similarity (0-1)
-          type: number
-        specs_within_tolerance:
-          description: True if key specs (mass, dimensions) are within tolerance
-          type: boolean
-        title_score:
-          description: Title semantic similarity (0-1)
-          type: number
-        weighted_total:
-          description: Weighted total score (0-1)
-          type: number
     models.DocumentTable:
       type: object
       properties:
@@ -1131,25 +955,50 @@ components:
         table_index:
           description: Index of table on the page (0-based)
           type: integer
-    models.AIAnalysisItemSummary:
+    models.SuggestedCatalogAttribute:
       type: object
       properties:
-        category:
-          type: string
-        manufacturer:
-          type: string
-        part_number:
-          type: string
-        title:
-          type: string
-    models.ComparisonStatusBatchRequest:
-      type: object
-      properties:
-        pairs:
-          description: List of item pairs to look up
+        aliases:
+          description: Alternative names / aliases for this property
           type: array
           items:
-            $ref: '#/components/schemas/models.ItemPair'
+            type: string
+        property_description:
+          description: Human-readable description of the property
+          type: string
+        property_name:
+          description: Suggested canonical property name
+          type: string
+        unit:
+          description: Suggested unit for the property
+          type: string
+        value_examples:
+          description: Example values for this property
+          type: array
+          items:
+            type: string
+        value_type:
+          description: Expected value type (scalar, range, etc.)
+          type: string
+    models.UpdateItemPreferredRequest:
+      type: object
+      properties:
+        is_preferred:
+          type: boolean
+    services.ItemCluster:
+      type: object
+      properties:
+        ai_classification:
+          type: string
+        cluster_id:
+          description: 'ClusterID is the lexicographically smallest item ID in the cluster,
+
+            giving a stable, deterministic identifier.'
+          type: string
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/services.ClusterItem'
     services.ItemListEntry:
       type: object
       properties:
@@ -1183,91 +1032,53 @@ components:
           type: string
         updated_at:
           type: string
-    models.ItemComparisonSide:
+    models.SpecDiff:
       type: object
       properties:
-        category:
+        canonical_name:
+          description: Canonical spec name (e.g., "input_voltage_max")
           type: string
-        created_at:
+        display_name:
+          description: Human-readable name (e.g., "Input Voltage Max")
           type: string
-        id:
-          type: string
-        internal_code:
-          description: drawing internal code (Kacher-test); small identifier line
-          type: string
-        is_preferred:
+        is_numeric:
+          description: True if values are numeric
           type: boolean
-        manufacturer:
-          type: string
-        part_number:
-          type: string
-        references:
+        item1_original_keys:
+          description: Original spec titles in item 1
           type: array
           items:
             type: string
-        source_documents:
+        item1_units:
+          description: Units in item 1
           type: array
           items:
-            $ref: '#/components/schemas/models.SourceDocumentInfo'
-        specifications:
+            type: string
+        item1_values:
+          description: Values in item 1 (nil if missing)
           type: array
           items:
-            $ref: '#/components/schemas/models.MatchedSpec'
-        title:
-          type: string
-        updated_at:
-          type: string
-    models.UpdateItemPreferredRequest:
-      type: object
-      properties:
-        is_preferred:
-          type: boolean
-    services.ItemCluster:
-      type: object
-      properties:
-        ai_classification:
-          type: string
-        cluster_id:
-          description: 'ClusterID is the lexicographically smallest item ID in the cluster,
-
-            giving a stable, deterministic identifier.'
-          type: string
-        items:
+            type: string
+        item2_original_keys:
+          description: Original spec titles in item 2
           type: array
           items:
-            $ref: '#/components/schemas/services.ClusterItem'
-    handlers.SimilarityItemsResponse:
-      type: object
-      properties:
-        business_id:
-          type: string
-        items:
+            type: string
+        item2_units:
+          description: Units in item 2
           type: array
           items:
-            $ref: '#/components/schemas/services.SimilarityListItem'
-        limit:
-          type: integer
-        offset:
-          type: integer
-        total:
-          type: integer
-    models.AIItemComparisonResponse:
-      type: object
-      properties:
-        analysis:
-          description: Present when status == "ready"
-          allOf:
-          - $ref: '#/components/schemas/models.AIAnalysisResult'
-        completion_tokens:
-          type: integer
-        created_at:
-          type: string
-        model:
-          type: string
-        prompt_tokens:
-          type: integer
+            type: string
+        item2_values:
+          description: Values in item 2 (nil if missing)
+          type: array
+          items:
+            type: string
+        percent_diff:
+          description: Percent difference for numeric values
+          type: number
         status:
-          description: '"ready", "unavailable"'
+          description: '"match", "mismatch", "only_item1", "only_item2"'
           type: string
     models.ComparisonStatusBatchResponse:
       type: object
@@ -1276,6 +1087,17 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/models.ComparisonStatusResponse'
+    models.AIAnalysisItemSummary:
+      type: object
+      properties:
+        category:
+          type: string
+        manufacturer:
+          type: string
+        part_number:
+          type: string
+        title:
+          type: string
     models.UpdateComparisonStatusRequest:
       type: object
       properties:
@@ -1297,59 +1119,58 @@ components:
           type: integer
         total:
           type: integer
-    models.AIAnalysisVerdict:
+    models.VisualSimilarItem:
       type: object
       properties:
         classification:
-          description: '"duplicate", "interchangeable_variant", "superseded", "same_series", "mated_pair", "component_of", "distinct"'
+          description: exact_duplicate, duplicate, alternative, different
           type: string
-        confidence:
-          description: '"high", "medium", "low"'
+        image_signed_url:
+          description: Time-limited signed HTTPS URL
           type: string
-        confidence_score:
+        item_id:
+          type: string
+        manufacturer:
+          type: string
+        part_number:
+          type: string
+        similarity_score:
           type: number
-        critical_differences:
-          type: array
-          items:
-            type: string
-        interchangeable:
-          type: boolean
-        override_reason:
+        source_filename:
           type: string
-        override_system_classification:
-          type: boolean
-        recommendation:
+        title:
           type: string
-        summary:
-          type: string
-        superseded_by:
-          description: ID of the newer (superseding) item; only set when classification is "superseded"
-          type: string
-    models.DataGovernanceStatementSpec:
+    models.ItemPair:
       type: object
       properties:
-        errorMessage:
+        item_id_1:
           type: string
-        expression:
+        item_id_2:
           type: string
-        severity:
-          type: string
-    models.AIAnalysisSideBySideRow:
+    services.SimilarityListItem:
       type: object
       properties:
-        attribute:
+        business_id:
           type: string
-        engineering_significance:
-          description: '"critical", "minor", "cosmetic", "none"'
+        internal_code:
+          description: drawing internal code (Kacher-test); shown as the small identifier line
           type: string
-        item1_value:
+        item_id:
           type: string
-        item2_value:
+        manufacturer:
           type: string
-        note:
+        max_score:
+          description: highest SIMILARITY score
+          type: number
+        part_number:
           type: string
-        status:
-          description: '"identical", "equivalent", "different", "missing"'
+        reviewed_count:
+          description: human-validated matches for this item (model_extraction; 0 otherwise)
+          type: integer
+        similar_count:
+          description: number of items above threshold
+          type: integer
+        title:
           type: string
     models.MatchedSpec:
       type: object
@@ -1437,30 +1258,187 @@ components:
         value_type:
           description: 'Value type: scalar, range, vector, categorical, text'
           type: string
-    services.SimilarityListItem:
+    models.ItemComparisonSide:
+      type: object
+      properties:
+        category:
+          type: string
+        created_at:
+          type: string
+        id:
+          type: string
+        internal_code:
+          description: drawing internal code (Kacher-test); small identifier line
+          type: string
+        is_preferred:
+          type: boolean
+        manufacturer:
+          type: string
+        part_number:
+          type: string
+        references:
+          type: array
+          items:
+            type: string
+        source_documents:
+          type: array
+          items:
+            $ref: '#/components/schemas/models.SourceDocumentInfo'
+        specifications:
+          type: array
+          items:
+            $ref: '#/components/schemas/models.MatchedSpec'
+        title:
+          type: string
+        updated_at:
+          type: string
+    models.VisualSimilarResponse:
+      type: object
+      properties:
+        item_id:
+          type: string
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/models.VisualSimilarItem'
+        total:
+          type: integer
+    models.ComparisonStatusResponse:
       type: object
       properties:
         business_id:
           type: string
-        internal_code:
-          description: drawing internal code (Kacher-test); shown as the small identifier line
+        created_at:
           type: string
-        item_id:
+        id:
           type: string
-        manufacturer:
+        item_id_1:
           type: string
-        max_score:
-          description: highest SIMILARITY score
+        item_id_2:
+          type: string
+        reviewed_at:
+          description: When the review was performed
+          type: string
+        reviewed_by:
+          description: Business user ID who reviewed
+          type: string
+        status:
+          description: '"pending", "duplicate", "alternative", "rejected"; with model_extraction also "interchangeable_variant", "superseded", "product_variant", "related_parts", "component_of"'
+          type: string
+        updated_at:
+          type: string
+    models.AIAnalysisVerdict:
+      type: object
+      properties:
+        classification:
+          description: '"duplicate", "interchangeable_variant", "superseded", "same_series", "mated_pair", "component_of", "distinct"'
+          type: string
+        confidence:
+          description: '"high", "medium", "low"'
+          type: string
+        confidence_score:
           type: number
-        part_number:
+        critical_differences:
+          type: array
+          items:
+            type: string
+        interchangeable:
+          type: boolean
+        override_reason:
           type: string
-        reviewed_count:
-          description: human-validated matches for this item (model_extraction; 0 otherwise)
+        override_system_classification:
+          type: boolean
+        recommendation:
+          type: string
+        summary:
+          type: string
+        superseded_by:
+          description: ID of the newer (superseding) item; only set when classification is "superseded"
+          type: string
+    models.PairClassFactor:
+      type: object
+      properties:
+        label:
+          type: string
+        score:
+          type: number
+    models.PairClassComparison:
+      type: object
+      properties:
+        breakdown:
+          description: 'Breakdown lists the factors THIS class judges by (decisive first) —
+
+            different per category, replacing the legacy composite breakdown.'
+          type: array
+          items:
+            $ref: '#/components/schemas/models.PairClassFactor'
+        class:
+          type: string
+        reason:
+          description: 'Reason is the class-specific explanation generated from the same
+
+            evidence as the verdict — it can never contradict the class chip.'
+          type: string
+        rows:
+          type: array
+          items:
+            $ref: '#/components/schemas/models.PairClassComparisonRow'
+        score:
+          description: 'Score is the rule-derived similarity in [0,1]: the class fixes the band
+
+            (a product variant can never score like a duplicate) and the evidence
+
+            rows position the pair within it. Replaces the embedding/composite
+
+            percentage on the compare page for classified tenants.'
+          type: number
+    models.PairClassComparisonRow:
+      type: object
+      properties:
+        group:
+          description: Dimensions | Attributes | Specifications | Relationship
+          type: string
+        key:
+          type: string
+        status:
+          description: match (identity-grade) | close (variant band) | diff | only_a | only_b | info
+          type: string
+        value_a:
+          type: string
+        value_b:
+          type: string
+    models.AIAnalysisSimilarityScores:
+      type: object
+      properties:
+        manufacturer_score:
+          type: number
+        part_number_score:
+          type: number
+        specifications_score:
+          type: number
+        system_classification:
+          type: string
+        system_weighted_total:
+          type: number
+        title_score:
+          type: number
+    models.AIItemComparisonResponse:
+      type: object
+      properties:
+        analysis:
+          description: Present when status == "ready"
+          allOf:
+          - $ref: '#/components/schemas/models.AIAnalysisResult'
+        completion_tokens:
           type: integer
-        similar_count:
-          description: number of items above threshold
+        created_at:
+          type: string
+        model:
+          type: string
+        prompt_tokens:
           type: integer
-        title:
+        status:
+          description: '"ready", "unavailable"'
           type: string
     models.ItemDetailsResponse:
       type: object
@@ -1537,86 +1515,96 @@ components:
           type: string
         updated_at:
           type: string
-    models.ItemPair:
+    handlers.SimilarityClustersResponse:
       type: object
       properties:
-        item_id_1:
+        ai_classification:
           type: string
-        item_id_2:
+        business_id:
           type: string
-    models.SpecDiff:
+        clusters:
+          type: array
+          items:
+            $ref: '#/components/schemas/services.ItemCluster'
+    models.ItemValidationConfig:
       type: object
       properties:
-        canonical_name:
-          description: Canonical spec name (e.g., "input_voltage_max")
+        conditions:
+          type: array
+          items:
+            $ref: '#/components/schemas/models.DataGovernanceConditionSpec'
+        statements:
+          type: array
+          items:
+            $ref: '#/components/schemas/models.DataGovernanceStatementSpec'
+    services.ClusterItem:
+      type: object
+      properties:
+        item_id:
           type: string
-        display_name:
-          description: Human-readable name (e.g., "Input Voltage Max")
+        manufacturer:
           type: string
-        is_numeric:
-          description: True if values are numeric
-          type: boolean
-        item1_original_keys:
-          description: Original spec titles in item 1
+        part_number:
+          type: string
+        title:
+          type: string
+    handlers.SimilarityItemsResponse:
+      type: object
+      properties:
+        business_id:
+          type: string
+        items:
           type: array
           items:
-            type: string
-        item1_units:
-          description: Units in item 1
-          type: array
-          items:
-            type: string
-        item1_values:
-          description: Values in item 1 (nil if missing)
-          type: array
-          items:
-            type: string
-        item2_original_keys:
-          description: Original spec titles in item 2
-          type: array
-          items:
-            type: string
-        item2_units:
-          description: Units in item 2
-          type: array
-          items:
-            type: string
-        item2_values:
-          description: Values in item 2 (nil if missing)
-          type: array
-          items:
-            type: string
-        percent_diff:
-          description: Percent difference for numeric values
+            $ref: '#/components/schemas/services.SimilarityListItem'
+        limit:
+          type: integer
+        offset:
+          type: integer
+        total:
+          type: integer
+    models.SimilarityScores:
+      type: object
+      properties:
+        additional_score:
+          description: similarity over the other measurements (0-1)
           type: number
-        status:
-          description: '"match", "mismatch", "only_item1", "only_item2"'
-          type: string
-    models.SuggestedCatalogAttribute:
-      type: object
-      properties:
-        aliases:
-          description: Alternative names / aliases for this property
-          type: array
-          items:
-            type: string
-        property_description:
-          description: Human-readable description of the property
-          type: string
-        property_name:
-          description: Suggested canonical property name
-          type: string
-        unit:
-          description: Suggested unit for the property
-          type: string
-        value_examples:
-          description: Example values for this property
-          type: array
-          items:
-            type: string
-        value_type:
-          description: Expected value type (scalar, range, etc.)
-          type: string
+        exact_manufacturer_match:
+          description: True if manufacturers match exactly
+          type: boolean
+        exact_part_number_match:
+          description: Flags for exact/tolerance matches
+          type: boolean
+        fit:
+          description: 'Two-stage compare (model_extraction tenant only): a SEPARATE additional score over the
+
+            other part measurements (surface roughness, material, weight, bending radius), computed
+
+            only when the important specs "fit". Deliberately NOT folded into WeightedTotal, so the
+
+            primary score/classification is identical for every tenant.'
+          type: boolean
+        has_additional:
+          description: an additional (other-measurements) score was computed
+          type: boolean
+        manufacturer_score:
+          description: Manufacturer similarity (0-1)
+          type: number
+        part_number_score:
+          description: Part number similarity (0-1)
+          type: number
+        specifications_score:
+          description: Specifications similarity (0-1)
+          type: number
+        specs_within_tolerance:
+          description: True if key specs (mass, dimensions) are within tolerance
+          type: boolean
+        title_score:
+          description: Title semantic similarity (0-1)
+          type: number
+        weighted_total:
+          description: Weighted total score (0-1)
+          type: number
     models.AIAnalysisResult:
       type: object
       properties:
@@ -1643,82 +1631,24 @@ components:
             $ref: '#/components/schemas/models.AIAnalysisSideBySideRow'
         similarity_scores:
           $ref: '#/components/schemas/models.AIAnalysisSimilarityScores'
-    models.SourceDocumentInfo:
+    models.ComparisonStatusBatchRequest:
       type: object
       properties:
-        classification:
-          description: Document classification (e.g. datasheet, technical_drawing)
-          type: string
-        filename:
-          description: Display filename (path prefix stripped)
-          type: string
-        id:
-          description: Document ID
-          type: string
-        mesh_url:
-          description: Signed URL for GLB 3D mesh (JT or STEP medium LOD)
-          type: string
-        mesh_url_high:
-          description: STEP high-detail LOD (only set for STEP)
-          type: string
-        mesh_url_low:
-          description: STEP low-detail LOD (only set for STEP)
-          type: string
-        mesh_url_med:
-          description: STEP medium-detail LOD (only set for STEP)
-          type: string
-        mime_type:
-          description: MIME type (e.g. application/pdf, model/jt)
-          type: string
-        status:
-          description: Document processing status
-          type: string
-        tables:
-          description: Extracted content from document
+        pairs:
+          description: List of item pairs to look up
           type: array
           items:
-            $ref: '#/components/schemas/models.DocumentTable'
-        url:
-          description: Signed URL for document access
-          type: string
-    models.AIAnalysisSimilarityScores:
+            $ref: '#/components/schemas/models.ItemPair'
+    models.AIAnalysisCatalogActions:
       type: object
       properties:
-        manufacturer_score:
-          type: number
-        part_number_score:
-          type: number
-        specifications_score:
-          type: number
-        system_classification:
+        notes_for_buyer:
           type: string
-        system_weighted_total:
-          type: number
-        title_score:
-          type: number
-    models.ComparisonStatusResponse:
-      type: object
-      properties:
-        business_id:
+        primary_part:
           type: string
-        created_at:
+        secondary_part:
           type: string
-        id:
-          type: string
-        item_id_1:
-          type: string
-        item_id_2:
-          type: string
-        reviewed_at:
-          description: When the review was performed
-          type: string
-        reviewed_by:
-          description: Business user ID who reviewed
-          type: string
-        status:
-          description: '"pending", "duplicate", "alternative", "rejected"; with model_extraction also "interchangeable_variant", "superseded", "product_variant", "related_parts", "component_of"'
-          type: string
-        updated_at:
+        suggested_relationship_tag:
           type: string
     models.HSCodeSuggestion:
       type: object
@@ -1779,6 +1709,76 @@ components:
           description: First 6 digits
           type: string
         updated_at:
+          type: string
+    models.AIAnalysisSideBySideRow:
+      type: object
+      properties:
+        attribute:
+          type: string
+        engineering_significance:
+          description: '"critical", "minor", "cosmetic", "none"'
+          type: string
+        item1_value:
+          type: string
+        item2_value:
+          type: string
+        note:
+          type: string
+        status:
+          description: '"identical", "equivalent", "different", "missing"'
+          type: string
+    models.ItemComparisonResponse:
+      type: object
+      properties:
+        class_comparison:
+          description: 'Classified-taxonomy tenants: the pair classifier''s verdict plus every
+
+            signal it compared (dimensions, attributes, specs, relationship). When
+
+            present the compare page renders this table instead of the (empty for
+
+            these tenants) legacy spec comparison.'
+          allOf:
+          - $ref: '#/components/schemas/models.PairClassComparison'
+        classification:
+          description: '"exact_duplicate", "duplicate", "alternative", "different"'
+          type: string
+        confidence:
+          type: number
+        different_specs:
+          type: integer
+        item1:
+          description: The two items being compared
+          allOf:
+          - $ref: '#/components/schemas/models.ItemComparisonSide'
+        item2:
+          $ref: '#/components/schemas/models.ItemComparisonSide'
+        matching_specs:
+          description: Summary statistics
+          type: integer
+        only_in_item1:
+          type: integer
+        only_in_item2:
+          type: integer
+        reason:
+          type: string
+        similarity:
+          description: Similarity analysis
+          allOf:
+          - $ref: '#/components/schemas/models.SimilarityScores'
+        spec_diffs:
+          description: Spec differences (for easy UI rendering)
+          type: array
+          items:
+            $ref: '#/components/schemas/models.SpecDiff'
+    models.HSCodeAlternative:
+      type: object
+      properties:
+        code:
+          type: string
+        description:
+          type: string
+        reason_rejected:
           type: string
   securitySchemes:
     BearerAuth:

@@ -71,6 +71,14 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    models.ErrorResponse:
+      type: object
+      properties:
+        code:
+          type: string
+        details: {}
+        error:
+          type: string
     services.SharedSpecDetail:
       type: object
       properties:
@@ -82,14 +90,20 @@ components:
           type: array
           items:
             type: string
-    models.ErrorResponse:
+    services.GetSimilarItemsResponse:
       type: object
       properties:
-        code:
+        item_id:
           type: string
-        details: {}
-        error:
+        similar_items:
+          type: array
+          items:
+            $ref: '#/components/schemas/services.SimilarItemResult'
+        source:
+          description: neo4j+vertex, neo4j, vertex
           type: string
+        total:
+          type: integer
     services.SimilarItemResult:
       type: object
       properties:
@@ -119,20 +133,6 @@ components:
           type: string
         title:
           type: string
-    services.GetSimilarItemsResponse:
-      type: object
-      properties:
-        item_id:
-          type: string
-        similar_items:
-          type: array
-          items:
-            $ref: '#/components/schemas/services.SimilarItemResult'
-        source:
-          description: neo4j+vertex, neo4j, vertex
-          type: string
-        total:
-          type: integer
   securitySchemes:
     BearerAuth:
       description: 'Firebase JWT token. Format: "Bearer {token}"'

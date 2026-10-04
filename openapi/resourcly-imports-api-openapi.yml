@@ -501,36 +501,13 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    models.ImportJobRerunResponse:
+    models.ValidateImportFilesResponse:
       type: object
       properties:
-        documents_rerun:
-          type: integer
-        import_id:
-          type: string
-        message:
-          type: string
-        replace_existing:
-          type: boolean
-    models.DocumentUploadWithImportResponse:
-      type: object
-      properties:
-        document_id:
-          type: string
-        filename:
-          type: string
-        import_id:
-          type: string
-        message:
-          type: string
-        status:
-          type: string
-    models.ImportJobOptions:
-      type: object
-      properties:
-        replace_existing:
-          description: Delete and re-process documents with same filename
-          type: boolean
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/models.ValidateImportFileResult'
     models.ImportJobDocumentsResponse:
       type: object
       properties:
@@ -546,22 +523,25 @@ components:
           type: integer
         total_count:
           type: integer
-    models.ValidateImportFilesResponse:
+    models.ImportJobOptions:
       type: object
       properties:
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/models.ValidateImportFileResult'
-    models.ValidateImportFilesRequest:
+        replace_existing:
+          description: Delete and re-process documents with same filename
+          type: boolean
+    models.DocumentUploadWithImportResponse:
       type: object
       properties:
-        business_node_id:
+        document_id:
           type: string
-        paths:
-          type: array
-          items:
-            type: string
+        filename:
+          type: string
+        import_id:
+          type: string
+        message:
+          type: string
+        status:
+          type: string
     models.ImportJobRetriggerRequest:
       type: object
       properties:
@@ -577,83 +557,26 @@ components:
 
             a forced full-import rerun must stay impossible from this endpoint.'
           type: boolean
-    models.ImportJobCreateResponse:
+    models.ImportJobRerunResponse:
       type: object
       properties:
+        documents_rerun:
+          type: integer
         import_id:
           type: string
         message:
           type: string
-    models.Document:
-      type: object
-      properties:
-        business_id:
-          type: string
-        business_node_id:
-          type: string
-        created_at:
-          type: string
-        error_message:
-          type: string
-        filename:
-          type: string
-        gcs_uri:
-          type: string
-        id:
-          type: string
-        image_count:
-          type: integer
-        import_bucket_uri:
-          type: string
-        import_id:
-          type: string
-        items_count:
-          type: integer
-        page_count:
-          type: integer
-        processed_at:
-          type: string
-        status:
-          type: string
-        table_count:
-          type: integer
-        trace_id:
-          type: string
-        updated_at:
-          type: string
-    models.ValidateImportFileResult:
-      type: object
-      properties:
-        part_number:
-          type: string
-        path:
-          type: string
-        reason:
-          type: string
-        valid:
+        replace_existing:
           type: boolean
-    models.ImportJobRetriggerResponse:
+    models.ImportJobDeleteResponse:
       type: object
       properties:
-        documents_retriggered:
+        documents_deleted:
           type: integer
         import_id:
           type: string
         message:
           type: string
-    models.ImportJobListResponse:
-      type: object
-      properties:
-        import_jobs:
-          type: array
-          items:
-            $ref: '#/components/schemas/models.ImportJob'
-        page:
-          type: integer
-        page_size:
-          type: integer
-        total_count:
-          type: integer
     models.ErrorResponse:
       type: object
       properties:
@@ -708,14 +631,91 @@ components:
           type: integer
         updated_at:
           type: string
-    models.ImportJobDeleteResponse:
+    models.ValidateImportFileResult:
       type: object
       properties:
-        documents_deleted:
+        part_number:
+          type: string
+        path:
+          type: string
+        reason:
+          type: string
+        valid:
+          type: boolean
+    models.ImportJobRetriggerResponse:
+      type: object
+      properties:
+        documents_retriggered:
           type: integer
         import_id:
           type: string
         message:
+          type: string
+    models.ImportJobCreateResponse:
+      type: object
+      properties:
+        import_id:
+          type: string
+        message:
+          type: string
+    models.ImportJobListResponse:
+      type: object
+      properties:
+        import_jobs:
+          type: array
+          items:
+            $ref: '#/components/schemas/models.ImportJob'
+        page:
+          type: integer
+        page_size:
+          type: integer
+        total_count:
+          type: integer
+    models.ValidateImportFilesRequest:
+      type: object
+      properties:
+        business_node_id:
+          type: string
+        paths:
+          type: array
+          items:
+            type: string
+    models.Document:
+      type: object
+      properties:
+        business_id:
+          type: string
+        business_node_id:
+          type: string
+        created_at:
+          type: string
+        error_message:
+          type: string
+        filename:
+          type: string
+        gcs_uri:
+          type: string
+        id:
+          type: string
+        image_count:
+          type: integer
+        import_bucket_uri:
+          type: string
+        import_id:
+          type: string
+        items_count:
+          type: integer
+        page_count:
+          type: integer
+        processed_at:
+          type: string
+        status:
+          type: string
+        table_count:
+          type: integer
+        trace_id:
+          type: string
+        updated_at:
           type: string
   securitySchemes:
     BearerAuth:

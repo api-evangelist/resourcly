@@ -243,6 +243,27 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    models.ErrorResponse:
+      type: object
+      properties:
+        code:
+          type: string
+        details: {}
+        error:
+          type: string
+    models.DocumentListResponse:
+      type: object
+      properties:
+        documents:
+          type: array
+          items:
+            $ref: '#/components/schemas/models.Document'
+        page:
+          type: integer
+        page_size:
+          type: integer
+        total_count:
+          type: integer
     models.Document:
       type: object
       properties:
@@ -297,27 +318,6 @@ components:
           type: string
         url:
           type: string
-    models.ErrorResponse:
-      type: object
-      properties:
-        code:
-          type: string
-        details: {}
-        error:
-          type: string
-    models.DocumentListResponse:
-      type: object
-      properties:
-        documents:
-          type: array
-          items:
-            $ref: '#/components/schemas/models.Document'
-        page:
-          type: integer
-        page_size:
-          type: integer
-        total_count:
-          type: integer
   securitySchemes:
     BearerAuth:
       description: 'Firebase JWT token. Format: "Bearer {token}"'

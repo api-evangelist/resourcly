@@ -597,6 +597,73 @@ components:
           type: integer
         status:
           type: string
+    models.ERPInventoryItem:
+      type: object
+      properties:
+        created_at:
+          type: string
+        description_name:
+          type: string
+        erp_inventory_file_id:
+          type: string
+        erp_primary_identifier:
+          type: string
+        erp_secondary_identifier:
+          type: string
+        id:
+          type: string
+        is_preferred:
+          description: From the linked item (items.is_preferred), false when unmatched
+          type: boolean
+        item_id:
+          type: string
+        metadata: {}
+        purchase_price:
+          type: number
+        quantity:
+          type: number
+        supplier_name:
+          type: string
+        supplier_number:
+          type: string
+    models.InventoryUploadResponse:
+      type: object
+      properties:
+        bucket_url:
+          type: string
+        column_mapping:
+          $ref: '#/components/schemas/models.InventoryUploadMapping'
+        created_at:
+          type: string
+        id:
+          type: string
+        import_id:
+          type: string
+        ingested_count:
+          type: integer
+        item_count:
+          type: integer
+    models.ERPAttributeMapping:
+      type: object
+      properties:
+        label:
+          description: human-friendly display name (AI-suggested, user-editable)
+          type: string
+        source_column:
+          description: exact header text in the uploaded file == metadata key
+          type: string
+        type:
+          description: '"string" | "number" (display/format hint)'
+          type: string
+    models.ERPInventoryFileListResponse:
+      type: object
+      properties:
+        files:
+          type: array
+          items:
+            $ref: '#/components/schemas/models.ERPInventoryFile'
+        total_count:
+          type: integer
     models.ERPInventoryAggregatesResponse:
       type: object
       properties:
@@ -628,85 +695,6 @@ components:
           type: string
         details: {}
         error:
-          type: string
-    models.ERPInventoryFileListResponse:
-      type: object
-      properties:
-        files:
-          type: array
-          items:
-            $ref: '#/components/schemas/models.ERPInventoryFile'
-        total_count:
-          type: integer
-    models.InventoryUploadMapping:
-      type: object
-      properties:
-        attributes:
-          description: 'Attributes carries every non-first-class column preserved from the upload
-
-            (dynamic import). Empty for legacy uploads made before dynamic mapping.'
-          type: array
-          items:
-            $ref: '#/components/schemas/models.ERPAttributeMapping'
-        description_columns:
-          type: array
-          items:
-            type: string
-        description_name:
-          type: string
-        primary_identifier_column:
-          type: string
-        primary_identifier_name:
-          description: Name fields for human-friendly display and llm
-          type: string
-        purchase_price_column:
-          type: string
-        purchase_price_name:
-          type: string
-        purchase_quantity_column:
-          type: string
-        purchase_quantity_name:
-          type: string
-        secondary_identifier_column:
-          type: string
-        secondary_identifier_name:
-          type: string
-        supplier_name_column:
-          type: string
-        supplier_name_name:
-          type: string
-        supplier_number_column:
-          type: string
-        supplier_number_name:
-          type: string
-    models.ERPInventoryItem:
-      type: object
-      properties:
-        created_at:
-          type: string
-        description_name:
-          type: string
-        erp_inventory_file_id:
-          type: string
-        erp_primary_identifier:
-          type: string
-        erp_secondary_identifier:
-          type: string
-        id:
-          type: string
-        is_preferred:
-          description: From the linked item (items.is_preferred), false when unmatched
-          type: boolean
-        item_id:
-          type: string
-        metadata: {}
-        purchase_price:
-          type: number
-        quantity:
-          type: number
-        supplier_name:
-          type: string
-        supplier_number:
           type: string
     services.Item:
       type: object
@@ -754,34 +742,46 @@ components:
             $ref: '#/components/schemas/models.ERPInventoryItem'
         total_count:
           type: integer
-    models.InventoryUploadResponse:
+    models.InventoryUploadMapping:
       type: object
       properties:
-        bucket_url:
+        attributes:
+          description: 'Attributes carries every non-first-class column preserved from the upload
+
+            (dynamic import). Empty for legacy uploads made before dynamic mapping.'
+          type: array
+          items:
+            $ref: '#/components/schemas/models.ERPAttributeMapping'
+        description_columns:
+          type: array
+          items:
+            type: string
+        description_name:
           type: string
-        column_mapping:
-          $ref: '#/components/schemas/models.InventoryUploadMapping'
-        created_at:
+        primary_identifier_column:
           type: string
-        id:
+        primary_identifier_name:
+          description: Name fields for human-friendly display and llm
           type: string
-        import_id:
+        purchase_price_column:
           type: string
-        ingested_count:
-          type: integer
-        item_count:
-          type: integer
-    models.ERPAttributeMapping:
-      type: object
-      properties:
-        label:
-          description: human-friendly display name (AI-suggested, user-editable)
+        purchase_price_name:
           type: string
-        source_column:
-          description: exact header text in the uploaded file == metadata key
+        purchase_quantity_column:
           type: string
-        type:
-          description: '"string" | "number" (display/format hint)'
+        purchase_quantity_name:
+          type: string
+        secondary_identifier_column:
+          type: string
+        secondary_identifier_name:
+          type: string
+        supplier_name_column:
+          type: string
+        supplier_name_name:
+          type: string
+        supplier_number_column:
+          type: string
+        supplier_number_name:
           type: string
   securitySchemes:
     BearerAuth:

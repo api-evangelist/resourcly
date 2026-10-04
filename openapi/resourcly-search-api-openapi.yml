@@ -238,39 +238,59 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    models.ItemResult:
+    models.ErpFileResult:
       type: object
       properties:
-        category:
+        business_node_id:
           type: string
-        image_signed_url:
-          description: Time-limited signed HTTPS URL for frontend access
+        erp_file_id:
           type: string
-        image_url:
-          description: Original GCS URI (gs://...) to item image (from source document)
+        filename:
           type: string
-        is_alternative:
-          type: boolean
-        is_potential_duplicate:
-          type: boolean
-        is_preferred:
-          description: Item is flagged as a preferred part
-          type: boolean
-        item_id:
-          type: string
-        manufacturer:
-          type: string
-        part_number:
-          type: string
+        matched_identifiers:
+          type: array
+          items:
+            type: string
+        row_count:
+          type: integer
         similarity_score:
           type: number
-        source_filename:
-          description: Filename of the source document
+        source_erp:
           type: string
         text_snippet:
-          description: Snippet from specs or OCR text
           type: string
-        title:
+    models.UnifiedSearchRequest:
+      type: object
+      properties:
+        limit:
+          type: integer
+        query:
+          type: string
+    models.AutocompleteResponse:
+      type: object
+      properties:
+        suggestions:
+          type: array
+          items:
+            $ref: '#/components/schemas/models.AutocompleteSuggestion'
+    models.SearchImageResponse:
+      type: object
+      properties:
+        content_type:
+          type: string
+        file_name:
+          type: string
+        id:
+          type: string
+        url:
+          type: string
+    models.ErrorResponse:
+      type: object
+      properties:
+        code:
+          type: string
+        details: {}
+        error:
           type: string
     models.BomResult:
       type: object
@@ -329,24 +349,6 @@ components:
           type: integer
         search_mode:
           type: string
-    models.AutocompleteResponse:
-      type: object
-      properties:
-        suggestions:
-          type: array
-          items:
-            $ref: '#/components/schemas/models.AutocompleteSuggestion'
-    models.SearchImageResponse:
-      type: object
-      properties:
-        content_type:
-          type: string
-        file_name:
-          type: string
-        id:
-          type: string
-        url:
-          type: string
     models.AutocompleteSuggestion:
       type: object
       properties:
@@ -355,41 +357,39 @@ components:
         type:
           description: '"part_number", "title", "manufacturer", "specification", "additional_data", "document", or "recent"'
           type: string
-    models.UnifiedSearchRequest:
+    models.ItemResult:
       type: object
       properties:
-        limit:
-          type: integer
-        query:
+        category:
           type: string
-    models.ErrorResponse:
-      type: object
-      properties:
-        code:
+        image_signed_url:
+          description: Time-limited signed HTTPS URL for frontend access
           type: string
-        details: {}
-        error:
+        image_url:
+          description: Original GCS URI (gs://...) to item image (from source document)
           type: string
-    models.ErpFileResult:
-      type: object
-      properties:
-        business_node_id:
+        is_alternative:
+          type: boolean
+        is_potential_duplicate:
+          type: boolean
+        is_preferred:
+          description: Item is flagged as a preferred part
+          type: boolean
+        item_id:
           type: string
-        erp_file_id:
+        manufacturer:
           type: string
-        filename:
+        part_number:
           type: string
-        matched_identifiers:
-          type: array
-          items:
-            type: string
-        row_count:
-          type: integer
         similarity_score:
           type: number
-        source_erp:
+        source_filename:
+          description: Filename of the source document
           type: string
         text_snippet:
+          description: Snippet from specs or OCR text
+          type: string
+        title:
           type: string
   securitySchemes:
     BearerAuth:
