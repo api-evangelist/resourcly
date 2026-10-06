@@ -45,7 +45,7 @@ accessModel:
   method: derived
 specificationVersion: '0.23'
 created: '2026-07-17'
-modified: '2026-07-20'
+modified: '2026-10-06'
 image: https://resourcly.com/icon.png
 tags:
 - Company
@@ -409,6 +409,8 @@ maintainers:
 - FN: APIs.json
   email: info@apis.io
 common:
+- url: https://resourcly.com/stories
+  type: Blog
 - type: DomainSecurity
   url: security/resourcly-domain-security.yml
 - type: AgenticAccess
