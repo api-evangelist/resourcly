@@ -56,13 +56,17 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    models.ErrorResponse:
+    models.SupplierDataResponse:
       type: object
       properties:
-        code:
+        email_id:
+          description: Resend email ID for tracking
           type: string
-        details: {}
-        error:
+        message:
+          description: Human-readable confirmation
+          type: string
+        request_id:
+          description: Supplier data request ID (UUID)
           type: string
     models.SupplierDataRequest:
       type: object
@@ -100,17 +104,13 @@ components:
         other_details:
           description: Optional free-text notes
           type: string
-    models.SupplierDataResponse:
+    models.ErrorResponse:
       type: object
       properties:
-        email_id:
-          description: Resend email ID for tracking
+        code:
           type: string
-        message:
-          description: Human-readable confirmation
-          type: string
-        request_id:
-          description: Supplier data request ID (UUID)
+        details: {}
+        error:
           type: string
   securitySchemes:
     BearerAuth:

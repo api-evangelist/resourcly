@@ -306,6 +306,14 @@ components:
           - $ref: '#/components/schemas/models.SupplierGetResponseResponse'
         status:
           type: string
+    models.ErrorResponse:
+      type: object
+      properties:
+        code:
+          type: string
+        details: {}
+        error:
+          type: string
     models.SupplierSubmitResponseResponse:
       type: object
       properties:
@@ -315,50 +323,14 @@ components:
           type: string
         status:
           type: string
-    models.SupplierResponseFileInfo:
+    models.SupplierVerifyPasscodeRequest:
       type: object
       properties:
-        content_type:
+        passcode:
+          description: 6-digit passcode from the email
           type: string
-        created_at:
-          type: string
-        document_type:
-          type: string
-        file_size_bytes:
-          type: integer
-        filename:
-          type: string
-        id:
-          type: string
-        url:
-          type: string
-    models.SupplierUploadFileResponse:
-      type: object
-      properties:
-        document_type:
-          type: string
-        file_id:
-          type: string
-        filename:
-          type: string
-        message:
-          type: string
-    models.SupplierVerifyPasscodeResponse:
-      type: object
-      properties:
-        expires_at:
-          description: ISO 8601 expiry timestamp
-          type: string
-        token:
-          description: Short-lived JWT for accessing the request
-          type: string
-    models.ErrorResponse:
-      type: object
-      properties:
-        code:
-          type: string
-        details: {}
-        error:
+        request_id:
+          description: UUID of the supplier data request
           type: string
     models.SupplierSubmitResponseRequest:
       type: object
@@ -371,14 +343,14 @@ components:
         status:
           description: '"draft" or "submitted"'
           type: string
-    models.SupplierVerifyPasscodeRequest:
+    models.SupplierVerifyPasscodeResponse:
       type: object
       properties:
-        passcode:
-          description: 6-digit passcode from the email
+        expires_at:
+          description: ISO 8601 expiry timestamp
           type: string
-        request_id:
-          description: UUID of the supplier data request
+        token:
+          description: Short-lived JWT for accessing the request
           type: string
     models.SupplierGetResponseResponse:
       type: object
@@ -399,6 +371,34 @@ components:
         submitted_at:
           type: string
         updated_at:
+          type: string
+    models.SupplierUploadFileResponse:
+      type: object
+      properties:
+        document_type:
+          type: string
+        file_id:
+          type: string
+        filename:
+          type: string
+        message:
+          type: string
+    models.SupplierResponseFileInfo:
+      type: object
+      properties:
+        content_type:
+          type: string
+        created_at:
+          type: string
+        document_type:
+          type: string
+        file_size_bytes:
+          type: integer
+        filename:
+          type: string
+        id:
+          type: string
+        url:
           type: string
   securitySchemes:
     BearerAuth:

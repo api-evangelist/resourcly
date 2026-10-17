@@ -285,6 +285,14 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    models.ErrorResponse:
+      type: object
+      properties:
+        code:
+          type: string
+        details: {}
+        error:
+          type: string
     models.SupplierReviewRequest:
       type: object
       properties:
@@ -293,48 +301,6 @@ components:
           type: string
         reason:
           description: Required when action is "reject"
-          type: string
-    models.SupplierResponseFileInfo:
-      type: object
-      properties:
-        content_type:
-          type: string
-        created_at:
-          type: string
-        document_type:
-          type: string
-        file_size_bytes:
-          type: integer
-        filename:
-          type: string
-        id:
-          type: string
-        url:
-          type: string
-    models.SupplierDataRequestListItem:
-      type: object
-      properties:
-        created_at:
-          type: string
-        expires_at:
-          type: string
-        has_response:
-          type: boolean
-        id:
-          type: string
-        is_locked:
-          type: boolean
-        manufacturer:
-          type: string
-        rejection_reason:
-          type: string
-        reviewed_at:
-          type: string
-        reviewed_by:
-          type: string
-        status:
-          type: string
-        supplier_email:
           type: string
     models.SupplierDataRequestDetailResponse:
       type: object
@@ -381,13 +347,12 @@ components:
           type: string
         supplier_email:
           type: string
-    models.ErrorResponse:
+    models.SupplierReviewResponse:
       type: object
       properties:
-        code:
+        message:
           type: string
-        details: {}
-        error:
+        status:
           type: string
     models.SupplierGetResponseResponse:
       type: object
@@ -409,12 +374,47 @@ components:
           type: string
         updated_at:
           type: string
-    models.SupplierReviewResponse:
+    models.SupplierDataRequestListItem:
       type: object
       properties:
-        message:
+        created_at:
+          type: string
+        expires_at:
+          type: string
+        has_response:
+          type: boolean
+        id:
+          type: string
+        is_locked:
+          type: boolean
+        manufacturer:
+          type: string
+        rejection_reason:
+          type: string
+        reviewed_at:
+          type: string
+        reviewed_by:
           type: string
         status:
+          type: string
+        supplier_email:
+          type: string
+    models.SupplierResponseFileInfo:
+      type: object
+      properties:
+        content_type:
+          type: string
+        created_at:
+          type: string
+        document_type:
+          type: string
+        file_size_bytes:
+          type: integer
+        filename:
+          type: string
+        id:
+          type: string
+        url:
           type: string
     models.SupplierExtendExpiryRequest:
       type: object

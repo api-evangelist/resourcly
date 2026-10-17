@@ -238,34 +238,6 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    models.ErpFileResult:
-      type: object
-      properties:
-        business_node_id:
-          type: string
-        erp_file_id:
-          type: string
-        filename:
-          type: string
-        matched_identifiers:
-          type: array
-          items:
-            type: string
-        row_count:
-          type: integer
-        similarity_score:
-          type: number
-        source_erp:
-          type: string
-        text_snippet:
-          type: string
-    models.UnifiedSearchRequest:
-      type: object
-      properties:
-        limit:
-          type: integer
-        query:
-          type: string
     models.AutocompleteResponse:
       type: object
       properties:
@@ -273,48 +245,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/models.AutocompleteSuggestion'
-    models.SearchImageResponse:
-      type: object
-      properties:
-        content_type:
-          type: string
-        file_name:
-          type: string
-        id:
-          type: string
-        url:
-          type: string
-    models.ErrorResponse:
-      type: object
-      properties:
-        code:
-          type: string
-        details: {}
-        error:
-          type: string
-    models.BomResult:
-      type: object
-      properties:
-        bom_id:
-          type: string
-        business_node_id:
-          type: string
-        matched_part_numbers:
-          type: array
-          items:
-            type: string
-        name:
-          type: string
-        similarity_score:
-          type: number
-        status:
-          type: string
-        text_snippet:
-          type: string
-        total_lines:
-          type: integer
-        version:
-          type: string
     models.SearchResponse:
       type: object
       properties:
@@ -349,6 +279,58 @@ components:
           type: integer
         search_mode:
           type: string
+    models.ErpFileResult:
+      type: object
+      properties:
+        business_node_id:
+          type: string
+        erp_file_id:
+          type: string
+        filename:
+          type: string
+        matched_identifiers:
+          type: array
+          items:
+            type: string
+        row_count:
+          type: integer
+        similarity_score:
+          type: number
+        source_erp:
+          type: string
+        text_snippet:
+          type: string
+    models.ErrorResponse:
+      type: object
+      properties:
+        code:
+          type: string
+        details: {}
+        error:
+          type: string
+    models.BomResult:
+      type: object
+      properties:
+        bom_id:
+          type: string
+        business_node_id:
+          type: string
+        matched_part_numbers:
+          type: array
+          items:
+            type: string
+        name:
+          type: string
+        similarity_score:
+          type: number
+        status:
+          type: string
+        text_snippet:
+          type: string
+        total_lines:
+          type: integer
+        version:
+          type: string
     models.AutocompleteSuggestion:
       type: object
       properties:
@@ -356,6 +338,17 @@ components:
           type: string
         type:
           description: '"part_number", "title", "manufacturer", "specification", "additional_data", "document", or "recent"'
+          type: string
+    models.SearchImageResponse:
+      type: object
+      properties:
+        content_type:
+          type: string
+        file_name:
+          type: string
+        id:
+          type: string
+        url:
           type: string
     models.ItemResult:
       type: object
@@ -390,6 +383,13 @@ components:
           description: Snippet from specs or OCR text
           type: string
         title:
+          type: string
+    models.UnifiedSearchRequest:
+      type: object
+      properties:
+        limit:
+          type: integer
+        query:
           type: string
   securitySchemes:
     BearerAuth:

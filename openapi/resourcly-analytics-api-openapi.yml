@@ -292,19 +292,25 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    models.ReviewStatusTimelineEntry:
+    models.ErrorResponse:
       type: object
       properties:
-        alternative:
-          type: integer
-        date:
+        code:
           type: string
-        duplicate:
-          type: integer
-        not_related:
-          type: integer
-        pending_review:
-          type: integer
+        details: {}
+        error:
+          type: string
+    models.ItemPriceAnalysisResponse:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/models.ItemPriceEntry'
+        x_axis_label:
+          type: string
+        y_axis_label:
+          type: string
     models.ItemAnalyticsResponse:
       type: object
       properties:
@@ -355,6 +361,21 @@ components:
           type: integer
         total_items:
           type: integer
+    models.MergedItemsListResponse:
+      type: object
+      properties:
+        business_id:
+          type: string
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/models.MergedItemEntry'
+        limit:
+          type: integer
+        offset:
+          type: integer
+        total:
+          type: integer
     models.ItemPriceEntry:
       type: object
       properties:
@@ -384,40 +405,28 @@ components:
           type: integer
         total_estimated_cost_eur:
           type: number
-    models.ErrorResponse:
+    models.ItemPriceDetail:
       type: object
       properties:
-        code:
+        category:
           type: string
-        details: {}
-        error:
+        id:
           type: string
-    models.ItemPriceAnalysisResponse:
+        max_price:
+          type: number
+        min_price:
+          type: number
+        similarity_score:
+          type: number
+        total_stock:
+          type: number
+    models.DailyCountEntry:
       type: object
       properties:
-        items:
-          type: array
-          items:
-            $ref: '#/components/schemas/models.ItemPriceEntry'
-        x_axis_label:
-          type: string
-        y_axis_label:
-          type: string
-    models.MergedItemsListResponse:
-      type: object
-      properties:
-        business_id:
-          type: string
-        items:
-          type: array
-          items:
-            $ref: '#/components/schemas/models.MergedItemEntry'
-        limit:
+        count:
           type: integer
-        offset:
-          type: integer
-        total:
-          type: integer
+        date:
+          type: string
     models.AIClassificationClusterEntry:
       type: object
       properties:
@@ -435,13 +444,6 @@ components:
         id:
           type: string
         status:
-          type: string
-    models.DailyCountEntry:
-      type: object
-      properties:
-        count:
-          type: integer
-        date:
           type: string
     models.MergedItemEntry:
       type: object
@@ -462,21 +464,19 @@ components:
           type: string
         title:
           type: string
-    models.ItemPriceDetail:
+    models.ReviewStatusTimelineEntry:
       type: object
       properties:
-        category:
+        alternative:
+          type: integer
+        date:
           type: string
-        id:
-          type: string
-        max_price:
-          type: number
-        min_price:
-          type: number
-        similarity_score:
-          type: number
-        total_stock:
-          type: number
+        duplicate:
+          type: integer
+        not_related:
+          type: integer
+        pending_review:
+          type: integer
   securitySchemes:
     BearerAuth:
       description: 'Firebase JWT token. Format: "Bearer {token}"'

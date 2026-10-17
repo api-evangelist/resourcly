@@ -438,24 +438,17 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    models.StorageCreateFolderRequest:
+    models.StoragePasteResponse:
       type: object
       properties:
-        business_node_id:
-          type: string
-        name:
-          type: string
-        path:
-          type: string
-    models.StoragePrepareUploadRequest:
-      type: object
-      properties:
-        business_node_id:
-          type: string
-        key:
-          type: string
-        path:
-          type: string
+        failed:
+          type: array
+          items:
+            $ref: '#/components/schemas/models.StoragePasteError'
+        objects:
+          type: integer
+        pasted:
+          type: integer
     models.StorageItem:
       type: object
       properties:
@@ -484,57 +477,10 @@ components:
         type:
           description: '"file" or "folder"'
           type: string
-    models.StorageCreateFolderResponse:
+    models.StorageRenameResponse:
       type: object
       properties:
-        key:
-          type: string
-    models.StoragePasteItem:
-      type: object
-      properties:
-        key:
-          type: string
-        type:
-          type: string
-    models.StorageDeleteResponse:
-      type: object
-      properties:
-        deleted:
-          type: integer
-    models.StorageRenameRequest:
-      type: object
-      properties:
-        business_node_id:
-          type: string
-        destination_key:
-          type: string
-        source_key:
-          type: string
-        type:
-          type: string
-    models.StoragePrepareUploadResponse:
-      type: object
-      properties:
-        key:
-          type: string
-        max_size_bytes:
-          type: integer
-        upload_headers:
-          type: object
-          additionalProperties:
-            type: string
-        upload_url:
-          type: string
-    models.StoragePasteResponse:
-      type: object
-      properties:
-        failed:
-          type: array
-          items:
-            $ref: '#/components/schemas/models.StoragePasteError'
-        objects:
-          type: integer
-        pasted:
+        moved:
           type: integer
     models.ErrorResponse:
       type: object
@@ -543,6 +489,29 @@ components:
           type: string
         details: {}
         error:
+          type: string
+    models.StoragePasteError:
+      type: object
+      properties:
+        key:
+          type: string
+        message:
+          type: string
+    models.StorageCreateFolderRequest:
+      type: object
+      properties:
+        business_node_id:
+          type: string
+        name:
+          type: string
+        path:
+          type: string
+    models.StoragePasteItem:
+      type: object
+      properties:
+        key:
+          type: string
+        type:
           type: string
     models.StoragePasteRequest:
       type: object
@@ -558,6 +527,39 @@ components:
         mode:
           type: string
         source_business_node_id:
+          type: string
+    models.StoragePrepareUploadResponse:
+      type: object
+      properties:
+        key:
+          type: string
+        max_size_bytes:
+          type: integer
+        upload_headers:
+          type: object
+          additionalProperties:
+            type: string
+        upload_url:
+          type: string
+    models.StoragePrepareUploadRequest:
+      type: object
+      properties:
+        business_node_id:
+          type: string
+        key:
+          type: string
+        path:
+          type: string
+    models.StorageRenameRequest:
+      type: object
+      properties:
+        business_node_id:
+          type: string
+        destination_key:
+          type: string
+        source_key:
+          type: string
+        type:
           type: string
     models.StorageListResponse:
       type: object
@@ -575,17 +577,15 @@ components:
           type: boolean
         path_synced:
           type: boolean
-    models.StorageRenameResponse:
+    models.StorageDeleteResponse:
       type: object
       properties:
-        moved:
+        deleted:
           type: integer
-    models.StoragePasteError:
+    models.StorageCreateFolderResponse:
       type: object
       properties:
         key:
-          type: string
-        message:
           type: string
     models.StorageDownloadURLResponse:
       type: object
